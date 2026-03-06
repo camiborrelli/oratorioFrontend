@@ -1,0 +1,166 @@
+/* Styles for Login component */
+:root {
+  --green: #2f7f2a;
+  --green-dark: #246428;
+  --muted: #f4f6f5;
+  --card-bg: #ffffff;
+  --border: #e6e6e6;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+  padding: 24px;
+}
+
+.login-card {
+  width: 380px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 28px 28px 32px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.logo-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  box-shadow: 0 6px 18px rgba(47, 127, 42, 0.12);
+}
+
+.brand {
+  color: var(--green-dark);
+  margin: 6px 0 2px;
+  font-size: 20px;
+}
+
+.subtitle {
+  color: #97a197;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+.role-toggle {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.role-toggle button {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  color: #5b6b5b;
+}
+
+.role-toggle button.active {
+  background: var(--green);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.role-toggle button.secondary {
+  background: #f6f7f6;
+}
+
+/* When a secondary button is also active, ensure active styles win */
+.role-toggle button.secondary.active,
+.role-toggle button.active.secondary {
+  background: var(--green);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.login-form {
+  margin-top: 6px;
+  text-align: left;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #fbfcfb;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.input-group input {
+  border: 0;
+  outline: 0;
+  flex: 1;
+  background: transparent;
+  font-size: 14px;
+}
+
+.eye-btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.forgot-row {
+  text-align: right;
+  margin-bottom: 12px;
+}
+
+.forgot-row a {
+  color: var(--green-dark);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.primary-btn {
+  width: 100%;
+  background: var(--green);
+  color: #fff;
+  border: 0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.register-row {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #6f776f;
+}
+
+.register-row a {
+  color: var(--green-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.error {
+  color: #b00020;
+  font-size: 12px;
+  margin: -8px 0 8px 6px;
+}
+
+@media (max-width: 420px) {
+  .login-card {
+    width: 92%;
+    padding: 20px;
+  }
+}
