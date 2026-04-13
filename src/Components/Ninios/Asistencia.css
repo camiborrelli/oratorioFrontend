@@ -1,0 +1,154 @@
+.asistencia-root {
+  padding: 20px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.asistencia-header .subtitle {
+  color: #10b981;
+  font-weight: 700;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.asistencia-header .title {
+  font-size: 22px;
+  margin: 0 0 14px;
+  font-weight: 700;
+}
+.asistencia-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.date-card {
+  background: #f8faf9;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.date-label {
+  font-size: 12px;
+  color: #6b7280;
+}
+.date-value {
+  font-weight: 700;
+  color: #065f46;
+}
+.division-chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+.chip {
+  background: #f3f4f6;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  color: #374151;
+}
+.chip.active {
+  background: #10b981;
+  color: #fff;
+}
+.asistencia-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0 8px;
+}
+.ver-todos {
+  color: #10b981;
+  font-weight: 600;
+  cursor: pointer;
+}
+.asistencia-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.student-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.student-body {
+  flex: 1;
+}
+.student-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.student-name strong {
+  display: block;
+  font-size: 16px;
+}
+.student-sub {
+  font-size: 13px;
+}
+.muted {
+  color: #6b7280;
+}
+.late {
+  color: #b45309;
+}
+.absent {
+  color: #9ca3af;
+}
+.student-actions {
+  display: flex;
+  gap: 8px;
+}
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #f3f4f6;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.action-btn.selected {
+  box-shadow: inset 0 0 0 2px rgba(16, 185, 129, 0.15);
+  background: #10b981;
+  color: #fff;
+}
+.action-btn.late.selected {
+  background: #f59e0b;
+  color: #fff;
+}
+.action-btn.absent.selected {
+  background: #ef4444;
+  color: #fff;
+}
+
+@media (min-width: 900px) {
+  .asistencia-root {
+    max-width: 760px;
+  }
+  .asistencia-controls {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .division-chips {
+    order: 2;
+  }
+}

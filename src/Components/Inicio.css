@@ -1,0 +1,221 @@
+:root {
+  --bg: #f4f6f5;
+  --card-bg: #ffffff;
+  --muted: #6f7f79;
+  --accent: #2f8a59; /* primary green */
+  --accent-weak: #e9f6ef;
+}
+
+.inicio-container {
+  padding: 12px 14px;
+  max-width: 920px;
+  margin: 0 auto;
+  background: transparent;
+}
+.welcome {
+  :root {
+    --bg: #f4f6f5;
+    --card-bg: #ffffff;
+    --muted: #6f7f79;
+    --accent: #2f8a59; /* primary green */
+    --accent-weak: #e9f6ef;
+  }
+
+  .inicio-container {
+    padding: 12px 14px;
+    max-width: 920px;
+    margin: 0 auto;
+    background: transparent;
+  }
+  .welcome {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, var(--accent), #3a9b66);
+    font-size: 15px;
+    color: #fff;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(34, 41, 47, 0.04);
+  }
+  .inicio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .inicio-header h1 {
+    margin: 0;
+    font-size: 18px;
+    color: #163a2b;
+  }
+  .inicio-header p {
+    margin: 4px 0 0 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .header-actions .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 6px 10px rgba(34, 41, 47, 0.035);
+    border: 1px solid rgba(20, 30, 24, 0.03);
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--accent-weak);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .card-count {
+    font-size: 18px;
+    font-weight: 700;
+    color: #123822;
+  }
+  .card-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 760px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .welcome {
+      width: 100%;
+    }
+  }
+  .inicio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .inicio-header h1 {
+    margin: 0;
+    font-size: 18px;
+    color: #163a2b;
+  }
+  .inicio-header p {
+    margin: 4px 0 0 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 6px 10px rgba(34, 41, 47, 0.035);
+    border: 1px solid rgba(20, 30, 24, 0.03);
+  }
+  .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--accent-weak);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  .card-count {
+    font-size: 18px;
+    font-weight: 700;
+    color: #123822;
+  }
+  .card-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  @media (max-width: 760px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .welcome {
+      width: 100%;
+    }
+  }
+  align-items: center;
+}
+.card-with-action {
+  position: relative; /* IMPORTANTE */
+}
+
+/* botón flotante a la derecha */
+/* .card-add-btn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: var(--primary);
+  color: white;
+  background-color: #163a2b;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+} */
+
+/* hover pro */
+.card-add-btn:hover {
+  background: #256f47;
+  transform: translateY(-50%) scale(1.1);
+  color: var(--muted);
+}
+
+/* opcional: que no tape contenido */
+.card {
+  padding-right: 60px;
+}

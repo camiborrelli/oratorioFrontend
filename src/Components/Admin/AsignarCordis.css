@@ -1,0 +1,192 @@
+.listado-root {
+  padding: 16px;
+  max-width: 980px;
+  margin: 0 auto;
+  color: #0f172a;
+}
+.listado-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.listado-header .back-btn {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #334155;
+  padding: 6px;
+}
+.listado-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+.search-row {
+  margin-bottom: 8px;
+}
+.search-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e6edf3;
+  border-radius: 10px;
+  background: #fff;
+  color: #0f172a;
+}
+.chips-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.chip {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #e6edf3;
+  background: #f8fafc;
+  color: #334155;
+  cursor: pointer;
+  font-size: 13px;
+}
+.chip.active {
+  background: #0891b2;
+  color: #fff;
+  border-color: transparent;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+  cursor: pointer;
+  position: relative;
+  transition:
+    transform 0.08s,
+    box-shadow 0.12s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08);
+}
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.card-title {
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-sub .pill {
+  display: inline-block;
+  background: #eef2ff;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #374151;
+}
+.btn-assign,
+.btn-remove,
+.btn-asign {
+  margin-top: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+.btn-assign {
+  background: #06b6d4;
+  color: #fff;
+}
+.btn-remove {
+  background: #ef4444;
+  color: #fff;
+}
+.btn-asign {
+  background: #f59e0b;
+  color: #fff;
+}
+
+/* Higher-specificity rules to avoid being overridden by global resets */
+.listado-root .card .btn-assign,
+.listado-root .card .btn-remove,
+.listado-root .card .btn-asign {
+  display: inline-block !important;
+  width: auto !important;
+  align-self: flex-start !important;
+  z-index: 3 !important;
+  box-shadow: 0 4px 10px rgba(2, 6, 23, 0.08) !important;
+}
+
+.listado-root .card .btn-assign {
+  background-color: #06b6d4 !important;
+  color: #ffffff !important;
+}
+
+.listado-root .card .btn-remove {
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.listado-root .card .btn-asign {
+  background-color: #f59e0b !important;
+  color: #ffffff !important;
+}
+.card-arrow {
+  font-size: 20px;
+  color: #94a3b8;
+  margin-left: 8px;
+}
+.animadores-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.animadores-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+  max-width: 560px;
+}
+.btn-refresh {
+  background: #2563eb;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+}
+@media (min-width: 900px) {
+  .listado-root {
+    padding: 24px;
+  }
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

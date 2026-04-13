@@ -1,0 +1,222 @@
+:root {
+  --bg: #f6f8f7;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --primary: #2f8a59;
+  --primary-soft: #e8f5ee;
+  --border: rgba(15, 23, 42, 0.06);
+  --shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  --radius: 14px;
+}
+
+/* Layout */
+.inicio-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Welcome */
+.welcome {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--primary), #3ea870);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+}
+
+/* Header */
+.inicio-header {
+  margin-bottom: 24px;
+}
+
+.inicio-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--text);
+}
+
+.inicio-header p {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+/* Grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+/* Card */
+.card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--card);
+  padding: 18px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+  position: relative; /* ensure absolute children position relative to the card */
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+}
+
+/* Clickable */
+.card.clickable {
+  cursor: pointer;
+}
+
+/* Icon */
+.card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+/* Text */
+.card-count {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.card-add-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 0;
+  background: var(--primary);
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  z-index: 3;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+/* hover pro */
+.card-add-btn:hover {
+  background: #256f47;
+  transform: translateY(-50%) scale(1.06);
+  color: #fff;
+}
+
+/* Special card variant for 'add' action so it doesn't feel floating */
+.card-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border-radius: var(--radius);
+  background: linear-gradient(
+    180deg,
+    rgba(47, 138, 89, 0.03),
+    rgba(255, 255, 255, 0.02)
+  );
+  border: 1px dashed rgba(47, 138, 89, 0.18);
+  color: var(--primary);
+}
+
+.card-add .card-icon {
+  background: transparent;
+  color: var(--primary);
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: none;
+}
+
+.card-add .card-label {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.card-label {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .inicio-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .cards-grid {
+    /* Mostrar dos columnas en pantallas pequeñas para aprovechar el espacio */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  /* On small screens, make sure the add button doesn't float over content */
+  .card-add-btn {
+    position: static;
+    transform: none;
+    margin-left: auto;
+    width: auto;
+    height: auto;
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-size: 16px;
+    align-self: center;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.06);
+  }
+  .card {
+    padding-right: 12px; /* give space when the button is inline */
+  }
+}
+
+/* Also ensure mid-size screens keep good spacing */
+@media (max-width: 420px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .card-add-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+}

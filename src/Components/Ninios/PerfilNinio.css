@@ -1,0 +1,303 @@
+.perfil-root {
+  padding: 24px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
+  max-width: 920px;
+  margin: 0 auto;
+  background: #f5f6f7;
+  min-height: 100vh;
+}
+
+/* HEADER */
+
+.perfil-top {
+  background: linear-gradient(180deg, #1e7a35 0%, #2f8f3a 60%, #6fc287 100%);
+  color: white;
+  padding: 32px 20px 90px 20px;
+  border-radius: 16px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* BOTON VOLVER */
+
+.back-btn {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+/* AVATAR */
+
+.perfil-avatar-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -60px;
+}
+
+.perfil-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 6px solid white;
+  object-fit: cover;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+}
+
+/* NOMBRE */
+
+.perfil-name {
+  margin-top: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: white;
+}
+
+.perfil-pill {
+  background: rgba(0, 0, 0, 0.25);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ALERTA */
+
+.alerta-box {
+  margin: 18px 0;
+  background: #fff6e6;
+  color: #9a5b00;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 5px solid #f59e0b;
+}
+
+/* CONTENIDO */
+
+.perfil-content {
+  margin-top: 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 760px) {
+  .perfil-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* TARJETAS */
+
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  overflow: visible;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+.card h3 {
+  margin: 0 0 14px 0;
+  font-size: 20px;
+  color: #1e7a35;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 6px;
+}
+
+/* FILAS */
+
+.row {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-top: 1px solid #f0f0f0;
+  font-size: 14px;
+  gap: 4px;
+}
+
+.row:first-of-type {
+  border-top: none;
+}
+
+.row span:first-child {
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.row span:last-child {
+  color: #111827;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+/* CONTACTOS */
+
+.contacto-item {
+  padding: 8px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.contacto-item:last-child {
+  border-bottom: none;
+}
+
+/* BOTONES */
+
+.edit-btn {
+  margin-top: 14px;
+  background: #1e7a35;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+  background: #16652b;
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  margin-top: 10px;
+  background: #111;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+/* TARJETA CONTACTOS FULL WIDTH */
+
+.perfil-root .card:last-of-type {
+  grid-column: 1 / -1;
+}
+
+/* Contacts edit panel (inline) */
+.contacts-edit-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.contact-row input {
+  flex: 1 1 140px;
+  min-width: 0; /* allow shrinking in flexbox */
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.contact-row .btn-remove {
+  flex: 0 0 auto;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.contacts-edit-panel .actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 600px) {
+  .perfil-root {
+    padding: 12px;
+  }
+  .perfil-top {
+    padding: 20px 12px 80px 12px;
+  }
+  .perfil-avatar {
+    width: 96px;
+    height: 96px;
+  }
+  .perfil-name {
+    font-size: 22px;
+    color: white;
+  }
+  .contact-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .contacts-edit-panel .actions {
+    justify-content: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contacts-edit-panel .actions button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Make the secondary 'Editar contactos' button full width on small screens */
+  .card > .edit-btn,
+  .card .edit-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.perfil-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  justify-content: center;
+}
+
+.delete-btn {
+  background-color: rgb(179, 28, 28);
+}

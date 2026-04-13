@@ -1,0 +1,174 @@
+/* Styles for RegistroNinio form */
+.register-page {
+  min-height: 100dvh;
+  padding: 28px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: #f3f6f5; /* light grey page background */
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
+}
+.register-card {
+  width: 100%;
+  max-width: 720px;
+  background: #ffffff; /* white card */
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 8px 30px rgba(11, 22, 16, 0.06);
+  border: 1px solid rgba(15, 122, 80, 0.06);
+  margin: 8px 0; /* keep some vertical breathing room */
+}
+.register-card h2 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  color: #0f7a50; /* green heading */
+}
+.register-form .grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 720px) {
+  .register-form .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  background: #f1f6f5; /* light panel for each field */
+  padding: 12px;
+  border-radius: 12px;
+  gap: 8px;
+}
+.form-group label {
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e6e6e6;
+  background: #ffffff; /* white control inside grey panel */
+  font-size: 14px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Input text color and placeholder styling (green theme) */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  color: #0f7a50; /* primary green for entered text */
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder,
+.form-group select::placeholder {
+  color: #94c4a8; /* soft green placeholder */
+  opacity: 1;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: rgba(15, 122, 80, 0.35);
+  box-shadow: 0 8px 20px rgba(15, 122, 80, 0.06);
+  outline: none;
+}
+.form-group.full {
+  grid-column: 1 / -1;
+  margin-top: 18px;
+  padding-top: 6px;
+}
+.form-group textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+  padding-top: 4px;
+}
+.contact-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.contact-row input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+}
+.btn-remove {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hint {
+  display: block;
+  color: #6b7280;
+  margin-top: 6px;
+  font-size: 12px;
+}
+.error {
+  color: #b02a37;
+  font-size: 13px;
+  margin-top: 6px;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+.btn-primary {
+  background: #0f7a50; /* stronger green */
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 122, 80, 0.12);
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* small page-level background helper */
+.register-page-bg {
+  background: #f7faf9;
+}
+
+.required-badge {
+  background: #eaf6ec;
+  color: #0f7a50;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(15, 122, 80, 0.12);
+}

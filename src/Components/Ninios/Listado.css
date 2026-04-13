@@ -1,0 +1,328 @@
+body {
+  background-color: #f5f5f5; /* Fondo suave para toda la página */
+  font-family: "Arial", sans-serif; /* Fuente más limpia */
+}
+
+.listado-root {
+  background-color: #f5f6f7;
+  min-height: 100vh;
+  padding: 16px;
+  max-width: 900px; /* Centrado y legible en PC */
+  margin: 0 auto;
+  background-color: #f5f6f7; /* Fondo gris suave para destacar las cards */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+h1 {
+  color: #1b7a4d; /* Color verde más suave */
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+.listado-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-row {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1 1 0;
+  min-width: 0; /* allow shrinking inside flex */
+  max-width: 100%; /* never exceed parent */
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.filter-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #eaf6ec; /* light green */
+  color: #0f7a50;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: 240px;
+}
+
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.chip {
+  padding: 8px 12px;
+  border: none;
+  background-color: #e2e2e2; /* Fondo gris claro */
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chip:hover {
+  background-color: #d0d0d0; /* Color más oscuro al pasar el mouse */
+}
+
+.chip.active {
+  background-color: #007bff; /* Color activo */
+  color: white;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(200px, 1fr)
+  ); /* Tarjetas adaptables */
+  gap: 28px; /* Más espaciado entre las tarjetas para separación visual */
+}
+
+.card {
+  background-color: #ffffff; /* white card */
+  border-radius: 12px;
+  border: 1px solid rgba(16, 24, 40, 0.06);
+  box-shadow: 0 18px 42px rgba(2, 6, 23, 0.18); /* elevada para más contraste */
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 60px rgba(2, 6, 23, 0.24);
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.avatar-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f0f7f0;
+}
+
+.card-left {
+  margin-right: 12px;
+}
+
+.card-main {
+  flex: 1 1 auto;
+}
+
+.badges-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  justify-content: center;
+}
+
+.pill.small {
+  background: #eaf6ec;
+  color: #0f7a50;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.last-seen {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.card-right {
+  margin-left: 12px;
+}
+
+.card-body {
+  padding: 0; /* no inner separate body for new design */
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-sub {
+  margin-top: 5px;
+}
+
+.pill {
+  background-color: #007bff; /* Color de fondo para las etiquetas */
+  color: white;
+  border-radius: 15px;
+  padding: 5px 10px;
+}
+
+.card-arrow {
+  font-size: 22px;
+  color: #94c4a8;
+}
+
+.add-card {
+  background: linear-gradient(180deg, #f6fff6 0%, #e9f7ed 100%);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 26px rgba(16, 24, 40, 0.1);
+}
+
+.add-card-inner {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.add-icon {
+  width: 48px;
+  height: 48px;
+  background: #0f7a50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.add-content .add-title {
+  font-weight: 700;
+  color: #0f7a50;
+}
+
+.open-form {
+  margin-top: 8px;
+  background: white;
+  border: 1px dashed #94c4a8;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.fab-add {
+  position: fixed;
+  margin-bottom: 50px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 28px;
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.18);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.fab-add:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .search-row {
+    flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
+  }
+
+  .filter-select {
+    margin-top: 10px; /* Añadir margen superior */
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .card {
+    grid-column: 1 / -1; /* Las tarjetas ocupan toda la línea en pantallas pequeñas */
+  }
+
+  /* Mobile: make the listado take full width without inner white background */
+  .listado-root {
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    max-width: 100%;
+    margin: 0;
+    padding: 12px 12px 88px; /* leave space for bottom nav / FAB */
+  }
+
+  /* Cards should span full width and have comfortable vertical spacing */
+  .cards {
+    grid-template-columns: 1fr; /* single column list */
+    gap: 12px;
+  }
+
+  .card {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    display: block;
+  }
+
+  .avatar {
+    height: 120px; /* slightly smaller on mobile */
+  }
+
+  .card-body {
+    padding: 14px;
+  }
+
+  /* Make header and search rows flush with edges */
+  .listado-header {
+    padding: 0 4px;
+  }
+
+  .search-row {
+    padding: 0 4px;
+  }
+}
+
+/* Evitar que la top-nav fija superponga y capture clics sobre el contenido en pantallas grandes */
+@media (min-width: 900px) {
+  .listado-root {
+    padding-top: 88px; /* espacio para top-nav (ajustar si es necesario) */
+  }
+}
+
+/* Asegurar que el botón 'Pasar lista' capture clics por encima del top-nav en pantallas grandes */
+@media (min-width: 900px) {
+  .search-row {
+    position: relative;
+    z-index: 1400;
+  }
+  .search-row .filter-select {
+    position: relative;
+    z-index: 1401;
+  }
+}

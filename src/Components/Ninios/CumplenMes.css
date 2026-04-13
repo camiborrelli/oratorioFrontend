@@ -1,0 +1,94 @@
+:root {
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+}
+
+.cumplen-carousel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 4px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cumple-card {
+  flex: 0 0 auto;
+  width: 110px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.06);
+  text-align: center;
+  scroll-snap-align: start;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.cumple-avatar-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 8px;
+}
+
+.cumple-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.cumple-day {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  background: #10b981; /* green */
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.cumple-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.cumple-apellido {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* small screens: make cards slightly larger and centered */
+@media (max-width: 480px) {
+  .cumple-card {
+    width: 140px;
+    padding: 12px;
+  }
+  .cumple-avatar {
+    width: 84px;
+    height: 84px;
+  }
+  .cumple-avatar-wrap {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+/* hide default scrollbar in webkit */
+.cumplen-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+.cumplen-carousel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+}

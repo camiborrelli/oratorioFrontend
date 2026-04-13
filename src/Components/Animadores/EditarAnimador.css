@@ -1,0 +1,98 @@
+.editar-perfil-container {
+  max-width: 760px;
+  margin: 20px auto;
+  padding: 16px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+.editar-perfil-container h2 {
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+.editar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+.form-row label {
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+.form-row input,
+.form-row textarea {
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.form-row textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+.form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+.btn {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary {
+  background: #10b981;
+  color: #fff;
+}
+.btn-secondary {
+  background: #f3f4f6;
+  color: #111;
+  border: 1px solid #e5e7eb;
+}
+
+/* Restore horizontal layout on wide screens similar to previous design */
+@media (min-width: 1000px) {
+  .editar-perfil-container {
+    max-width: 100%;
+    padding: 20px 28px;
+  }
+  #form-animador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+  #form-animador h5 {
+    width: 120px;
+    margin: 0;
+    font-weight: 600;
+    text-align: left;
+  }
+  #form-animador .mb-2 {
+    display: inline-block;
+    margin: 0 6px 0 0;
+  }
+  #form-animador .mb-2 input,
+  #form-animador .mb-2 textarea {
+    width: 180px;
+    display: inline-block;
+    padding: 6px 8px;
+    box-sizing: border-box;
+  }
+  #form-animador .mb-2 textarea {
+    height: 36px;
+  }
+  .form-actions-centered {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+}

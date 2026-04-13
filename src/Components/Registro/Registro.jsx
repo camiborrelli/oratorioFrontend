@@ -1,224 +1,186 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import api from "../../api";
+import { setUser } from "../../store";
+import { toast } from "react-hot-toast";
 import "./Registro.css";
-import toast from "react-hot-toast";
-// import { setUser } from "../../store";
 
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
-  } = useForm();
+  } = useForm({ mode: "onChange" });
 
   const onSubmit = async (data) => {
     try {
-      setLoading(true);
-      // Asegurar roles por defecto
-      if (
-        !data.roles ||
-        (Array.isArray(data.roles) && data.roles.length === 0)
-      ) {
-        data.roles = ["animador"];
-      }
-      const response = await api.post("/animador/register", data, {
+      setSubmitting(true);
+      // ensure roles is an array
+      if (!data.roles) data.roles = ["animador"];
+      else if (typeof data.roles === "string") data.roles = [data.roles];
+
+      const payload = {
+        nombre: data.nombre,
+        apellido: data.apellido,
+        apodo: data.apodo || "",
+        telefono: data.telefono || "",
+        email: data.email,
+        // edad: data.edad || null,
+        fechaCumple: data.fechaCumple || "",
+        restricciones: data.restricciones || "",
+        division: data.division,
+        recorrida: data.recorrida,
+        password: data.password,
+        roles: data.roles,
+      };
+
+      const res = await api.post("/animador/register", payload, {
         skipAuth: true,
       });
-      toast.success("Registro exitoso");
-      const token = response?.data?.token;
+      toast.success(res.data?.message || "Registro exitoso");
+      const token = res.data?.token;
       if (token) localStorage.setItem("Token", token);
-      // Dispatch user info to redux store (adjust shape as needed)
-      dispatch(setUser(response.data.user ?? { token }));
+      // persist user in redux and also store convenient keys in localStorage
+      const user = res.data?.user ?? { token };
+      dispatch(setUser(user));
+      try {
+        const ap = user?.apodo || payload.apodo || "";
+        if (ap) localStorage.setItem("apodo", ap);
+        const uname = user?.username || user?.email || payload.email || "";
+        if (uname) localStorage.setItem("username", uname);
+      } catch (e) {
+        // ignore storage errors
+      }
       reset();
-      navigate("/dashboard");
-    } catch (error) {
-      console.error(error);
-      toast.error(
-        (error?.response?.data && error.response.data.message) ||
-          "Error en el registro",
-      );
-      // keep form data so user can edit, don't navigate away on error
+      navigate("/inicio");
+    } catch (err) {
+      console.error("Registro error:", err?.response || err);
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data ||
+        err?.message ||
+        "Error en el registro";
+      toast.error(msg);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
   useEffect(() => {
-    document.body.classList.add("login-dark");
-    return () => document.body.classList.remove("login-dark");
+    document.body.classList.add("with-bg");
+    return () => document.body.classList.remove("with-bg");
   }, []);
 
   return (
-    <div className="register-page">
-      <div className="register-card">
-        <h2>Registro de Animadores</h2>
+    <div className="register-page min-h-[60vh] flex items-center justify-center">
+      <div className="register-card bg-white p-6 rounded-xl shadow-md w-full max-w-lg">
+        <h2 className="text-xl font-semibold mb-4">Registro de Animadores</h2>
         <form
-          className="register-form"
-          onSubmit={handleSubmit(onSubmit, (formErrors) => {
-            // collect validation messages and show as toast
-            const msgs = Object.values(formErrors || {}).map(
-              (f) => f.message || "Campo inválido",
-            );
-            if (msgs.length) {
-              toast.error(msgs.join(". "));
-            }
-          })}
+          className="register-form space-y-3"
+          onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="input-group">
-            <input
-              placeholder="Nombre"
-              type="text"
-              {...register("nombre", { required: "El nombre es obligatorio" })}
-            />
-          </div>
-          {errors.nombre && <p className="error">{errors.nombre.message}</p>}
+          <input
+            className="w-full border rounded-md px-3 py-2"
+            placeholder="Nombre"
+            {...register("nombre", { required: true })}
+          />
+          {errors.nombre && (
+            <p className="text-sm text-red-600">Nombre obligatorio</p>
+          )}
 
-          <div className="input-group">
-            <input
-              placeholder="Apellido"
-              type="text"
-              {...register("apellido", {
-                required: "El apellido es obligatorio",
-              })}
-            />
-          </div>
+          <input
+            className="w-full border rounded-md px-3 py-2"
+            placeholder="Apellido"
+            {...register("apellido", { required: true })}
+          />
           {errors.apellido && (
-            <p className="error">{errors.apellido.message}</p>
+            <p className="text-sm text-red-600">Apellido obligatorio</p>
           )}
 
-          <div className="input-group">
-            <input
-              placeholder="Apodo (opcional)"
-              type="text"
-              {...register("apodo")}
-            />
-          </div>
+          <input
+            className="w-full border rounded-md px-3 py-2"
+            placeholder="Apodo (opcional)"
+            {...register("apodo")}
+          />
 
-          <div className="input-group">
-            <input
-              placeholder="Correo electrónico"
-              type="email"
-              {...register("email", {
-                required: "El email es obligatorio",
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: "El email no es válido",
-                },
-              })}
-            />
-          </div>
-          {errors.email && <p className="error">{errors.email.message}</p>}
-
-          <div className="input-group">
-            <input
-              placeholder="Edad"
-              type="number"
-              {...register("edad", {
-                required: "La edad es obligatoria",
-                valueAsNumber: true,
-                min: { value: 0, message: "Edad inválida" },
-              })}
-            />
-          </div>
-          {errors.edad && <p className="error">{errors.edad.message}</p>}
-
-          <div className="input-group">
-            <input
-              placeholder="Fecha de nacimiento"
-              type="date"
-              {...register("fechaCumple", {
-                required: "La fecha es obligatoria",
-              })}
-            />
-          </div>
-          {errors.fechaCumple && (
-            <p className="error">{errors.fechaCumple.message}</p>
+          <input
+            className="w-full border rounded-md px-3 py-2"
+            placeholder="Email"
+            type="email"
+            {...register("email", { required: true })}
+          />
+          {errors.email && (
+            <p className="text-sm text-red-600">Email obligatorio</p>
           )}
 
-          <div className="input-group">
-            <textarea
-              placeholder="Restricciones (alergias, observaciones)"
-              {...register("restricciones")}
-              rows={3}
-            />
-          </div>
-
-          <div className="input-group">
-            <select
-              {...register("division", {
-                required: "La división es obligatoria",
-              })}
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Seleccioná tu división
-              </option>
-              <option value="chiquitos">Chiquitos</option>
-              <option value="medianitos">Medianitos</option>
-              <option value="medianos">Medianos</option>
-              <option value="grandes">Grandes</option>
-            </select>
-          </div>
+          <select
+            className="w-full border rounded-md px-3 py-2"
+            {...register("division", { required: true })}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Seleccioná división
+            </option>
+            <option value="chiquitos">Chiquitos</option>
+            <option value="medianitos">Medianitos</option>
+            <option value="medianos">Medianos</option>
+            <option value="grandes">Grandes</option>
+          </select>
           {errors.division && (
-            <p className="error">{errors.division.message}</p>
+            <p className="text-sm text-red-600">División obligatoria</p>
           )}
 
-          <div className="input-group">
-            <select
-              {...register("recorrida", {
-                required: "La recorrida es obligatoria",
-              })}
-              defaultValue=""
-            >
-              <option value="" disabled>
-                Seleccioná tu recorrida
-              </option>
-              <option value="rojo">Rojo</option>
-              <option value="azul">Azul</option>
-              <option value="naranja">Naranja</option>
-              <option value="amarillo">Amarillo</option>
-            </select>
-          </div>
+          <select
+            className="w-full border rounded-md px-3 py-2"
+            {...register("recorrida", { required: true })}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Seleccioná recorrida
+            </option>
+            <option value="rojo">Rojo</option>
+            <option value="azul">Azul</option>
+            <option value="naranja">Naranja</option>
+            <option value="amarillo">Amarillo</option>
+          </select>
           {errors.recorrida && (
-            <p className="error">{errors.recorrida.message}</p>
+            <p className="text-sm text-red-600">Recorrida obligatoria</p>
           )}
 
-          <div className="input-group">
-            <input
-              placeholder="Contraseña"
-              type="password"
-              autoComplete="new-password"
-              {...register("password", {
-                required: "La contraseña es obligatoria",
-                minLength: {
-                  value: 6,
-                  message: "La contraseña debe tener al menos 6 caracteres",
-                },
-              })}
-            />
-          </div>
+          <input
+            className="w-full border rounded-md px-3 py-2"
+            placeholder="Contraseña"
+            type="password"
+            {...register("password", { required: true, minLength: 6 })}
+          />
           {errors.password && (
-            <p className="error">{errors.password.message}</p>
+            <p className="text-sm text-red-600">
+              Contraseña (min 6 caracteres)
+            </p>
           )}
 
-          {/* roles por defecto para registro */}
-          <input type="hidden" {...register("roles")} value={["animador"]} />
-
-          <button type="submit" disabled={loading}>
-            {loading ? "Registrando..." : "Registrarse"}
-          </button>
+          <div className="flex items-center justify-between">
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded-md"
+              type="submit"
+              disabled={submitting || !isValid}
+            >
+              {submitting ? "Registrando..." : "Registrarse"}
+            </button>
+            <div className="login-link">
+              <Link to="/login" className="text-sm">
+                ¿Ya tienes cuenta? Iniciar sesión
+              </Link>
+            </div>
+          </div>
         </form>
-        <p className="login-link">
-          ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link>
-        </p>
       </div>
     </div>
   );

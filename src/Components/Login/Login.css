@@ -7,30 +7,52 @@
   --border: #e6e6e6;
 }
 
+body.with-bg {
+  background-image: url(/img/fondo1.jpg);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* Avoid `fixed` on mobile (causes jank / flicker). Use `scroll` by default. */
+  background-attachment: scroll;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: background-position;
+}
+
+/* Use fixed attachment only on larger screens where it's smoother */
+@media (min-width: 1024px) {
+  body.with-bg {
+    background-attachment: fixed;
+  }
+}
+
 .login-page {
-  min-height: 100vh;
+  /* use dynamic viewport height to center reliably on mobile browsers */
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+
   padding: 24px;
 }
 
 .login-card {
-  width: 380px;
+  width: 300px;
   background: var(--card-bg);
   border-radius: 12px;
   padding: 28px 28px 32px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.185);
   border: 1px solid var(--border);
   text-align: center;
+  position: relative;
 }
 
 .logo-circle {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: var(--green);
+  background-image: url(/public/img/logo.jpg);
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,7 +115,22 @@
 .input-group {
   position: relative;
   display: flex;
+  position: relative;
+  z-index: 2;
   align-items: center;
+
+  /* subtle overlay and blur to soften background images */
+  .login-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* visible dark overlay fallback plus slight blur for supported browsers */
+    background: linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.12));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1;
+    pointer-events: none;
+  }
   background: #fbfcfb;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -114,6 +151,38 @@
   border: 0;
   cursor: pointer;
   font-size: 16px;
+}
+
+/* New: use a dedicated input-field class for consistent padding and to keep the icon at the end */
+.input-field {
+  border: 0;
+  outline: 0;
+  flex: 1;
+  background: transparent;
+  font-size: 14px;
+  padding: 8px 6px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eye-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  color: var(--green-dark);
+}
+
+.eye-btn svg {
+  display: block;
+}
+
+.eye-btn:hover {
+  opacity: 0.9;
 }
 
 .forgot-row {
@@ -161,6 +230,8 @@
 @media (max-width: 420px) {
   .login-card {
     width: 92%;
-    padding: 20px;
+    padding: 18px;
+    /* ensure it's vertically centered with some breathing room */
+    margin: 8vh 0;
   }
 }

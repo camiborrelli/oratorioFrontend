@@ -1,0 +1,204 @@
+/* Simplified, cleaner estilos para el listado de eventos */
+:root {
+  --bg: #fafafa;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #16a34a; /* verde limpio */
+  --accent-soft: #ecfdf3;
+  --shadow-sm: 0 6px 18px rgba(15, 23, 42, 0.06);
+  --radius: 10px;
+}
+
+.eventos-container {
+  background: transparent;
+  padding: 12px;
+}
+
+.eventos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.eventos-header h1 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+
+.eventos-header__actions .btn {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.evt-loading,
+.evt-empty {
+  padding: 18px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.evt-error {
+  border: 1px solid #fee2e2;
+  background: #fff7f7;
+  padding: 12px;
+  border-radius: 8px;
+}
+.evt-error__msg {
+  color: #991b1b;
+  margin: 8px 0;
+}
+
+.eventos-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .eventos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.evento-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease;
+  border: 1px solid rgba(15, 23, 42, 0.04);
+  color: white;
+}
+
+@media (min-width: 880px) {
+  .evento-card {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.evento-card__media {
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+}
+
+@media (min-width: 880px) {
+  .evento-card__media {
+    width: 110px;
+    flex-shrink: 0;
+    padding: 18px;
+  }
+}
+
+.evento-card__date {
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.evento-card__body {
+  padding: 12px 14px;
+  flex: 1;
+}
+.evento-title {
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
+  color: #071033;
+}
+.evento-desc {
+  margin: 0;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  max-height: 3.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.evento-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(15, 23, 42, 0.03);
+}
+
+.evento-actions .btn {
+  padding: 8px 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  color: white;
+}
+
+/* Small, neutral button styles kept minimal */
+.btn {
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #0f172a;
+}
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: transparent;
+}
+.btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+/* Danger / red button */
+.btn-danger {
+  background: #da3030; /* red-500 */
+  color: white;
+  border-color: transparent;
+}
+.btn-danger:hover {
+  background: #c92828;
+}
+
+/* Accessibility tweaks */
+.evento-card:focus {
+  outline: 3px solid rgba(16, 185, 129, 0.12);
+}
+
+/* Make the date more legible on small screens */
+@media (max-width: 879px) {
+  .evento-card__date {
+    font-size: 0.95rem;
+  }
+}
+
+/* Confirm box for attendance */
+.confirmar-asistencia-root {
+  display: inline-block;
+}
+.confirm-box {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: 8px 10px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+.confirm-message {
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+.confirm-actions .btn {
+  min-width: 96px;
+}

@@ -1,0 +1,172 @@
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -6px 18px rgba(15, 23, 42, 0.06);
+  z-index: 1200;
+}
+
+.top-nav {
+  display: none;
+}
+
+.top-nav .nav-content {
+  justify-content: flex-end;
+  position: relative;
+}
+
+.nav-content {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  justify-content: end;
+  color: #1b7a4d;
+  font-weight: bold;
+}
+
+.nav-content div {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-content button {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Top menu - hidden on small screens, visible on medium+ */
+.top-menu {
+  display: none;
+}
+
+.menu-toggle {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 40px;
+}
+
+.hamburger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 14px;
+}
+.hamburger .bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #374151;
+  border-radius: 2px;
+}
+
+.menu-list {
+  display: none;
+  position: absolute;
+  left: 12px;
+  top: 56px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  border-radius: 8px;
+  padding: 8px;
+  min-width: 180px;
+  z-index: 1300;
+  flex-direction: column;
+}
+
+.menu-link {
+  display: block;
+  padding: 10px 14px;
+  color: #1b7a4d;
+  text-decoration: none;
+  border-radius: 6px;
+}
+.menu-link:hover {
+  background: #f3f4f6;
+}
+.menu-link.active {
+  color: #1b7a4d;
+  font-weight: 700;
+}
+
+.top-menu.open .menu-list {
+  display: flex;
+}
+
+@media (min-width: 900px) {
+  .top-nav {
+    display: block;
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 1300;
+  }
+  /* hide bottom nav on large screens */
+  .bottom-nav {
+    display: none;
+  }
+  .has-bottom-nav {
+    padding-bottom: 0;
+  }
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 12px;
+  width: 64px;
+}
+.nav-item .icon {
+  display: block;
+  line-height: 0;
+  color: inherit;
+}
+.nav-item .icon svg {
+  display: block;
+  stroke: currentColor;
+  fill: none;
+}
+.nav-item .label {
+  font-size: 11px;
+  margin-top: 6px;
+  color: inherit;
+}
+
+.nav-item.active {
+  color: #1b7a4d;
+}
+.nav-item.active .icon {
+  background: rgba(27, 122, 77, 0.08);
+  padding: 8px;
+  border-radius: 10px;
+}
+
+/* make room for the bottom nav so content is not hidden */
+.has-bottom-nav {
+  padding-bottom: 88px;
+}
+
+/* (no additional rules) */
