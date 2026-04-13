@@ -96,7 +96,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page min-h-screen flex items-center justify-center bg-slate-50">
+    <div className="login-page min-h-screen flex items-center justify-center">
       <div className="login-card bg-white rounded-xl shadow-md p-6 w-full max-w-md">
         <div className="logo-circle mb-3 inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white">
           <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff">

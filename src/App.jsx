@@ -28,7 +28,8 @@ import CumplenMes from "./Components/Ninios/CumplenMes";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import EditarNinio from "./Components/Ninios/EditarNinio";
 import Perfil from "./Components/Animadores/Perfil";
-import ListarReuniones from "./Components/Reunion/ListarReuniones";
+import ListarReunionesPublic from "./Components/Reunion/ListarReuniones";
+import ListarReunionesCordi from "./Components/Cordi/ListarReuniones";
 import "./App.css";
 
 function InnerAppRoutes() {
@@ -62,7 +63,24 @@ function InnerAppRoutes() {
             <Route path="/ninios/cumplen-mes" element={<CumplenMes />} />
             <Route path="/dashboard" element={<Listado />} />
             <Route path="/inicio" element={<Inicio />} />
-            <Route path="/reunion" element={<ListarReuniones />} />
+            <Route
+              path="/reunion"
+              element={(() => {
+                try {
+                  const roles = JSON.parse(
+                    localStorage.getItem("roles") || "[]",
+                  );
+                  return Array.isArray(roles) &&
+                    roles.includes("coordinador") ? (
+                    <ListarReunionesCordi />
+                  ) : (
+                    <ListarReunionesPublic />
+                  );
+                } catch (e) {
+                  return <ListarReunionesPublic />;
+                }
+              })()}
+            />
             <Route
               path="/animadores/perfil"
               element={(() => {
