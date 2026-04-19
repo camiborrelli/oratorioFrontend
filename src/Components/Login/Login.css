@@ -1,3 +1,4 @@
+/* Styles for Login component */
 :root {
   --green: #2f7f2a;
   --green-dark: #246428;
@@ -18,35 +19,38 @@ body.with-bg {
   will-change: background-position;
 }
 
-/* Use fixed attachment only on larger screens where it's smoother */
 @media (min-width: 1024px) {
-  body.with-bg {
-    background-attachment: fixed;
+  .login-page {
+    /* make login an isolated fixed overlay on large screens so it stays centered */
+    position: fixed;
+    inset: 0;
+    min-height: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    overflow: hidden;
+    padding: 24px;
   }
 }
 
 .login-page {
-  /* use dynamic viewport height to center reliably on mobile browsers */
   min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 24px;
-  position: relative;
-  /* Force a reliable fallback URL and ensure it applies */
-  background-image: url("/img/fondo1.jpg") !important;
-  /* prefer a hi-dpi image when supported */
-  background-image:
-    image-set(url("/img/fondo1.jpg") 1x, url("/img/fondo1@2x.jpg") 2x),
-    url("/img/fondo1.jpg") !important;
-  background-position: center center !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
+  /* background image served from public/img */
+  background-image: url(/img/fondo1.jpg);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .login-card {
-  width: 300px;
+  width: 92%;
+  max-width: 360px;
   background: var(--card-bg);
   border-radius: 12px;
   padding: 28px 28px 32px;
@@ -54,21 +58,14 @@ body.with-bg {
   border: 1px solid var(--border);
   text-align: center;
   position: relative;
-}
-
-/* Make the background span the full viewport width (handles layout padding) */
-.login-page {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  overflow-x: hidden;
+  z-index: 2;
 }
 
 .logo-circle {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background-image: url(/public/img/logo.jpg);
+  background-image: url(/img/logo.jpg);
   background-size: cover;
   display: flex;
   align-items: center;
@@ -135,24 +132,23 @@ body.with-bg {
   position: relative;
   z-index: 2;
   align-items: center;
-
-  /* subtle overlay and blur to soften background images */
-  .login-page::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    /* visible dark overlay fallback plus slight blur for supported browsers */
-    background: linear-gradient(rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.12));
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    z-index: 1;
-    pointer-events: none;
-  }
   background: #fbfcfb;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 12px;
   margin-bottom: 12px;
+}
+
+/* overlay for login background (separate rule; not nested) */
+.login-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.06));
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 0;
+  pointer-events: none;
 }
 
 .input-group input {
@@ -247,8 +243,52 @@ body.with-bg {
 @media (max-width: 420px) {
   .login-card {
     width: 92%;
-    padding: 18px;
-    /* ensure it's vertically centered with some breathing room */
-    margin: 8vh 0;
+    padding: 16px;
+    /* allow breathing room on mobile and prevent the card jumping when keyboard opens */
+    margin: 6vh 0;
+    max-width: 92%;
+    box-sizing: border-box;
   }
+}
+
+/* ensure the card can scroll internally if viewport is very small (mobile keyboard) */
+.login-card {
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+}
+
+/* When the login is active, lock document scroll and make the login page a fullscreen fixed overlay
+   so it stays centered on all devices. The body class is toggled by Login.jsx. */
+html.login-open,
+body.login-open {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Force the login overlay to be fixed and centered while open */
+body.login-open .login-page {
+  position: fixed;
+  inset: 0;
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  overflow: hidden;
+  padding: 24px;
+}
+
+/* Keep the overlay/backdrop behind the card but above the page */
+body.login-open .login-page::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Ensure the card remains above the backdrop */
+body.login-open .login-card {
+  position: relative;
+  z-index: 2;
+  max-width: 360px;
 }

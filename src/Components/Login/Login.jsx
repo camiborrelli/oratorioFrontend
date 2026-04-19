@@ -17,8 +17,8 @@ const Login = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    document.body.classList.add("with-bg");
-    return () => document.body.classList.remove("with-bg");
+    document.body.classList.add("with-bg", "login-open");
+    return () => document.body.classList.remove("with-bg", "login-open");
   }, []);
 
   const decodeJwt = (token) => {

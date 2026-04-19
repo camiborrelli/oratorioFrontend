@@ -4,7 +4,70 @@ import api, { fetchList } from "../../api";
 import { toast } from "react-toastify";
 import "./Eventos.css";
 import ConfirmarAsistencia from "./ConfirmarAsistencia";
-import CrearEvento from "./CrearEvento";
+
+// Lightweight carousel component (no external deps)
+const SimpleCarousel = ({ images = [], interval = 3000 }) => {
+  const [index, setIndex] = React.useState(0);
+  const [paused, setPaused] = React.useState(false);
+
+  React.useEffect(() => {
+    if (paused || images.length <= 1) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % images.length);
+    }, interval);
+    return () => clearInterval(id);
+  }, [images.length, interval, paused]);
+
+  const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
+  const next = () => setIndex((i) => (i + 1) % images.length);
+
+  return (
+    <div
+      className="simple-carousel"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div
+        className="simple-carousel__track"
+        style={{ transform: `translateX(${index * -100}%)` }}
+      >
+        {images.map((src, i) => (
+          <div className="simple-carousel__slide" key={i}>
+            <img src={src} alt={`slide-${i}`} />
+          </div>
+        ))}
+      </div>
+      {images.length > 1 && (
+        <>
+          <button
+            className="simple-carousel__nav prev"
+            onClick={prev}
+            aria-label="Anterior"
+          >
+            ‹
+          </button>
+          <button
+            className="simple-carousel__nav next"
+            onClick={next}
+            aria-label="Siguiente"
+          >
+            ›
+          </button>
+          <div className="simple-carousel__indicators">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                className={`dot ${i === index ? "active" : ""}`}
+                onClick={() => setIndex(i)}
+                aria-label={`Ir a la diapositiva ${i + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 const ListarEventos = () => {
   const [loading, setLoading] = useState(false);
@@ -131,8 +194,11 @@ const ListarEventos = () => {
       {!loading && !error && (
         <div className="eventos-grid">
           {eventos.length === 0 ? (
-            <div className="evt-empty text-center py-6 text-slate-500">
-              No hay eventos próximos.
+            <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+              <SimpleCarousel
+                images={["/img/fondo1.jpg", "/img/fondo1.jpg"]}
+                interval={3500}
+              />
             </div>
           ) : (
             eventos.map((evento) => (
