@@ -1,11 +1,10 @@
 {
   "name": "oratorio-frontend",
-  "builds": [
+
+  "routes": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "src": "^/(?!.*\\.).*$",
+      "dest": "/index.html"
     }
-  ],
-  "routes": []
+  ]
 }
