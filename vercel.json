@@ -1,10 +1,46 @@
 {
-  "name": "oratorio-frontend",
-
-  "routes": [
+  "version": 2,
+  "routes": [{ "src": "/api/(.*)", "dest": "/api/$1" }],
+  "rewrites": [
     {
-      "src": "^/(?!.*\\.).*$",
-      "dest": "/index.html"
+      "source": "/animador/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/animador/:path*"
+    },
+    {
+      "source": "/animadores/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/animador/:path*"
+    },
+    {
+      "source": "/evento/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/evento/:path*"
+    },
+    {
+      "source": "/ninios/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/ninios/:path*"
+    },
+    {
+      "source": "/ninio/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/ninio/:path*"
+    },
+    {
+      "source": "/division/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/division/:path*"
+    },
+    {
+      "source": "/recorrida/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/recorrida/:path*"
+    },
+    {
+      "source": "/reunion/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/reunion/:path*"
+    },
+    {
+      "source": "/asistencia/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/asistencia/:path*"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "https://oratorio-cordon-ob9so23b3-camilas-projects-2b00654e.vercel.app/admin/:path*"
     }
   ]
 }
