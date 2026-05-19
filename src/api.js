@@ -7,7 +7,15 @@ import axios from "axios";
 // convenient during development on phone/emulator.
 const runtimeHost =
   typeof window !== "undefined" ? window.location.hostname : "localhost";
-const BASE = import.meta.env.VITE_API_URL || `http://${runtimeHost}:5000`;
+// Default: use VITE_API_URL if provided; in production default to same origin
+// when VITE_API_URL is missing; in development default to http://<host>:5000.
+const BASE =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD
+    ? typeof window !== "undefined"
+      ? window.location.origin
+      : `http://${runtimeHost}:5000`
+    : `http://${runtimeHost}:5000`);
 
 const api = axios.create({
   baseURL: BASE,
