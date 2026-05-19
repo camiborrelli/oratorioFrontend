@@ -4,6 +4,7 @@ import api, { fetchList } from "../../api";
 import { toast } from "react-toastify";
 import "./Eventos.css";
 import ConfirmarAsistencia from "./ConfirmarAsistencia";
+import CrearEventoModal from "./CrearEventoModal";
 
 // Lightweight carousel component (no external deps)
 const SimpleCarousel = ({ images = [], interval = 3000 }) => {
@@ -169,9 +170,8 @@ const ListarEventos = () => {
     "/img/21345012-bcf4-4ca1-b826-b368afeed314.jpg",
   ];
 
-  const crearEvento = () => {
-    navigate("/eventos/crear");
-  };
+  const [showCrear, setShowCrear] = useState(false);
+  const crearEvento = () => setShowCrear(true);
 
   const formatDate = (d) =>
     d
@@ -217,6 +217,7 @@ const ListarEventos = () => {
           </button>
         </div>
       </div>
+      {showCrear && <CrearEventoModal onClose={() => setShowCrear(false)} />}
 
       <div className="eventos-grid">
         {eventos.length === 0 ? (

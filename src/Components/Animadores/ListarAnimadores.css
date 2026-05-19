@@ -11,6 +11,7 @@
   min-height: 100vh;
   padding: 24px;
   margin: 0 auto;
+  max-width: 900px; /* match Gurises listado width */
 }
 
 /* Header */
@@ -172,4 +173,13 @@
   box-shadow: 0 4px 15px rgba(47, 127, 42, 0.4);
   cursor: pointer;
   z-index: 100;
+}
+
+@media (max-width: 420px) {
+  .listado-root {
+    padding: 12px 12px 96px; /* leave space for bottom nav / FAB */
+    max-width: 100%;
+    margin: 0;
+    background-color: transparent;
+  }
 }

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "./CrearEvento.css";
 
-const CrearEvento = () => {
+const CrearEvento = ({ embedded = false, onClose } = {}) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -53,7 +53,12 @@ const CrearEvento = () => {
         }
       }
       toast.success("Evento creado exitosamente");
-      navigate("/inicio");
+      if (embedded) {
+        // if embedded in a modal, call onClose if provided to close the modal
+        if (typeof onClose === "function") onClose();
+      } else {
+        navigate("/inicio");
+      }
     } catch (err) {
       console.error("Error creating event:", err, err?.response?.data);
       // Show backend error body when available
@@ -69,10 +74,13 @@ const CrearEvento = () => {
     }
   };
   useEffect(() => {
-    // add page-specific body class if desired
-    document.body.classList.add("with-bg");
-    return () => document.body.classList.remove("with-bg");
-  }, []);
+    // add page-specific body class only when rendered as a standalone page
+    if (!embedded) {
+      document.body.classList.add("with-bg");
+      return () => document.body.classList.remove("with-bg");
+    }
+    return undefined;
+  }, [embedded]);
 
   return (
     <div className="crear-evento-container">
@@ -138,7 +146,13 @@ const CrearEvento = () => {
           <button
             type="button"
             className="btn-secondary"
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              if (embedded) {
+                if (typeof onClose === "function") onClose();
+              } else {
+                navigate("/eventos");
+              }
+            }}
           >
             Cancelar
           </button>

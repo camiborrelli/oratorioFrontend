@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchList } from "../../api";
+import api from "../../api";
 import "./ListarReuniones.css";
+import AgregarReunionModal from "./AgregarReunionModal";
 
 function fmtDateParts(iso) {
   try {
@@ -46,13 +48,36 @@ const ListarReuniones = () => {
     }
   };
 
+  const [showAgregar, setShowAgregar] = useState(false);
+
+  const handleOpenAgregar = () => setShowAgregar(true);
+
+  const handleCreated = (created) => {
+    if (!created) return;
+    setReuniones((prev) => [...prev, created]);
+  };
+
   useEffect(() => {
     listarReuniones().catch(() => {});
   }, []);
 
   return (
     <div className="reuniones-root">
-      <h2 className="section-title">Historial de Crónicas</h2>
+      <h2 className="section-title">Historial de Reuniones de Animadores</h2>
+
+      <button className="btn btn-primary" onClick={handleOpenAgregar}>
+        Agregar reunion
+      </button>
+
+      {showAgregar && (
+        <AgregarReunionModal
+          onClose={() => setShowAgregar(false)}
+          onCreated={(item) => {
+            handleCreated(item);
+            setShowAgregar(false);
+          }}
+        />
+      )}
 
       <div className="reuniones-list">
         {loading && (
