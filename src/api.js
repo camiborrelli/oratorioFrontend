@@ -1,27 +1,13 @@
 import axios from "axios";
 
-// Determine API base URL with sensible defaults:
-// - If `VITE_API_URL` is provided at build/deploy time, use it.
-// - In production builds, if no VITE_API_URL is set, default to same origin
-//   (`window.location.origin`) so deploys calling the backend on the same host
-//   work without hardcoded `localhost` addresses.
-// - In development, fall back to the dev backend on the local machine
-//   using the current hostname (helps testing from mobile devices).
+// By default prefer VITE_API_URL (set in .env). If not provided, fall back
+// to the current page hostname so mobile devices accessing the dev server
+// via the host machine's IP don't try to call `localhost` (which is the
+// device itself and causes network errors / 404). This keeps behaviour
+// convenient during development on phone/emulator.
 const runtimeHost =
   typeof window !== "undefined" ? window.location.hostname : "localhost";
-let BASE = import.meta.env.VITE_API_URL;
-if (!BASE) {
-  if (import.meta.env.PROD) {
-    // production: prefer same origin when no explicit API URL provided
-    BASE =
-      typeof window !== "undefined"
-        ? window.location.origin
-        : `http://${runtimeHost}:5000`;
-  } else {
-    // development: use host's machine on port 5000 by default
-    BASE = `http://${runtimeHost}:5000`;
-  }
-}
+const BASE = import.meta.env.VITE_API_URL || `http://${runtimeHost}:5000`;
 
 const api = axios.create({
   baseURL: BASE,
