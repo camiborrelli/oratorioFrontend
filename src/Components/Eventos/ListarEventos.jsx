@@ -161,9 +161,10 @@ const ListarEventos = () => {
   // Carousel images from public/img (fall back to fondo1.jpg)
   const CAROUSEL_IMAGES = [
     "/img/fondo1.jpg",
-    "/img/image.png",
-    "/img/cordon.png",
-    "/img/logo.jpg",
+    "img/1fd9c8e-1b0c-4a3b-9c5e-8a7f2c3d5e6a.jpg",
+    "img/2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d.jpg",
+    "img/3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f.jpg",
+    "img/4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a.jpg",
     "/img/21345012-bcf4-4ca1-b826-b368afeed314.jpg",
   ];
 
