@@ -343,3 +343,34 @@
     max-height: 420px;
   }
 }
+
+/* Full-bleed carousel wrapper so it spans the full viewport width */
+.carousel-fullwidth {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  box-sizing: border-box;
+  padding: 0;
+  z-index: 0;
+}
+.carousel-fullwidth .simple-carousel {
+  border-radius: 0;
+  min-height: 220px;
+  max-height: 420px;
+}
+.carousel-fullwidth .simple-carousel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Make sure the events content below has spacing from the carousel */
+.eventos-container {
+  padding-top: 12px;
+}
+.eventos-grid {
+  margin-top: 16px;
+}

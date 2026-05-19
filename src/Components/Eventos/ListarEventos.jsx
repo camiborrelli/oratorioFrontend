@@ -158,6 +158,15 @@ const ListarEventos = () => {
     return `${API_BASE}${String(foto).startsWith("/") ? "" : "/"}${foto}`;
   };
 
+  // Carousel images from public/img (fall back to fondo1.jpg)
+  const CAROUSEL_IMAGES = [
+    "/img/fondo1.jpg",
+    "/img/image.png",
+    "/img/cordon.png",
+    "/img/logo.jpg",
+    "/img/21345012-bcf4-4ca1-b826-b368afeed314.jpg",
+  ];
+
   const crearEvento = () => {
     navigate("/eventos/crear");
   };
@@ -172,6 +181,10 @@ const ListarEventos = () => {
 
   return (
     <div className="eventos-container">
+      {/* Full-width carousel (bleed out of container) */}
+      <div className="carousel-fullwidth">
+        <SimpleCarousel images={CAROUSEL_IMAGES} interval={3500} />
+      </div>
       {loading && (
         <div className="evt-loading text-center py-6">Cargando eventos...</div>
       )}
@@ -205,20 +218,15 @@ const ListarEventos = () => {
 
       <div className="eventos-grid">
         {eventos.length === 0 ? (
-          <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-            <SimpleCarousel
-              images={[
-                "/img/fondo1.jpg",
-                "/img/public/img/1f1c2dce-e072-4377-bbd2-1b81b6e75194.jpg",
-                "/img/public/img/7cd9c8e7-1b0c-4a3b-9f1e-5a2f8c3e5a1f.jpg",
-                "img/public/img/9c8e5f4a-3b2d-4a1e-8f7c-2d9b6e5a1c3f.jpg",
-                "img/public/img/5a1e2d3c-4b6f-7a8c-9d0e-1f2b3c4d5e6f.jpg",
-                "img/public/img/2d9b6e5a-1c3f-4a8e-7f0d-5a1e2d3c4b6f.jpg",
-                "img/public/img/8f7c2d9b-6e5a-1c3f-4a8e-7f0d5a1e2d3c.jpg",
-                "img/public/img/1f2b3c4d-5e6f-7a8c-9d0e-2d9b6e5a1c3f.jpg",
-              ]}
-              interval={3500}
-            />
+          <div className="evt-empty h-40 flex items-center justify-center">
+            <div style={{ textAlign: "center", color: "#64748b" }}>
+              No hay próximos eventos
+              <div style={{ marginTop: 8 }}>
+                <button className="btn btn-primary" onClick={crearEvento}>
+                  Agregar evento
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           eventos.map((evento) => (
