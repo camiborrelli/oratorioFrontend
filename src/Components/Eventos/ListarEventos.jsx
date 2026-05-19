@@ -161,6 +161,7 @@ const ListarEventos = () => {
   // Carousel images from public/img (fall back to fondo1.jpg)
   const CAROUSEL_IMAGES = [
     "/img/fondo1.jpg",
+    "/img/fondo1.jpg",
     "img/1fd9c8e-1b0c-4a3b-9c5e-8a7f2c3d5e6a.jpg",
     "img/2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d.jpg",
     "img/3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f.jpg",
@@ -237,20 +238,6 @@ const ListarEventos = () => {
               aria-labelledby={`evt-${evento.id || evento._id}-title`}
             >
               <div className="evento-card__media">
-                <img
-                  src={buildFotoSrc(
-                    evento.imagen ||
-                      evento.foto ||
-                      evento.image ||
-                      evento.portada ||
-                      evento.cover,
-                  )}
-                  alt={evento.nombre || evento.title || "Evento"}
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = FALLBACK_EVT_IMG;
-                  }}
-                />
                 <div className="evento-card__date text-sm">
                   {formatDate(evento.fecha)}
                 </div>
