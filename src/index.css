@@ -35,6 +35,16 @@ body {
   min-height: 100vh;
 }
 
+/* Global background used by several pages (Login / Register / CrearEvento etc.)
+   Components toggle this by adding `with-bg` to <body> */
+body.with-bg {
+  background-image: url(/img/fondo1.jpg);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
