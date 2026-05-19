@@ -146,6 +146,18 @@ const ListarEventos = () => {
   const isCoordinator = getCurrentRoles().includes("coordinador");
   const navigate = useNavigate();
 
+  const API_BASE = api.defaults?.baseURL || import.meta.env.VITE_API_URL || "";
+  const FALLBACK_EVT_IMG = "/img/fondo1.jpg";
+  const buildFotoSrc = (foto) => {
+    if (!foto) return FALLBACK_EVT_IMG;
+    if (
+      typeof foto === "string" &&
+      (foto.startsWith("http") || foto.startsWith("data:"))
+    )
+      return foto;
+    return `${API_BASE}${String(foto).startsWith("/") ? "" : "/"}${foto}`;
+  };
+
   const crearEvento = () => {
     navigate("/eventos/crear");
   };
@@ -191,55 +203,76 @@ const ListarEventos = () => {
         </div>
       </div>
 
-      {!loading && !error && (
-        <div className="eventos-grid">
-          {eventos.length === 0 ? (
-            <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-              <SimpleCarousel
-                images={["/img/fondo1.jpg", "/img/fondo1.jpg"]}
-                interval={3500}
-              />
-            </div>
-          ) : (
-            eventos.map((evento) => (
-              <article
-                key={evento.id || evento._id}
-                className="evento-card"
-                aria-labelledby={`evt-${evento.id || evento._id}-title`}
-              >
-                <div className="evento-card__media">
-                  <div className="evento-card__date text-sm">
-                    {formatDate(evento.fecha)}
-                  </div>
+      <div className="eventos-grid">
+        {eventos.length === 0 ? (
+          <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+            <SimpleCarousel
+              images={[
+                "/img/fondo1.jpg",
+                "/img/public/img/1f1c2dce-e072-4377-bbd2-1b81b6e75194.jpg",
+                "/img/public/img/7cd9c8e7-1b0c-4a3b-9f1e-5a2f8c3e5a1f.jpg",
+                "img/public/img/9c8e5f4a-3b2d-4a1e-8f7c-2d9b6e5a1c3f.jpg",
+                "img/public/img/5a1e2d3c-4b6f-7a8c-9d0e-1f2b3c4d5e6f.jpg",
+                "img/public/img/2d9b6e5a-1c3f-4a8e-7f0d-5a1e2d3c4b6f.jpg",
+                "img/public/img/8f7c2d9b-6e5a-1c3f-4a8e-7f0d5a1e2d3c.jpg",
+                "img/public/img/1f2b3c4d-5e6f-7a8c-9d0e-2d9b6e5a1c3f.jpg",
+              ]}
+              interval={3500}
+            />
+          </div>
+        ) : (
+          eventos.map((evento) => (
+            <article
+              key={evento.id || evento._id}
+              className="evento-card"
+              aria-labelledby={`evt-${evento.id || evento._id}-title`}
+            >
+              <div className="evento-card__media">
+                <img
+                  src={buildFotoSrc(
+                    evento.imagen ||
+                      evento.foto ||
+                      evento.image ||
+                      evento.portada ||
+                      evento.cover,
+                  )}
+                  alt={evento.nombre || evento.title || "Evento"}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = FALLBACK_EVT_IMG;
+                  }}
+                />
+                <div className="evento-card__date text-sm">
+                  {formatDate(evento.fecha)}
                 </div>
-                <div className="evento-card__body">
-                  <h3
-                    id={`evt-${evento.id || evento._id}-title`}
-                    className="evento-title text-lg font-semibold"
-                  >
-                    {evento.nombre || evento.title || "Sin título"}
-                  </h3>
-                  <p className="evento-desc text-sm text-slate-600 mt-1">
-                    {evento.descripcion || "Sin descripción"}
-                  </p>
+              </div>
+              <div className="evento-card__body">
+                <h3
+                  id={`evt-${evento.id || evento._id}-title`}
+                  className="evento-title text-lg font-semibold"
+                >
+                  {evento.nombre || evento.title || "Sin título"}
+                </h3>
+                <p className="evento-desc text-sm text-slate-600 mt-1">
+                  {evento.descripcion || "Sin descripción"}
+                </p>
+              </div>
+              <div className="evento-card__footer">
+                {/* <span className="evento-tag">{evento.tipo || "General"}</span> */}
+                <div className="evento-actions">
+                  <ConfirmarAsistencia
+                    evento={evento}
+                    eventoId={evento.id || evento._id}
+                    // Try common localStorage keys for animador id; ConfirmarAsistencia will try /animador/me if missing
+                    animadorId={localStorage.getItem("animadorId") || null}
+                    onSuccess={() => listarEventos()}
+                  />
                 </div>
-                <div className="evento-card__footer">
-                  {/* <span className="evento-tag">{evento.tipo || "General"}</span> */}
-                  <div className="evento-actions">
-                    <ConfirmarAsistencia
-                      evento={evento}
-                      eventoId={evento.id || evento._id}
-                      // Try common localStorage keys for animador id; ConfirmarAsistencia will try /animador/me if missing
-                      animadorId={localStorage.getItem("animadorId") || null}
-                      onSuccess={() => listarEventos()}
-                    />
-                  </div>
-                </div>
-              </article>
-            ))
-          )}
-        </div>
-      )}
+              </div>
+            </article>
+          ))
+        )}
+      </div>
     </div>
   );
 };
