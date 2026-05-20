@@ -1,24 +1,14 @@
 import axios from "axios";
-import express from "express";
-import cors from "cors";
-const app = express();
-
-app.use(
-  cors({
-    origin: "https://oratorio-frontend-omega.vercel.app",
-    methods: ["GET", "POST", "OPTIONS"],
-    credentials: true,
-  }),
-);
+// Frontend API client
 
 // By default prefer VITE_API_URL (set in .env). If not provided, fall back
 // to the current page hostname so mobile devices accessing the dev server
 // via the host machine's IP don't try to call `localhost` (which is the
 // device itself and causes network errors / 404). This keeps behaviour
 // convenient during development on phone/emulator.
-const runtimeHost =
-  typeof window !== "undefined" ? window.location.hostname : "localhost";
-const BASE = import.meta.env.VITE_API_URL || `http://${runtimeHost}:5000`;
+// If VITE_API_URL is set, prefer it; otherwise use the deployed backend URL
+const BASE =
+  import.meta.env.VITE_API_URL || "https://oratorio-cordon-app.vercel.app";
 
 const api = axios.create({
   baseURL: BASE,
