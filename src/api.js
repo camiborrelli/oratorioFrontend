@@ -6,9 +6,10 @@ import axios from "axios";
 // via the host machine's IP don't try to call `localhost` (which is the
 // device itself and causes network errors / 404). This keeps behaviour
 // convenient during development on phone/emulator.
-// If VITE_API_URL is set, prefer it; otherwise use the deployed backend URL
-const BASE =
-  import.meta.env.VITE_API_URL || "https://oratorio-cordon-app.vercel.app";
+// Prefer VITE_API_URL when provided; otherwise use a relative base (empty string)
+// so the app calls the same origin (this allows Vercel `rewrites` to proxy
+// `/animador/*` to the backend as configured in `vercel.json`).
+const BASE = import.meta.env.VITE_API_URL || "";
 
 const api = axios.create({
   baseURL: BASE,
