@@ -1,15 +1,6 @@
 import axios from "axios";
 
-// By default prefer VITE_API_URL (set in .env). If not provided, fall back
-// to the current page hostname so mobile devices accessing the dev server
-// via the host machine's IP don't try to call `localhost` (which is the
-// device itself and causes network errors / 404). This keeps behaviour
-// convenient during development on phone/emulator.
-const runtimeHost =
-  typeof window !== "undefined" ? window.location.hostname : "localhost";
-// Back to previous behavior: prefer VITE_API_URL, otherwise call host:5000
-// (keeps the development/mobile testing behavior that worked earlier).
-const BASE = import.meta.env.VITE_API_URL || `http://${runtimeHost}:5000`;
+const BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: BASE,
