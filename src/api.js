@@ -1,4 +1,15 @@
 import axios from "axios";
+import express from "express";
+import cors from "cors";
+const app = express();
+
+app.use(
+  cors({
+    origin: "https://oratorio-frontend-omega.vercel.app",
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true,
+  }),
+);
 
 // By default prefer VITE_API_URL (set in .env). If not provided, fall back
 // to the current page hostname so mobile devices accessing the dev server
