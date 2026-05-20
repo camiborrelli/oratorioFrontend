@@ -1,6 +1,14 @@
 import axios from "axios";
 
-const BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+// Prefer VITE_API_URL; if missing in production, call same origin (safer for deploys).
+// In development, fall back to host:5000 to allow mobile testing.
+const BASE =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD
+    ? typeof window !== "undefined"
+      ? window.location.origin
+      : `http://${runtimeHost}:5000`
+    : `http://${runtimeHost}:5000`);
 
 const api = axios.create({
   baseURL: BASE,
@@ -30,6 +38,19 @@ api.interceptors.request.use((config) => {
 
 // Generic helper: try to GET a list from several endpoint variants and return an array
 export async function fetchList(path) {
+  // Log more informative errors for debugging (prints error.response if available)
+  api.interceptors.response.use(
+    (res) => res,
+    (err) => {
+      try {
+        // Prefer the server response payload if present
+        console.error("API response error:", err.response || err);
+      } catch (e) {
+        console.error("API error (could not stringify):", err);
+      }
+      return Promise.reject(err);
+    },
+  );
   const tryPaths = [path, `${path}s`, `${path}/all`];
   for (const p of tryPaths) {
     try {
