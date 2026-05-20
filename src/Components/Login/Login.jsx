@@ -81,9 +81,18 @@ const Login = () => {
       console.log(userObj.roles);
       naviagate("/inicio");
     } catch (err) {
+      // log full response for debugging
       console.error("Login error:", err?.response || err);
+      const serverData = err?.response?.data;
+      const prettyServer =
+        serverData && typeof serverData === "object"
+          ? JSON.stringify(serverData)
+          : serverData;
       const msg =
-        err?.response?.data?.message || err?.message || "Error en el login";
+        (serverData && (serverData.message || serverData.error)) ||
+        prettyServer ||
+        err?.message ||
+        "Error en el login";
       // if backend provides field errors, set them
       if (
         err?.response?.data?.errors &&
