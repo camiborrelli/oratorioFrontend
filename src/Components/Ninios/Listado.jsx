@@ -6,6 +6,7 @@ import "../../App.css";
 import { listarNinios } from "../../features/ninio.slice";
 import { useSelector, useDispatch } from "react-redux";
 import { listarRecorridas } from "../../features/recorrida.slice";
+import TablaNinios from "./TablaNinios";
 
 export async function fetchList(path) {
   const tryPaths = [path, `${path}s`, `${path}/all`];
@@ -326,6 +327,8 @@ const ListarNinios = () => {
       <button className="fab-add" onClick={() => navigate("/ninios/register")}>
         +
       </button>
+
+      <TablaNinios ninios={filtered} className="tabla-ninios"/>
     </div>
   );
 };

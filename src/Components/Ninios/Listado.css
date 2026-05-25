@@ -313,6 +313,14 @@ h1 {
   .listado-root {
     padding-top: 88px; /* espacio para top-nav (ajustar si es necesario) */
   }
+
+  .tabla-ninios {
+    display: block; /* mostrar tabla en pantallas grandes */
+  }
+
+  .cards {
+    display: none; /* ocultar cards en pantallas grandes */
+  }
 }
 
 /* Asegurar que el botón 'Pasar lista' capture clics por encima del top-nav en pantallas grandes */
@@ -324,5 +332,15 @@ h1 {
   .search-row .filter-select {
     position: relative;
     z-index: 1401;
+  }
+}
+
+.tabla-ninios {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .tabla-ninios {
+    display: block;
   }
 }

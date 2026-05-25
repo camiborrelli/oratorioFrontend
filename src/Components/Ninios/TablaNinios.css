@@ -1,0 +1,279 @@
+.tabla-ninios {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 28px;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 14px;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.tabla-ninios thead {
+  background: linear-gradient(90deg, #166534, #15803d);
+}
+
+.tabla-ninios th {
+  padding: 18px 20px;
+  text-align: left;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+}
+
+/* =========================
+   BODY
+========================= */
+
+.tabla-ninios tbody tr {
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.tabla-ninios tbody tr:hover {
+  background: #f8fafc;
+}
+
+.tabla-ninios tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-ninios td {
+  padding: 16px 20px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: middle;
+}
+
+/* =========================
+   RECORRIDA
+========================= */
+
+.recorrida {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.azul,
+.rojo,
+.roja,
+.naranja,
+.amarilla,
+.amarillo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  min-width: 80px;
+}
+
+/* Azul */
+.azul {
+  background: rgba(37, 99, 235, 0.12);
+  color: #2563eb;
+  border-color: rgba(37, 99, 235, 0.18);
+}
+
+/* Rojo */
+.rojo,
+.roja {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.18);
+}
+
+/* Naranja */
+.naranja {
+  background: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border-color: rgba(245, 158, 11, 0.18);
+}
+
+/* Amarillo */
+.amarilla,
+.amarillo {
+  background: rgba(250, 204, 21, 0.14);
+  color: #a16207;
+  border-color: rgba(250, 204, 21, 0.2);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+  font-family: inherit;
+}
+
+button.btn-primary,
+button.btn-danger {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+/* Primary */
+button.btn-primary {
+  background: linear-gradient(135deg, #62df8f, #3ca765);
+  color: white;
+  box-shadow: 0 4px 14px rgba(21, 128, 61, 0.18);
+}
+
+button.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(21, 128, 61, 0.22);
+}
+
+/* Danger */
+button.btn-danger {
+  background: rgba(220, 38, 38, 0.08);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.18);
+}
+
+button.btn-danger:hover {
+  background: #dc2626;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.18);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .tabla-ninios {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 16px;
+  }
+
+  .tabla-ninios th,
+  .tabla-ninios td {
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .tabla-ninios {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .tabla-ninios thead {
+    display: none;
+  }
+
+  .tabla-ninios,
+  .tabla-ninios tbody,
+  .tabla-ninios tr,
+  .tabla-ninios td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabla-ninios tr {
+    background: white;
+    margin-bottom: 16px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  }
+
+  .tabla-ninios td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    white-space: normal;
+    text-align: right;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .tabla-ninios td:last-child {
+    border-bottom: none;
+  }
+
+  .tabla-ninios td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #0f172a;
+    text-align: left;
+  }
+
+  .recorrida {
+    justify-content: flex-end;
+  }
+
+  button.btn-primary,
+  button.btn-danger {
+    width: 100%;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* fondo semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.btn-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}

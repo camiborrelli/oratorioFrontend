@@ -131,7 +131,7 @@ const EditarNinio = () => {
       const serverMsg =
         serverData?.message || serverData || err.message || "Error al guardar";
       try {
-        toast.error(
+        console.log(
           typeof serverMsg === "string" ? serverMsg : JSON.stringify(serverMsg),
         );
       } catch (e) {
