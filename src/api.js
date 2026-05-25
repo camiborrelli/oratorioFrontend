@@ -1,15 +1,7 @@
 import axios from "axios";
-// Frontend API client
 
-// By default prefer VITE_API_URL (set in .env). If not provided, fall back
-// to the current page hostname so mobile devices accessing the dev server
-// via the host machine's IP don't try to call `localhost` (which is the
-// device itself and causes network errors / 404). This keeps behaviour
-// convenient during development on phone/emulator.
-// Prefer VITE_API_URL when provided; otherwise use a relative base (empty string)
-// so the app calls the same origin (this allows Vercel `rewrites` to proxy
-// `/animador/*` to the backend as configured in `vercel.json`).
-const BASE = import.meta.env.VITE_API_URL || "";
+// Use environment variable for backend URL (dev: http://localhost:5000, prod: Vercel backend)
+const BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: BASE,
@@ -25,14 +17,8 @@ api.interceptors.request.use((config) => {
     return config;
   }
 
-  // support multiple token key names and skip if missing
-  const token =
-    localStorage.getItem("token") ||
-    localStorage.getItem("Token") ||
-    localStorage.getItem("TokenId");
-  if (token) {
-    config.headers.Authorization = "Bearer " + token;
-  }
+  let token = localStorage.getItem("Token");
+  config.headers.Authorization = "Bearer " + token;
 
   return config;
 });
