@@ -31,6 +31,7 @@ const TablaNinios = ({ ninios }) => {
   const cerrarModal = () => {
     showmodal(false);
     setNinioSeleccionado(null);
+    setNuevaDivision("");
   };
 
   return (
@@ -86,9 +87,10 @@ const TablaNinios = ({ ninios }) => {
       </table>
 
       {showmodal && (
-        <div className="modal">
+        <div className="modal" onClick={cerrarModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h2>Cambiar división</h2>
+
             <p>
               Seleccione la nueva división para {ninioSeleccionado?.nombre}:
             </p>
@@ -102,15 +104,20 @@ const TablaNinios = ({ ninios }) => {
               <option value="Medianos">Medianos</option>
               <option value="Grandes">Grandes</option>
             </select>
+
             <div className="btn-actions">
               <button
+                className="btn-confirmar"
                 onClick={() => {
                   cambiarDivision(ninioSeleccionado, nuevaDivision);
                 }}
               >
                 Confirmar
               </button>
-              <button onClick={cerrarModal}>Cancelar</button>
+
+              <button className="btn-cancelar" onClick={cerrarModal}>
+                Cancelar
+              </button>
             </div>
           </div>
         </div>
