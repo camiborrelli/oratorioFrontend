@@ -260,7 +260,7 @@ const ListarNinios = () => {
         </button>
       </div>
 
-      <div className="chips-row">
+      <div className="chips-row" showDivision={false}>
         <button
           className={`chip ${groupFilter === null ? "active" : ""}`}
           onClick={() => setGroupFilter(null)}
@@ -276,7 +276,12 @@ const ListarNinios = () => {
             {g}
           </button>
         ))}
+        <p>
+          Mostrando {filtered.length} de {ninios.length}
+        </p>
       </div>
+
+      <div className="chips-row"></div>
 
       <div className="cards">
         {filtered.length > 0 ? (
@@ -328,7 +333,7 @@ const ListarNinios = () => {
         +
       </button>
 
-      <TablaNinios ninios={filtered} className="tabla-ninios"/>
+      <TablaNinios ninios={filtered} className="tabla-ninios" />
     </div>
   );
 };

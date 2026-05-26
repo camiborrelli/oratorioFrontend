@@ -163,11 +163,10 @@ const ListarEventos = () => {
   const CAROUSEL_IMAGES = [
     "/img/fondo1.jpg",
     "/img/fondo1.jpg",
-    "img/1fd9c8e-1b0c-4a3b-9c5e-8a7f2c3d5e6a.jpg",
-    "img/2a3b4c5d-6e7f-8a9b-0c1d-2e3f4a5b6c7d.jpg",
-    "img/3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f.jpg",
-    "img/4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a.jpg",
-    "/img/21345012-bcf4-4ca1-b826-b368afeed314.jpg",
+    "public/img/636861e3-f2be-4aac-96f0-0a1b851d12f1-convertido-de-jpg (1).png",
+    "public/img/d33f9563-b866-4cae-8bec-4fdc05249f4c-convertido-de-jpg.png",
+    "public/img/ef1b27fc-f8e0-409b-b794-5edb1936152d-convertido-de-jpg.png",
+    "public/img/f2370e7e-012c-4aa9-97d7-879edea39c2c-convertido-de-jpg.png",
   ];
 
   const [showCrear, setShowCrear] = useState(false);
@@ -209,12 +208,14 @@ const ListarEventos = () => {
       <div className="eventos-header flex items-center justify-between mb-4">
         <h1 className="text-xl font-bold">Próximos eventos</h1>
         <div className="eventos-header__actions">
-          <button
-            className="btn btn-primary bg-green-600 text-white px-3 py-1 rounded-md"
-            onClick={crearEvento}
-          >
-            Agregar evento
-          </button>
+          {eventos.length > 0 && (
+            <button
+              className="btn btn-primary bg-green-600 text-white px-3 py-1 rounded-md"
+              onClick={crearEvento}
+            >
+              Agregar evento
+            </button>
+          )}
         </div>
       </div>
       {showCrear && <CrearEventoModal onClose={() => setShowCrear(false)} />}

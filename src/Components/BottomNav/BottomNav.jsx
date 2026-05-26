@@ -48,6 +48,12 @@ const BottomNav = () => {
             Animadores
           </div>
           <div
+            className="reunionAnimadores"
+            onClick={() => navigate("/reunion")}
+          >
+            Reunion
+          </div>
+          <div
             className="perfil"
             onClick={() => navigate("/animadores/perfil")}
           >

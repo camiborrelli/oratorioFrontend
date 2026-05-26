@@ -66,12 +66,12 @@ const CumplenMes = () => {
       <div className="eventos-header flex items-center justify-between mb-4">
         <h1 className="text-xl font-bold">Cumplen este mes</h1>
         <div className="eventos-header__actions">
-          <button
+          {/* <button
             className="btn btn-primary bg-green-600 text-white px-3 py-1 rounded-md"
             onClick={listar}
           >
             Actualizar
-          </button>
+          </button> */}
         </div>
       </div>
 

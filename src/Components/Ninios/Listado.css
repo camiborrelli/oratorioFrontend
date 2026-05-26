@@ -7,7 +7,7 @@ body {
   background-color: #f5f6f7;
   min-height: 100vh;
   padding: 16px;
-  max-width: 900px; /* Centrado y legible en PC */
+  max-width: 1200px; /* Centrado y legible en PC */
   margin: 0 auto;
   background-color: #f5f6f7; /* Fondo gris suave para destacar las cards */
   border-radius: 8px; /* Bordes redondeados */

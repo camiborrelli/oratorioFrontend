@@ -313,3 +313,51 @@
     font-size: 1rem;
   }
 }
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="datetime-local"],
+.modal-body input[type="date"],
+.modal-body textarea {
+  width: 90%;
+  padding: 10px 12px;
+  border: 1px solid #e6eef3;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background: #fff;
+  margin: 5px 0;
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.modal-body input[type="text"] focus,
+.modal-body input[type="datetime-local"] focus,
+.modal-body input[type="date"] focus,
+.modal-body textarea focus {
+  border-color: #16a34a;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+  outline: none;
+}
+
+.modal-body textarea {
+  min-height: 110px;
+  max-height: 260px;
+  resize: vertical;
+  overflow: auto;
+}
+
+.btn-edit {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  margin-top: 12px;
+  align-self: flex-start;
+}

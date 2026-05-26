@@ -3,6 +3,9 @@ import { fetchList } from "../../api";
 import api from "../../api";
 import "./ListarReuniones.css";
 import AgregarReunionModal from "./AgregarReunionModal";
+import toast from "react-hot-toast";
+import { set } from "react-hook-form";
+import { IoMdAdd } from "react-icons/io";
 
 function fmtDateParts(iso) {
   try {
@@ -34,12 +37,19 @@ function fmtDateParts(iso) {
 const ListarReuniones = () => {
   const [reuniones, setReuniones] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [animador, setAnimador] = useState({});
+  const [editTitulo, setEditTitulo] = useState("");
+  const [editFecha, setEditFecha] = useState("");
+  const [editDescripcion, setEditDescripcion] = useState("");
+  const [editLoading, setEditLoading] = useState(false);
 
   const listarReuniones = async () => {
     setLoading(true);
     try {
       const list = await fetchList("/reunion");
       setReuniones(Array.isArray(list) ? list : []);
+      setAnimador(JSON.parse(localStorage.getItem("Animador")) || {});
     } catch (err) {
       console.error("Error fetching /reunion", err);
       setReuniones([]);
@@ -57,6 +67,29 @@ const ListarReuniones = () => {
     setReuniones((prev) => [...prev, created]);
   };
 
+  const actualizarReunion = async (id, data) => {
+    try {
+      const updated = await api.put(`/reunion/${id}`, data);
+      if (updated) {
+        toast.success("Reunión actualizada");
+        listarReuniones();
+      }
+    } catch (err) {
+      console.error("Error updating reunion", err);
+    }
+  };
+
+  const openEditModal = (reunion) => {
+    setModal({ open: true, data: reunion });
+    setEditTitulo(reunion.titulo || "");
+    const fechaFormato = reunion.fecha
+      ? new Date(reunion.fecha).toISOString().split("T")[0]
+      : "";
+    setEditFecha(fechaFormato);
+
+    setEditDescripcion(reunion.descripcion || "");
+  };
+
   useEffect(() => {
     listarReuniones().catch(() => {});
   }, []);
@@ -66,7 +99,7 @@ const ListarReuniones = () => {
       <h2 className="section-title">Historial de Reuniones de Animadores</h2>
 
       <button className="btn btn-primary" onClick={handleOpenAgregar}>
-        Agregar reunion
+        <IoMdAdd /> Agregar reunion
       </button>
 
       {showAgregar && (
@@ -115,27 +148,56 @@ const ListarReuniones = () => {
                   {r.descripcion ||
                     "Sin descripción disponible para esta crónica..."}
                 </p>
-
-                <div className="card-footer">
-                  {r.archivosCount > 0 && (
-                    <span className="meta-badge">
-                      <span className="meta-icon">📄</span>
-                      {r.archivosCount} ARCHIVOS
-                    </span>
-                  )}
-                  {/* Ejemplo de badge de comentarios como en la imagen */}
-                  {r.comentariosCount > 0 && (
-                    <span className="meta-badge" style={{ marginLeft: "8px" }}>
-                      <span className="meta-icon">💬</span>
-                      {r.comentariosCount} COMENTARIOS
-                    </span>
-                  )}
-                </div>
               </div>
+
+              <button className="btn btn-edit" onClick={() => openEditModal(r)}>
+                Editar resumen
+              </button>
             </article>
           );
         })}
       </div>
+
+      {modal && (
+        <div className="modal" onClick={() => setModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Editar reunión</h2>
+            </div>
+            <div className="modal-body">
+              <input
+                type="text"
+                placeholder="Título de la reunion"
+                value={modal.data?.titulo}
+                onChange={(e) => setEditTitulo(e.target.value)}
+              />
+              <input
+                type="date"
+                placeholder="Fecha"
+                value={modal.data?.fecha}
+                onChange={(e) => setEditFecha(e.target.value)}
+              />
+              <textarea
+                placeholder="Descripción"
+                value={modal.data?.descripcion}
+                onChange={(e) => setEditDescripcion(e.target.value)}
+              ></textarea>
+              <button
+                className="btn btn-primary"
+                onClick={() => setModal({ open: false, data: null })}
+              >
+                Guardar cambios
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setModal({ open: false, data: null })}
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

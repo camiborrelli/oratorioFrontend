@@ -1,25 +1,40 @@
 import React from "react";
+import { useState } from "react";
 import "./TablaNinios.css";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
 import { toast } from "react-toastify";
+import { set } from "react-hook-form";
+import { useEffect } from "react";
 
 const TablaNinios = ({ ninios }) => {
   const navigate = useNavigate();
-  const [modal, showmodal] = React.useState(false);
-  const [ninioSeleccionado, setNinioSeleccionado] = React.useState(null);
-  const [nuevaDivision, setNuevaDivision] = React.useState("");
+  const [modal, setModal] = useState(false);
+  const [ninioSeleccionado, setNinioSeleccionado] = useState(null);
+  const [nuevaDivision, setNuevaDivision] = useState("");
+  const [niniosList, setNiniosList] = useState(ninios || []);
+
+  useEffect(() => {
+    setNiniosList(ninios || []);
+  }, [ninios]);
 
   const cambiarDivision = async (nin, nuevaDiv) => {
+    if (!nuevaDiv) {
+      toast.error("Por favor, selecciona una nueva división");
+      return;
+    }
     try {
-      const res = await api.put(`/ninno/${nin._id}/division`, {
+      const res = await api.put(`/ninios/cambiarDivision/${nin._id}`, {
         division: nuevaDiv,
       });
       if (res.status === 200) {
+        setNiniosList(
+          niniosList.map((n) =>
+            n._id === nin._id ? { ...n, division: nuevaDiv } : n,
+          ),
+        );
         toast.success(`División de ${nin.nombre} actualizada a ${nuevaDiv}`);
-        cerrarModal();
-      } else {
-        toast.error(`Error al actualizar división: ${res.statusText}`);
+        console.log(nin.division);
         cerrarModal();
       }
     } catch (err) {
@@ -29,7 +44,7 @@ const TablaNinios = ({ ninios }) => {
   };
 
   const cerrarModal = () => {
-    showmodal(false);
+    setModal(false);
     setNinioSeleccionado(null);
     setNuevaDivision("");
   };
@@ -49,7 +64,7 @@ const TablaNinios = ({ ninios }) => {
           </tr>
         </thead>
         <tbody>
-          {ninios.map((nin) => (
+          {niniosList.map((nin) => (
             <tr key={nin._id}>
               <td>{nin.nombre}</td>
               <td>{nin.apellido}</td>
@@ -71,10 +86,10 @@ const TablaNinios = ({ ninios }) => {
                   Editar
                 </button>
                 <button
-                  className="btn btn-sm btn-info"
+                  className="btn btn-sm btn-change"
                   onClick={() => {
                     setNinioSeleccionado(nin);
-                    showmodal(true);
+                    setModal(true);
                   }}
                 >
                   Cambiar División
@@ -85,38 +100,50 @@ const TablaNinios = ({ ninios }) => {
           ))}
         </tbody>
       </table>
-
-      {showmodal && (
+      {modal && (
         <div className="modal" onClick={cerrarModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Cambiar división</h2>
+            <div className="modal-header">
+              <h2>Cambiar División</h2>
+            </div>
 
-            <p>
-              Seleccione la nueva división para {ninioSeleccionado?.nombre}:
-            </p>
-
-            <select
-              value={nuevaDivision || ninioSeleccionado?.division}
-              onChange={(e) => setNuevaDivision(e.target.value)}
-            >
-              <option value="Chiquitos">Chiquitos</option>
-              <option value="Medianitos">Medianitos</option>
-              <option value="Medianos">Medianos</option>
-              <option value="Grandes">Grandes</option>
-            </select>
+            <div className="modal-body">
+              <p>
+                <strong>
+                  Seleccione la nueva división para{" "}
+                  {ninioSeleccionado?.nombre || "Sin reco"}:
+                </strong>
+              </p>
+              <p>División actual: {ninioSeleccionado?.division}</p>
+              <select
+                value={nuevaDivision}
+                onChange={(e) => setNuevaDivision(e.target.value)}
+                className="modal-select"
+              >
+                <option value="">-- Selecciona una división --</option>
+                <option value="chiquitos">Chiquitos</option>
+                <option value="medianitos">Medianitos</option>
+                <option value="medianos">Medianos</option>
+                <option value="grandes">Grandes</option>
+              </select>
+            </div>
 
             <div className="btn-actions">
               <button
+                type="button"
+                className="btn-cancelar"
+                onClick={() => setModal(false)} // ✅ ahora sí funciona
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
                 className="btn-confirmar"
-                onClick={() => {
-                  cambiarDivision(ninioSeleccionado, nuevaDivision);
-                }}
+                onClick={() =>
+                  cambiarDivision(ninioSeleccionado, nuevaDivision)
+                }
               >
                 Confirmar
-              </button>
-
-              <button className="btn-cancelar" onClick={cerrarModal}>
-                Cancelar
               </button>
             </div>
           </div>
