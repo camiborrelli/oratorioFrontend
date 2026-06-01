@@ -305,13 +305,16 @@
 }
 
 @media (max-width: 720px) {
+  .reuniones-root {
+    padding: 12px;
+  }
   .reunion-modal-box {
     max-width: 92%;
     padding: 12px;
   }
-  .reunion-modal-box h2 {
+  /* .reunion-modal-box h2 {
     font-size: 1rem;
-  }
+  } */
 }
 
 .modal form {

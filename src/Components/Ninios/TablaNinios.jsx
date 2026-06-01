@@ -25,7 +25,7 @@ const TablaNinios = ({ ninios }) => {
     }
     try {
       const res = await api.put(`/ninios/cambiarDivision/${nin._id}`, {
-        division: nuevaDiv,
+        nuevaDivision: nuevaDiv,
       });
       if (res.status === 200) {
         setNiniosList(
@@ -34,7 +34,6 @@ const TablaNinios = ({ ninios }) => {
           ),
         );
         toast.success(`División de ${nin.nombre} actualizada a ${nuevaDiv}`);
-        console.log(nin.division);
         cerrarModal();
       }
     } catch (err) {
@@ -76,7 +75,22 @@ const TablaNinios = ({ ninios }) => {
                 </span>
               </td>
 
-              <td>{nin.contactos.nombre}</td>
+              <td>
+                {nin.contactos &&
+                Array.isArray(nin.contactos) &&
+                nin.contactos.length > 0 ? (
+                  <div style={{ fontSize: "12px", lineHeight: "1.4" }}>
+                    {nin.contactos.map((contact, idx) => (
+                      <div key={idx}>
+                        <strong>{contact.nombre}</strong>
+                        {contact.telefono && <div>{contact.telefono}</div>}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span style={{ color: "#999" }}>-</span>
+                )}
+              </td>
               <td>
                 {/* Aquí podrías agregar botones para editar o eliminar */}
                 <button

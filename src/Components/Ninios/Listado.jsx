@@ -260,7 +260,7 @@ const ListarNinios = () => {
         </button>
       </div>
 
-      <div className="chips-row" showDivision={false}>
+      <div className="chips-row">
         <button
           className={`chip ${groupFilter === null ? "active" : ""}`}
           onClick={() => setGroupFilter(null)}

@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../api";
 import { toast } from "react-toastify";
 import "./Perfil.css";
+import { MdGroups } from "react-icons/md";
+import { IoLocationOutline } from "react-icons/io5";
+import { AiOutlineMail } from "react-icons/ai";
 
 const Perfil = () => {
   const { id } = useParams();
@@ -191,29 +194,64 @@ const Perfil = () => {
           <main className="perfil-main">
             <div className="info-cards">
               <div className="info-card">
-                <h4>ASSIGNED DIVISION</h4>
+                <MdGroups
+                  style={{
+                    padding: "14px",
+                    margin: "10px",
+                    background: "beige",
+                    display: "inline-block",
+                    borderRadius: "8px",
+                    fontSize: "24px",
+                  }}
+                />{" "}
                 <div className="info-card-body">
+                  <h4>ASSIGNED DIVISION</h4>
+
                   <strong> {perfil.division || "-"}</strong>
                 </div>
               </div>
 
               <div className="info-card">
-                <h4>Recorrida</h4>
+                {" "}
+                <IoLocationOutline
+                  style={{
+                    padding: "14px",
+                    margin: "10px",
+                    background: "beige",
+                    display: "inline-block",
+                    borderRadius: "8px",
+                    fontSize: "24px",
+                  }}
+                />
                 <div className="info-card-body">
+                  <h4>Recorrida</h4>
+
                   <strong>{perfil.recorrida || perfil.route || "-"}</strong>
                   <div className="muted">{perfil.bus || ""}</div>
                 </div>
               </div>
 
               <div className="info-card">
-                <h4>Email</h4>
+                {" "}
+                <AiOutlineMail
+                  style={{
+                    padding: "14px",
+                    margin: "10px",
+                    background: "beige",
+                    display: "inline-block",
+                    borderRadius: "8px",
+                    fontSize: "24px",
+                  }}
+                />
                 <div className="info-card-body">
+                  <h4>Email</h4>
+
                   <strong>{perfil.email}</strong>
                 </div>
               </div>
             </div>
 
-            <section className="activity">
+            {/* <section className="activity">
               <div className="activity-header">
                 <h3>Activity History</h3>
                 <a className="link" href="#">
@@ -236,7 +274,7 @@ const Perfil = () => {
                   ))
                 )}
               </div>
-            </section>
+            </section> */}
           </main>
         </div>
       )}

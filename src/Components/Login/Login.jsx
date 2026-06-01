@@ -5,6 +5,7 @@ import api from "../../api";
 import toast from "react-hot-toast";
 import { loguear } from "../../features/animador.slice";
 import { useDispatch } from "react-redux";
+import { FaRegUser } from "react-icons/fa";
 
 const Login = () => {
   const naviagate = useNavigate();
@@ -144,6 +145,15 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <FaRegUser
+              styles={{
+                position: "absolute",
+                left: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                margin: "8px",
+              }}
+            />
           </div>
           {errors.email && (
             <p className="text-sm text-red-600">{errors.email}</p>
@@ -158,6 +168,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+
             <button
               type="button"
               className="eye-btn"
