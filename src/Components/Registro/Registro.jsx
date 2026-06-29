@@ -30,7 +30,6 @@ const Register = () => {
         nombre: data.nombre,
         apellido: data.apellido,
         apodo: data.apodo || "",
-        telefono: data.telefono || "",
         email: data.email,
         // edad: data.edad || null,
         fechaCumple: data.fechaCumple || "",
@@ -74,8 +73,12 @@ const Register = () => {
   };
 
   useEffect(() => {
-    document.body.classList.add("with-bg");
-    return () => document.body.classList.remove("with-bg");
+    document.body.classList.add("with-bg", "register-open");
+    document.documentElement.classList.add("register-open");
+    return () => {
+      document.body.classList.remove("with-bg", "register-open");
+      document.documentElement.classList.remove("register-open");
+    };
   }, []);
 
   return (
@@ -176,7 +179,8 @@ const Register = () => {
             </button>
             <div className="login-link">
               <Link to="/login" className="text-sm">
-                ¿Ya tienes cuenta? Iniciar sesión
+                ¿Ya tienes cuenta?{" "}
+                <span className="text-green-600">Iniciar sesión</span>
               </Link>
             </div>
           </div>

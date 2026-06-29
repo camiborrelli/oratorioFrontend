@@ -202,10 +202,11 @@ const Perfil = () => {
                     display: "inline-block",
                     borderRadius: "8px",
                     fontSize: "24px",
+                    color: "black",
                   }}
                 />{" "}
                 <div className="info-card-body">
-                  <h4>ASSIGNED DIVISION</h4>
+                  <h4>Division</h4>
 
                   <strong> {perfil.division || "-"}</strong>
                 </div>
@@ -221,6 +222,7 @@ const Perfil = () => {
                     display: "inline-block",
                     borderRadius: "8px",
                     fontSize: "24px",
+                    color: "black",
                   }}
                 />
                 <div className="info-card-body">
@@ -241,6 +243,7 @@ const Perfil = () => {
                     display: "inline-block",
                     borderRadius: "8px",
                     fontSize: "24px",
+                    color: "black",
                   }}
                 />
                 <div className="info-card-body">

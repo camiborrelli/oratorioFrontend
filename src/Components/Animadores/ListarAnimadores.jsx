@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import api from "../../api";
-import { listarAnimadores } from "../../features/animador.slice";
+import { asignarRol, listarAnimadores } from "../../features/animador.slice";
 import "../Ninios/Listado.css";
 import "./ListarAnimadores.css";
+import { toast } from "react-toastify";
 
 const ListarAnimadores = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const ListarAnimadores = () => {
   };
 
   const openPerfil = (anim) => {
-    navigate(`/animadores/perfil`, { state: { anim } });
+    navigate(`/animadores/perfil/${anim._id}`);
   };
 
   useEffect(() => {
@@ -80,6 +81,24 @@ const ListarAnimadores = () => {
         </div>
       </div>
     );
+
+  const asignarRol = async (anim) => {
+    try {
+      const res = await api.post(`/animador/${anim._id}/coordinador`, {});
+
+      if (res.status === 200) {
+        toast.success("Rol asignado correctamente");
+        fetchAnimadores();
+      }
+    } catch (err) {
+      console.error("Error asignando rol:", err);
+      toast.error("Error al asignar rol");
+
+      const msg = err?.response?.data?.message || "Error al asignar rol";
+      toast.error(msg);
+    }
+  };
+
   return (
     <div className="listado-root">
       <header className="listado-header">
@@ -150,6 +169,13 @@ const ListarAnimadores = () => {
                       "Sin división"}
                   </span>
                 </div>
+
+                <button
+                  className="btn-asign-role"
+                  onClick={() => asignarRol(anim)}
+                >
+                  Asignar Rol
+                </button>
               </div>
               <div className="card-arrow">›</div>
             </div>

@@ -1,6 +1,6 @@
 /* CrearEvento styles modeled after RegistroNinio */
 body.with-bg {
-  background: #f3f6f5; /* page-level soft grey */
+  /* background: #f3f6f5; page-level soft grey */
   min-height: 100dvh;
   padding: 24px 16px;
   font-family:

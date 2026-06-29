@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+toast-container {
+  font-size: 1.2em;
+  color: #fff;
+  background-color: #333;
+}

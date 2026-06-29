@@ -40,7 +40,7 @@ body.with-bg {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  /* padding: 24px; */
   /* background image served from public/img */
   background-image: url(/img/fondo1.jpg);
   background-position: center center;
@@ -159,6 +159,12 @@ body.with-bg {
   font-size: 14px;
 }
 
+.input-group input,
+.input-field {
+  color: #1f2937;
+  background-color: transparent;
+}
+
 .eye-btn {
   background: transparent;
   border: 0;
@@ -198,9 +204,23 @@ body.with-bg {
   opacity: 0.9;
 }
 
-.forgot-row {
+.btn-restore {
+  background: white;
+  color: var(--green-dark);
+  margin-top: 10px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
   text-align: right;
-  margin-bottom: 12px;
+  font-size: 13px;
+  margin-left: auto;
+}
+
+.btn-restore:hover {
+  background: white;
+  color: var(--green);
+  text-decoration: none;
 }
 
 .forgot-row a {

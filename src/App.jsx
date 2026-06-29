@@ -62,6 +62,7 @@ function InnerAppRoutes() {
             <Route path="/eventos" element={<ListarEventos />} />
             <Route path="/ninios/cumplen-mes" element={<CumplenMes />} />
             <Route path="/dashboard" element={<Listado />} />
+
             <Route path="/inicio" element={<Inicio />} />
             <Route
               path="/reunion"

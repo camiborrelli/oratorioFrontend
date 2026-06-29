@@ -13,6 +13,8 @@ const TablaNinios = ({ ninios }) => {
   const [ninioSeleccionado, setNinioSeleccionado] = useState(null);
   const [nuevaDivision, setNuevaDivision] = useState("");
   const [niniosList, setNiniosList] = useState(ninios || []);
+  const [mostrarModalConfirmacion, setMostrarModalConfirmacion] =
+    useState(false);
 
   useEffect(() => {
     setNiniosList(ninios || []);
@@ -27,19 +29,27 @@ const TablaNinios = ({ ninios }) => {
       const res = await api.put(`/ninios/cambiarDivision/${nin._id}`, {
         nuevaDivision: nuevaDiv,
       });
+      console.log(nuevaDiv);
       if (res.status === 200) {
+        const ninioActualizado = res.data.ninio; // usar el objeto del backend
         setNiniosList(
-          niniosList.map((n) =>
-            n._id === nin._id ? { ...n, division: nuevaDiv } : n,
-          ),
+          niniosList.map((n) => (n._id === nin._id ? ninioActualizado : n)),
         );
-        toast.success(`División de ${nin.nombre} actualizada a ${nuevaDiv}`);
+        toast.success(`División de ${nin.nombre} actualizada`);
         cerrarModal();
+
+        const dataNinios = await api.get("/ninios");
+        setNiniosList(dataNinios.data);
       }
     } catch (err) {
-      console.error("Error al cambiar división:", err);
-      toast.error("Error al cambiar división");
+      const msg = err?.response?.data?.message || "Error al cambiar división";
+      toast.error(msg);
     }
+  };
+
+  const confirmarEliminacion = async (id) => {
+    setMostrarModalConfirmacion(true);
+    setNinioSeleccionado(id);
   };
 
   const cerrarModal = () => {
@@ -95,7 +105,10 @@ const TablaNinios = ({ ninios }) => {
                 {/* Aquí podrías agregar botones para editar o eliminar */}
                 <button
                   className="btn btn-sm btn-primary"
-                  onClick={() => navigate("/ninios/edit", { state: { nin } })}
+                  onClick={() => {
+                    sessionStorage.setItem("editarNinio", JSON.stringify(nin));
+                    navigate("/ninios/edit", { state: { nin } });
+                  }}
                 >
                   Editar
                 </button>
@@ -108,7 +121,12 @@ const TablaNinios = ({ ninios }) => {
                 >
                   Cambiar División
                 </button>
-                <button className="btn btn-sm btn-danger">Eliminar</button>
+                <button
+                  className="btn btn-sm btn-danger"
+                  onClick={() => confirmarEliminacion(nin._id)}
+                >
+                  Eliminar
+                </button>
               </td>
             </tr>
           ))}
@@ -156,6 +174,54 @@ const TablaNinios = ({ ninios }) => {
                 onClick={() =>
                   cambiarDivision(ninioSeleccionado, nuevaDivision)
                 }
+              >
+                Confirmar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarModalConfirmacion && (
+        <div className="modal" onClick={() => mostrarModalConfirmacion(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Confirmar Eliminación</h2>
+            </div>
+            <div className="modal-body">
+              <p>
+                ¿Estás seguro de que deseas eliminar a{" "}
+                {niniosList.find((n) => n._id === ninioSeleccionado)?.nombre ||
+                  "este niño"}
+                ?
+              </p>
+            </div>
+            <div className="btn-actions">
+              <button
+                type="button"
+                className="btn-cancelar"
+                onClick={() => setMostrarModalConfirmacion(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="btn-confirmar"
+                onClick={async () => {
+                  try {
+                    await api.delete(`/ninios/${ninioSeleccionado}`);
+                    setNiniosList(
+                      niniosList.filter((n) => n._id !== ninioSeleccionado),
+                    );
+                    toast.success("Niño eliminado correctamente");
+                  } catch (err) {
+                    const msg =
+                      err?.response?.data?.message || "Error al eliminar niño";
+                    toast.error(msg);
+                  } finally {
+                    setMostrarModalConfirmacion(false);
+                  }
+                }}
               >
                 Confirmar
               </button>

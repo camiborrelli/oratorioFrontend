@@ -267,6 +267,7 @@
   .perfil-name {
     font-size: 22px;
     color: white;
+    font-weight: 700;
   }
   .contact-row {
     flex-direction: column;

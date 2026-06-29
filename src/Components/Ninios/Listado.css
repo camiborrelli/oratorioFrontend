@@ -6,11 +6,17 @@ body {
 .listado-root {
   background-color: #f5f6f7;
   min-height: 100vh;
-  padding: 16px;
-  max-width: 1200px; /* Centrado y legible en PC */
+  padding: 20px;
+  max-width: 1400px; /* aumentar ancho para alinear acciones */
   margin: 0 auto;
   background-color: #f5f6f7; /* Fondo gris suave para destacar las cards */
   border-radius: 8px; /* Bordes redondeados */
+}
+
+@media (min-width: 900px) {
+  .listado-root {
+    padding-right: 120px;
+  }
 }
 
 h1 {
@@ -69,10 +75,10 @@ h1 {
 }
 
 .chip {
-  padding: 8px 12px;
+  /* padding: 8px 12px; */
   border: none;
   background-color: #e2e2e2; /* Fondo gris claro */
-  border-radius: 20px;
+  /* border-radius: 10px; */
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -86,6 +92,12 @@ h1 {
   color: white;
 }
 
+.results-count {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: left;
+}
 .cards {
   display: grid;
   grid-template-columns: repeat(
@@ -148,8 +160,8 @@ h1 {
 .pill.small {
   background: #eaf6ec;
   color: #0f7a50;
-  padding: 4px 8px;
-  border-radius: 999px;
+  padding: 2px;
+  border-radius: 10px;
   font-size: 12px;
   font-weight: 600;
 }
@@ -259,6 +271,10 @@ h1 {
     margin-top: 10px; /* Añadir margen superior */
     width: 100%;
     max-width: 100%;
+  }
+
+  .results-count {
+    text-align: center; /* Centrar el texto en pantallas pequeñas */
   }
 }
 

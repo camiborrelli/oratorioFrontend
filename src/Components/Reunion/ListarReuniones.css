@@ -279,6 +279,10 @@
   color: #fff;
   border: none;
 }
+
+.btn-primary {
+  margin-bottom: 12px;
+}
 .reunion-modal-box .btn-secondary {
   background: #f1f5f9;
   color: #0f172a;

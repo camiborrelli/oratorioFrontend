@@ -6,33 +6,18 @@ import AgregarReunionModal from "./AgregarReunionModal";
 import toast from "react-hot-toast";
 import { set } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
+import dayjs from "dayjs";
+import "dayjs/locale/es"; // para español
+dayjs.locale("es");
 
-function fmtDateParts(iso) {
-  try {
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return { month: "", day: "", weekday: "" };
-    const months = [
-      "enero",
-      "febrero",
-      "marzo",
-      "abril",
-      "mayo",
-      "junio",
-      "julio",
-      "agosto",
-      "septiembre",
-      "octubre",
-      "noviembre",
-      "diciembre",
-    ];
-    const month = months[d.getMonth()] || "";
-    const day = d.getDate();
-    const weekday = d.toLocaleDateString("es-ES", { weekday: "long" });
-    return { month, day, weekday };
-  } catch (e) {
-    return { month: "", day: "", weekday: "" };
-  }
-}
+const fmtDateParts = (dateStr) => {
+  const d = dayjs(dateStr, "YYYY-MM-DD"); // parsea como fecha local
+  return {
+    month: d.format("MMM"), // ej: "jun"
+    day: d.format("DD"), // ej: "07"
+    weekday: d.locale("es").format("dddd"), // ej: "domingo"
+  };
+};
 
 const ListarReuniones = () => {
   const [reuniones, setReuniones] = useState([]);
@@ -43,6 +28,11 @@ const ListarReuniones = () => {
   const [editFecha, setEditFecha] = useState("");
   const [editDescripcion, setEditDescripcion] = useState("");
   const [editLoading, setEditLoading] = useState(false);
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "—";
+    return dayjs(dateStr, "YYYY-MM-DD").format("DD/MM/YYYY");
+  };
 
   const listarReuniones = async () => {
     setLoading(true);
@@ -76,7 +66,14 @@ const ListarReuniones = () => {
       }
     } catch (err) {
       console.error("Error updating reunion", err);
+      toast.error(
+        "Error al actualizar la reunión:" +
+          (err?.response?.data?.message || err.message),
+      );
     }
+
+    setModal({ open: false, data: null });
+    listarReuniones();
   };
 
   const openEditModal = (reunion) => {
@@ -93,6 +90,8 @@ const ListarReuniones = () => {
   useEffect(() => {
     listarReuniones().catch(() => {});
   }, []);
+
+  const cerrarModal = () => setModal({ open: false, data: null });
 
   return (
     <div className="reuniones-root">
@@ -123,15 +122,14 @@ const ListarReuniones = () => {
 
         {reuniones.map((r) => {
           const id = r._id || r.id;
-          const fecha = r.fecha || r.createdAt || new Date();
-          const { month, day, weekday } = fmtDateParts(fecha);
+          const { month, day, weekday } = fmtDateParts(r.fecha);
 
           return (
             <article className="reunion-card" key={id}>
               {/* Bloque de fecha superior */}
               <div className="date-badge-container">
                 <span className="month">{month}</span>
-                <span className="day">{day}</span>
+                <span className="day">{day} </span>
                 <span className="weekday">{weekday}</span>
               </div>
 
@@ -158,8 +156,8 @@ const ListarReuniones = () => {
         })}
       </div>
 
-      {modal && (
-        <div className="modal" onClick={() => setModal(false)}>
+      {modal.open && (
+        <div className="modal" onClick={() => cerrarModal()}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Editar reunión</h2>
@@ -168,29 +166,35 @@ const ListarReuniones = () => {
               <input
                 type="text"
                 placeholder="Título de la reunion"
-                value={modal.data?.titulo}
+                value={editTitulo}
                 onChange={(e) => setEditTitulo(e.target.value)}
               />
               <input
-                type="date"
+                type="date" // mejor usar "date" si solo necesitas día
                 placeholder="Fecha"
-                value={modal.data?.fecha}
+                value={editFecha}
                 onChange={(e) => setEditFecha(e.target.value)}
               />
               <textarea
                 placeholder="Descripción"
-                value={modal.data?.descripcion}
+                value={editDescripcion}
                 onChange={(e) => setEditDescripcion(e.target.value)}
               ></textarea>
               <button
                 className="btn btn-primary"
-                onClick={() => setModal({ open: false, data: null })}
+                onClick={() =>
+                  actualizarReunion(modal.data._id, {
+                    titulo: editTitulo,
+                    fecha: editFecha,
+                    descripcion: editDescripcion,
+                  })
+                }
               >
                 Guardar cambios
               </button>
               <button
                 className="btn btn-secondary"
-                onClick={() => setModal({ open: false, data: null })}
+                onClick={() => cerrarModal()}
               >
                 Cancelar
               </button>

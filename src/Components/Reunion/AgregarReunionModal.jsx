@@ -1,51 +1,56 @@
 import "./ListarReuniones.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "../../api";
+import toast from "react-hot-toast";
 
 const AgregarReunionModal = ({ onClose, onCreated } = {}) => {
-  const [titulo, setTitulo] = useState("");
+  const [titulo, setTitulo] = useState("Reunión de animadores");
   const [fechaLocal, setFechaLocal] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    // set default local datetime for the input (YYYY-MM-DDTHH:MM)
-    const pad = (n) => String(n).padStart(2, "0");
-    const now = new Date();
-    const localDatetime =
-      now.getFullYear() +
-      "-" +
-      pad(now.getMonth() + 1) +
-      "-" +
-      pad(now.getDate()) +
-      "T" +
-      pad(now.getHours()) +
-      ":" +
-      pad(now.getMinutes());
-    setFechaLocal(localDatetime);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // The registration time should be the server/client current time.
-      // We set `fecha` to the current instant in ISO format regardless of the input.
       const payload = {
         titulo: titulo || "Nueva reunión de animadores",
-        fecha: new Date().toISOString(),
+        fecha: fechaLocal, // siempre "YYYY-MM-DD"
         descripcion: descripcion || "",
       };
 
+      if (!payload.fecha) {
+        toast.error("La fecha es obligatoria");
+        setLoading(false);
+        return;
+      }
+      if (!payload.titulo) {
+        toast.error("El título es obligatorio");
+        setLoading(false);
+        return;
+      }
+      if (!payload.descripcion) {
+        toast.error("La descripción es obligatoria");
+        setLoading(false);
+        return;
+      }
+
       const res = await api.post("/reunion", payload);
+      console.log(payload);
       let created = res?.data;
       if (created && created.data) created = created.data;
+      toast.success("Reunión registrada con éxito");
+
       if (Array.isArray(created) && created.length > 0) created = created[0];
       if (!created || typeof created !== "object") created = payload;
 
       if (typeof onCreated === "function") onCreated(created);
       if (typeof onClose === "function") onClose();
     } catch (err) {
+      toast.error(
+        "Error al registrar la reunión:" +
+          (err?.response?.data?.message || err.message),
+      );
       console.error("Error creating reunion:", err);
     } finally {
       setLoading(false);
@@ -72,7 +77,7 @@ const AgregarReunionModal = ({ onClose, onCreated } = {}) => {
           <input
             type="datetime-local"
             name="fecha"
-            placeholder="Fecha y hora"
+            placeholder="Fecha de la reunión"
             value={fechaLocal}
             onChange={(e) => setFechaLocal(e.target.value)}
           />

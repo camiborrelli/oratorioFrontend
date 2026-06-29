@@ -6,13 +6,36 @@
 
 /* Background image is applied via the `with-bg` class on <body> (used by Login/Register) */
 
-.register-page {
+body.with-bg {
+  background-image: url(/img/fondo1.jpg);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
   min-height: 100vh;
+}
+
+body.with-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.06));
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.register-page {
+  position: relative;
+  z-index: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  box-sizing: border-box;
+  min-height: 100vh;
+  /* width: 100%; */
+  /* padding: 24px; */
+  /* margin-top: 450px; */
 }
 
 .register-card {
@@ -21,12 +44,12 @@
   background: #ffffff;
   border-radius: 12px;
   padding: 22px 20px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.185);
   border: 1px solid var(--border);
   animation: fadeIn 0.28s ease-in-out;
-  text-align: center;
+  position: relative;
+  z-index: 2;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -54,12 +77,17 @@
   background: #fbfcfb;
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 10px 1px;
+  padding: 10px 10px;
   margin-bottom: 12px;
   font-size: 14px;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
+}
+
+.register-form input::placeholder {
+  color: #555855;
+  margin-left: 40px;
 }
 
 .register-form input:focus,
@@ -70,6 +98,21 @@
 }
 
 button[type="submit"] {
+  background: var(--green);
+  color: #fff;
+  padding: 12px;
+  margin-right: 10px;
+  border-radius: 8px;
+  border: 0;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 15px 18px rgba(92, 204, 84, 0.12);
+  transition:
+    background 0.6s,
+    transform 0.1s;
+}
+
+/* button[type="submit"] {
   background: var(--green);
   color: #fff;
   padding: 12px;
@@ -90,7 +133,7 @@ button[type="submit"]:hover:not(:disabled) {
 button[type="submit"]:disabled {
   background: #ccc;
   cursor: not-allowed;
-}
+} */
 
 .error {
   color: #b00020; /* strong red for errors */
@@ -107,13 +150,13 @@ button[type="submit"]:disabled {
 }
 
 .login-link a {
-  color: #2f8a59; /* adjusted to requested muted gray */
+  color: #2e2e2e; /* adjusted to requested muted gray */
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
 }
 
-.login-link a:hover {
+.login-link span {
   color: var(--green);
 }
 
@@ -126,4 +169,10 @@ button[type="submit"]:disabled {
     max-width: 92%;
     box-sizing: border-box;
   }
+}
+
+html.register-open,
+body.register-open {
+  height: 100%;
+  overflow: hidden;
 }

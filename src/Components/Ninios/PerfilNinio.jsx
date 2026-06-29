@@ -351,16 +351,6 @@ const PerfilNinio = () => {
             Editar contactos
           </button> */}
         </div>
-
-        <div className="card">
-          <h3>Asistencia</h3>
-          <div className="row">
-            <span>Faltas registradas</span>
-            <span>{faltas ?? "-"}</span>
-          </div>
-        </div>
-
-        {nin.alerta && <div className="alerta-box">{nin.alerta}</div>}
       </div>
       <div className="perfil-actions">
         <button

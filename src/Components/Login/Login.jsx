@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { loguear } from "../../features/animador.slice";
 import { useDispatch } from "react-redux";
 import { FaRegUser } from "react-icons/fa";
+import CambiarContrasenia from "../Animadores/CambiarContrasenia";
 
 const Login = () => {
   const naviagate = useNavigate();
@@ -14,8 +15,8 @@ const Login = () => {
   const [showPwd, setShowPwd] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [errors, setErrors] = useState({});
+  const [showCambiarContrasenia, setShowCambiarContrasenia] = useState(false);
 
   useEffect(() => {
     document.body.classList.add("with-bg", "login-open");
@@ -41,12 +42,12 @@ const Login = () => {
     e.preventDefault();
     setErrors({});
     if (!email) {
-      setErrors({ email: "El email es obligatorio" });
+      toast.error("El email es obligatorio");
       // toast.error("El email es obligatorio");
       return;
     }
     if (!password) {
-      setErrors({ password: "La contraseña es obligatoria" });
+      toast.error("La contraseña es obligatoria");
       // toast.error("La contraseña es obligatoria");
       return;
     }
@@ -99,7 +100,7 @@ const Login = () => {
         err?.response?.data?.errors &&
         typeof err.response.data.errors === "object"
       ) {
-        setErrors(err.response.data.errors);
+        toast.error(err.response.data.errors);
       }
       toast.error(msg);
     }
@@ -233,9 +234,13 @@ const Login = () => {
             <p className="text-sm text-red-600">{errors.password}</p>
           )}
 
-          <div className="forgot-row text-sm text-slate-600">
-            <Link to="/forgot">¿Olvidaste tu contraseña?</Link>
-          </div>
+          <button
+            type="button"
+            className="btn-restore"
+            onClick={() => setShowCambiarContrasenia(true)}
+          >
+            ¿Olvidaste tu contraseña?
+          </button>
 
           <button
             className="primary-btn w-full bg-green-600 text-white py-2 rounded-md"
@@ -251,6 +256,12 @@ const Login = () => {
             Registrarse
           </Link>
         </div>
+
+        <CambiarContrasenia
+          isOpen={showCambiarContrasenia}
+          onClose={() => setShowCambiarContrasenia(false)}
+          desdePerfil={false}
+        />
       </div>
     </div>
   );

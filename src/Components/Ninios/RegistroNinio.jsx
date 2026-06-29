@@ -236,25 +236,13 @@ const RegistroNinio = () => {
                 <span className="error">{errors.nombre.message}</span>
               )}
             </div>
-
             <div className="form-group">
-              <label>
-                Apellido
-                <span className="required-badge" aria-hidden="true">
-                  OBLIGATORIO
-                </span>
-              </label>
-              <input
-                type="text"
-                {...register("apellido", {
-                  required: "El apellido es obligatorio",
-                })}
-              />
+              <label>Apellido</label>
+              <input type="text" {...register("apellido")} />
               {errors.apellido && (
                 <span className="error">{errors.apellido.message}</span>
               )}
             </div>
-
             <div className="form-group">
               <label>Fecha de nacimiento</label>
               <input
@@ -262,7 +250,6 @@ const RegistroNinio = () => {
                 {...register("fechaNacimiento", { required: false })}
               />
             </div>
-
             <div className="form-group">
               <label htmlFor="">
                 Edad
@@ -281,7 +268,6 @@ const RegistroNinio = () => {
                 <span className="error">{errors.edad.message}</span>
               )}
             </div>
-
             <div className="form-group">
               <label>
                 División
@@ -317,7 +303,6 @@ const RegistroNinio = () => {
                 <span className="error">{errors.division.message}</span>
               )}
             </div>
-
             <div className="form-group">
               <label>
                 Recorrida
@@ -353,7 +338,6 @@ const RegistroNinio = () => {
                 <span className="error">{errors.recorrida.message}</span>
               )}
             </div>
-
             <div className="form-group">
               <label>Direccion</label>
               <input
@@ -366,11 +350,7 @@ const RegistroNinio = () => {
                 <span className="error">{errors.direccion.message}</span>
               )}
             </div>
-
-            <div className="form-group">
-              <label>Foto URL</label>
-              <input type="text" {...register("foto", { required: false })} />
-            </div>
+            +
           </div>
 
           <div className="form-group full">

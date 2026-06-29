@@ -5,6 +5,9 @@ import { desloguear } from "../../features/animador.slice";
 import "./BottomNav.css";
 import "../../App.css";
 import ListarAnimadores from "../Animadores/ListarAnimadores";
+import { IoHomeOutline } from "react-icons/io5";
+import { RxPeople } from "react-icons/rx";
+import { LuMessageCircleMore } from "react-icons/lu";
 
 const BottomNav = () => {
   const [open, setOpen] = useState(false);
@@ -78,28 +81,7 @@ const BottomNav = () => {
           }
         >
           <span className="icon" aria-hidden>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3 11.5L12 4l9 7.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M5 11.5v7a1 1 0 001 1h3v-5h6v-5h3a1 1 0 001-1v-7"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <IoHomeOutline style={{ width: "20px", height: "20px" }} />
           </span>
           <span className="label">Inicio</span>
         </NavLink>
@@ -151,28 +133,7 @@ const BottomNav = () => {
           }
         >
           <span className="icon" aria-hidden>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M16 11.5a2 2 0 11-4 0 2 2 0 014 0zM8 11.5a2 2 0 11-4 0 2 2 0 014 0z"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 20c1.8-3 5-5 8-5s6.2 2 8 5"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <RxPeople style={{ width: "20px", height: "20px" }} />
           </span>
           <span className="label">Animadores</span>
         </NavLink>
@@ -184,21 +145,7 @@ const BottomNav = () => {
           }
         >
           <span className="icon" aria-hidden>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 20c4.97 0 9.19-3.11 11-8-1.03-2.53-2.7-4.63-4.7-6.01M12 20c-4.97 0-9.19-3.11-11-8 1.03-2.53 2.7-4.63 4.7-6.01M12 20v-5m0 0l3 3m-3-3l-3 3"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <LuMessageCircleMore style={{ width: "20px", height: "20px" }} />
           </span>
           <span className="label">Reunión</span>
         </NavLink>
