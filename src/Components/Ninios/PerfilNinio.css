@@ -63,15 +63,16 @@
 
 /* NOMBRE */
 
-.perfil-name {
+.nombre {
   margin-top: 20px;
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  color: white;
+  color: rgba(255, 255, 255, 0.785);
+  margin-bottom: 20px;
 }
 
 .perfil-pill {

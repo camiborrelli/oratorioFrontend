@@ -6,6 +6,9 @@ import api from "../../api";
 import { toast } from "react-toastify";
 import { set } from "react-hook-form";
 import { useEffect } from "react";
+import { FaEdit } from "react-icons/fa";
+import { MdOutlinePublishedWithChanges } from "react-icons/md";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const TablaNinios = ({ ninios }) => {
   const navigate = useNavigate();
@@ -110,7 +113,7 @@ const TablaNinios = ({ ninios }) => {
                     navigate("/ninios/edit", { state: { nin } });
                   }}
                 >
-                  Editar
+                  <FaEdit />
                 </button>
                 <button
                   className="btn btn-sm btn-change"
@@ -119,13 +122,13 @@ const TablaNinios = ({ ninios }) => {
                     setModal(true);
                   }}
                 >
-                  Cambiar División
+                  <MdOutlinePublishedWithChanges />
                 </button>
                 <button
                   className="btn btn-sm btn-danger"
                   onClick={() => confirmarEliminacion(nin._id)}
                 >
-                  Eliminar
+                  <TiDeleteOutline />
                 </button>
               </td>
             </tr>

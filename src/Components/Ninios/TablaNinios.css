@@ -115,6 +115,8 @@
 .roja,
 .naranja,
 .amarilla,
+.sin,
+.Sin,
 .amarillo {
   display: inline-flex;
   align-items: center;
@@ -152,6 +154,13 @@
   background: rgba(250, 204, 21, 0.14);
   color: #a16207;
   border-color: rgba(250, 204, 21, 0.2);
+}
+
+.sin,
+.Sin {
+  background: rgba(107, 114, 128, 0.08);
+  color: #3f4b5c;
+  border-color: rgba(107, 114, 128, 0.18);
 }
 
 /* =========================

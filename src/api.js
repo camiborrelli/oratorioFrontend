@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Use environment variable for backend URL (dev: http://localhost:5000, prod: Vercel backend)
-const BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const BASE = "https://oratoriocordon.onrender.com" || "http://localhost:5000";
 
 const api = axios.create({
   baseURL: BASE,

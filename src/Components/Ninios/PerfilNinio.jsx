@@ -214,10 +214,7 @@ const PerfilNinio = () => {
             alt={nin.nombre || "Foto del niño"}
           />
         </div>
-        <div className="perfil-name">
-          {nin.nombre || "Nombre no disponible"}
-          <div className="perfil-pill">{nin.division || nin.grupo || "-"}</div>
-        </div>
+        <div className="nombre">{nin.nombre || "Nombre no disponible"}</div>
       </div>
 
       <div className="perfil-sections perfil-content">
