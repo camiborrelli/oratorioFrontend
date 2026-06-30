@@ -100,7 +100,7 @@ const Login = () => {
         err?.response?.data?.errors &&
         typeof err.response.data.errors === "object"
       ) {
-        toast.error(err.response.data.errors);
+        console.error("Field errors:", err.response.data.errors);
       }
       toast.error(msg);
     }
