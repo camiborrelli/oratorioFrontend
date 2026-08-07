@@ -98,9 +98,9 @@ const ListarNinios = () => {
   return (
     <div className="listado-root">
       <header className="listado-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>
+        {/* <button className="back-btn" onClick={() => navigate(-1)}>
           ‹
-        </button>
+        </button> */}
         <h1>Gurises</h1>
       </header>
       <div className="search-row">

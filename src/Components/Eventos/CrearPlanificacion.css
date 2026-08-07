@@ -1,64 +1,45 @@
-/* CrearEvento styles modeled after RegistroNinio */
-body.with-bg {
-  position: relative;
-  min-height: 100dvh;
-}
+/* CrearPlanificacion styles modeled after CrearEvento/RegistroNinio */
 
-/* Capa de fondo, detrás de todo */
-body.with-bg::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("/ruta/a/la/imagen.jpg");
-  background-size: cover;
-  background-position: center;
-  filter: blur(6px);
-  transform: scale(1.05); /* evita ver el borde nítido que deja el blur */
-  z-index: -1;
-}
-
-/* El modal queda en su propia capa, sin blur */
-.crear-evento-container {
-  position: relative;
-  z-index: 1;
-  /* el resto de tus estilos actuales */
-}
-
-.crear-evento-container {
+.modal-crear-planificacion {
   width: 90%;
   max-width: 880px;
-  margin: 8px auto;
+  margin: 24px auto;
   background: #ffffff; /* white card */
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 8px 30px rgba(11, 22, 16, 0.06);
   border: 1px solid rgba(15, 122, 80, 0.06);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
+  background-image: url("/ruta/a/la/imagen.jpg");
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.05); /* evita ver el borde nítido que deja el blur */
+  z-index: -1;
 }
 
-.crear-evento-container h1 {
+.modal-crear-planificacion h1 {
   margin: 0 0 16px 0;
   font-size: 20px;
   text-align: center;
   color: #0f7a50; /* green heading */
 }
 
-.crear-evento-form {
+.crear-planificacion-form {
   display: grid;
   gap: 12px;
 }
 
-.crear-evento-form .grid {
+.crear-planificacion-form .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
-@media (min-width: 720px) {
-  .crear-evento-form .grid {
-    grid-template-columns: 1fr 1fr;
-  }
+
+.crear-planificacion-form label {
+  display: flex;
+  flex-direction: column;
 }
 
 .field {
@@ -68,40 +49,40 @@ body.with-bg::before {
   padding: 12px;
   border-radius: 12px;
   gap: 8px;
+  font-weight: 600;
+  color: #374151;
 }
+
+.field-label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .field.full {
   grid-column: 1 / -1;
 }
 
-.label-text {
-  font-weight: 600;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.crear-evento-form input,
-.crear-evento-form textarea,
-.crear-evento-form select {
+.crear-planificacion-form input,
+.crear-planificacion-form select {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid #e6e6e6;
   background: #ffffff; /* white input inside panel */
   font-size: 14px;
+  font-weight: 400;
   color: #0f7a50; /* green text tone */
 }
 
-.crear-evento-form input::placeholder,
-.crear-evento-form textarea::placeholder,
-.crear-evento-form select::placeholder {
+.crear-planificacion-form input::placeholder,
+.crear-planificacion-form select::placeholder {
   color: #94c4a8;
   opacity: 1;
 }
 
-.crear-evento-form input:focus,
-.crear-evento-form textarea:focus,
-.crear-evento-form select:focus {
+.crear-planificacion-form input:focus,
+.crear-planificacion-form select:focus {
   border-color: rgba(15, 122, 80, 0.35);
   box-shadow: 0 8px 20px rgba(15, 122, 80, 0.06);
   outline: none;
@@ -120,13 +101,17 @@ body.with-bg::before {
   min-height: 44px;
 }
 
+.btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 .btn-primary {
   background: #0f7a50;
   color: #fff;
-  padding: 10px 16px;
-  border-radius: 10px;
   border: none;
-  cursor: pointer;
 }
 .btn-primary:disabled {
   opacity: 0.6;
@@ -138,13 +123,15 @@ body.with-bg::before {
   border: 1px solid #d1d5db;
   padding: 8px 12px;
   border-radius: 8px;
-  cursor: pointer;
 }
 
 @media (max-width: 640px) {
-  .crear-evento-container {
+  .modal-crear-planificacion {
     padding: 12px;
     margin: 8px;
+  }
+  .crear-planificacion-form .grid {
+    grid-template-columns: 1fr;
   }
   .form-actions {
     justify-content: stretch;
@@ -160,4 +147,5 @@ body.with-bg::before {
   font-size: 11px;
   font-weight: 700;
   border: 1px solid rgba(15, 122, 80, 0.12);
+  margin-left: 6px;
 }

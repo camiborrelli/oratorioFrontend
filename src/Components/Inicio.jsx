@@ -6,6 +6,7 @@ import api, { fetchCount, fetchList } from "../api";
 import "./Inicio.compact.css";
 import ListarEventos from "./Eventos/ListarEventos";
 import CumplenMes from "./Ninios/CumplenMes";
+import ListarRecordatorios from "./Eventos/ListarRecordatorios";
 
 const Inicio = () => {
   const navigate = useNavigate();
@@ -244,6 +245,7 @@ const Inicio = () => {
       </div>
       <div style={{ marginTop: "40px" }}>
         <ListarEventos />
+        <ListarRecordatorios />
         <div style={{ marginTop: "24px" }}>
           <CumplenMes />
         </div>

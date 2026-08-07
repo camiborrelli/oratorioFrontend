@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import api from "../../api";
-import { asignarRol, listarAnimadores } from "../../features/animador.slice";
-import "../Ninios/Listado.css";
-import "./ListarAnimadores.css";
 import { toast } from "react-toastify";
+import api from "../../api";
+import { listarAnimadores } from "../../features/animador.slice";
+// import "../Ninios/Listado.css";
+import "./ListarAnimadores.css";
 
 const ListarAnimadores = () => {
   const dispatch = useDispatch();
@@ -15,9 +15,24 @@ const ListarAnimadores = () => {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState("");
   const [groupFilter, setGroupFilter] = useState(null);
-  const [selected, setSelected] = useState(null);
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    const storedUsuario = localStorage.getItem("Usuario");
+    if (storedUsuario) {
+      setUsuario(JSON.parse(storedUsuario));
+      console.log(
+        "Usuario cargado desde localStorage:",
+        JSON.parse(storedUsuario),
+      );
+    }
+  }, []);
+
+  const isCoordinador = usuario?.roles?.includes("coordinador");
+  const isAdmin = usuario?.roles?.includes("admin");
 
   const API_BASE = api.defaults?.baseURL || import.meta.env.VITE_API_URL || "";
+  const FALLBACK_IMG = "/img/image.png";
 
   const fetchAnimadores = () => {
     setLoading(true);
@@ -36,10 +51,6 @@ const ListarAnimadores = () => {
       .finally(() => setLoading(false));
   };
 
-  const openPerfil = (anim) => {
-    navigate(`/animadores/perfil/${anim._id}`);
-  };
-
   useEffect(() => {
     fetchAnimadores();
   }, []);
@@ -55,34 +66,24 @@ const ListarAnimadores = () => {
     return matchesQuery && matchesGroup;
   });
 
-  const FALLBACK_IMG = "/img/image.png";
   const buildFotoSrc = (foto) => {
     if (!foto) return FALLBACK_IMG;
     if (
       typeof foto === "string" &&
       (foto.startsWith("http") || foto.startsWith("data:"))
-    )
+    ) {
       return foto;
+    }
     return `${API_BASE}${String(foto).startsWith("/") ? "" : "/"}${foto}`;
   };
 
-  const closePerfil = () => setSelected(null);
+  const openPerfil = (anim) => {
+    navigate(`/animadores/perfil/${anim._id}`);
+  };
 
-  if (loading) return <div className="animadores-container">Cargando...</div>;
-  if (error)
-    return (
-      <div className="animadores-container">
-        <div className="animadores-card">
-          <h3>Error al cargar animadores</h3>
-          <p>{String(error)}</p>
-          <button className="btn-refresh" onClick={fetchAnimadores}>
-            Reintentar
-          </button>
-        </div>
-      </div>
-    );
+  const handleAsignarRol = async (event, anim) => {
+    event.stopPropagation();
 
-  const asignarRol = async (anim) => {
     try {
       const res = await api.post(`/animador/${anim._id}/coordinador`, {});
 
@@ -92,29 +93,57 @@ const ListarAnimadores = () => {
       }
     } catch (err) {
       console.error("Error asignando rol:", err);
-      toast.error("Error al asignar rol");
-
       const msg = err?.response?.data?.message || "Error al asignar rol";
       toast.error(msg);
     }
   };
 
+  const handleQuitarRol = async (event, anim) => {
+    event.stopPropagation();
+
+    try {
+      const res = await api.delete(`/animador/${anim._id}/animador`, {});
+
+      if (res.status === 200) {
+        toast.success("Rol quitado correctamente");
+        fetchAnimadores();
+      }
+    } catch (err) {
+      console.error("Error quitando rol:", err);
+      const msg = err?.response?.data?.message || "Error al quitar rol";
+      toast.error(msg);
+    }
+  };
+
+  if (loading) return <div className="listado-root">Cargando...</div>;
+
+  if (error) {
+    return (
+      <div className="listado-root animadores-listado">
+        <div className="card">
+          <h3>Error al cargar animadores</h3>
+          <p>{String(error)}</p>
+          <button className="add-btn" onClick={fetchAnimadores}>
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="listado-root">
+    <div className="listado-root animadores-listado">
       <header className="listado-header">
-        <button className="back-btn" onClick={() => navigate(-1)}>
-          <span role="img" aria-label="atrás">
-            ‹
-          </span>
-        </button>
+        {/* <button className="back-btn" onClick={() => navigate(-1)}>
+          {"<"}
+        </button> */}
         <h1>Animadores</h1>
-        {/* Eliminamos el botón "Agregar" del header porque usaremos el FAB flotante en móvil */}
       </header>
 
       <div className="search-row">
         <input
           className="search-input"
-          placeholder="🔍 Buscar por nombre..."
+          placeholder="Buscar por nombre..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -127,6 +156,7 @@ const ListarAnimadores = () => {
         >
           Todos
         </button>
+
         {groups.map((g) => (
           <button
             key={g}
@@ -138,52 +168,73 @@ const ListarAnimadores = () => {
         ))}
       </div>
 
+      <p className="results-count">
+        Mostrando {filtered.length} de {animadores.length}
+      </p>
+
       <div className="cards">
-        {filtered.length > 0 ? (
+        {filtered.length === 0 ? (
+          <div className="animadores-empty">No se encontraron resultados</div>
+        ) : (
           filtered.map((anim, idx) => (
             <div
               key={anim._id || anim.id || idx}
               className="card"
               onClick={() => openPerfil(anim)}
             >
-              <img
-                className="avatar"
-                src={buildFotoSrc(anim.foto) || FALLBACK_IMG}
-                alt={anim.nombre || "avatar"}
-                loading="lazy"
-                onError={(e) => {
-                  // prevent infinite onError loop if fallback also fails
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = FALLBACK_IMG;
-                }}
-              />
-              <div className="card-body">
+              <div className="card-left">
+                <img
+                  className="avatar avatar-circle"
+                  src={buildFotoSrc(anim.foto)}
+                  alt={anim.nombre || "avatar"}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = FALLBACK_IMG;
+                  }}
+                />
+              </div>
+
+              <div className="card-main">
                 <div className="card-title">
                   {anim.nombre || anim.name || "Sin nombre"}
                 </div>
-                <div className="card-sub">
-                  <span className="pill">
+                <div className="badges-row">
+                  <span className="pill small">
                     {anim.division ||
                       anim.grupo ||
                       anim.seccion ||
-                      "Sin división"}
+                      "Sin division"}
+                  </span>
+                </div>
+                <div className="badges-row">
+                  <span className="pill small">
+                    {anim.roles || anim.rol || "Animador"}
                   </span>
                 </div>
 
+                {isAdmin && anim.roles?.includes("coordinador") && (
+                  <button
+                    className="btn-asign-role"
+                    onClick={(event) => handleQuitarRol(event, anim)}
+                  >
+                    Quitar Rol
+                  </button>
+                )}
+
                 <button
                   className="btn-asign-role"
-                  onClick={() => asignarRol(anim)}
+                  onClick={(event) => handleAsignarRol(event, anim)}
                 >
                   Asignar Rol
                 </button>
               </div>
-              <div className="card-arrow">›</div>
+
+              <div className="card-right">
+                <div className="card-arrow">{" >"}</div>
+              </div>
             </div>
           ))
-        ) : (
-          <div style={{ textAlign: "center", marginTop: 40, color: "#64748b" }}>
-            No se encontraron resultados
-          </div>
         )}
       </div>
     </div>

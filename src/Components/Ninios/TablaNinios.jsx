@@ -113,7 +113,7 @@ const TablaNinios = ({ ninios }) => {
                     navigate("/ninios/edit", { state: { nin } });
                   }}
                 >
-                  <FaEdit />
+                  <FaEdit title="Editar" />
                 </button>
                 <button
                   className="btn btn-sm btn-change"
@@ -122,13 +122,13 @@ const TablaNinios = ({ ninios }) => {
                     setModal(true);
                   }}
                 >
-                  <MdOutlinePublishedWithChanges />
+                  <MdOutlinePublishedWithChanges title="Cambiar division" />
                 </button>
                 <button
                   className="btn btn-sm btn-danger"
                   onClick={() => confirmarEliminacion(nin._id)}
                 >
-                  <TiDeleteOutline />
+                  <TiDeleteOutline title="Eliminar" />
                 </button>
               </td>
             </tr>

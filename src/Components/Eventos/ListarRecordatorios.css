@@ -1,0 +1,21 @@
+.recordatorio-item {
+  background: #f1f6f5; /* light green panel */
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.recordatorios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  text-align: center;
+  color: #0f7a50; /* green heading */
+}

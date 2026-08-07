@@ -23,6 +23,8 @@ import AsignarCordis from "./Components/Admin/AsignarCordis";
 import EditarAnimador from "./Components/Animadores/EditarAnimador";
 import BottomNav from "./Components/BottomNav/BottomNav";
 import CrearEvento from "./Components/Eventos/CrearEvento";
+import CrearPlanificacion from "./Components/Eventos/CrearPlanificacion";
+import CrearRecordatorio from "./Components/Eventos/CrearRecordatorio";
 import ListarEventos from "./Components/Eventos/ListarEventos";
 import CumplenMes from "./Components/Ninios/CumplenMes";
 import ProtectedRoute from "./Components/ProtectedRoute";
@@ -30,6 +32,7 @@ import EditarNinio from "./Components/Ninios/EditarNinio";
 import Perfil from "./Components/Animadores/Perfil";
 import ListarReunionesPublic from "./Components/Reunion/ListarReuniones";
 import ListarReunionesCordi from "./Components/Cordi/ListarReuniones";
+import ListarRecordatorios from "./Components/Eventos/ListarRecordatorios";
 import "./App.css";
 
 function InnerAppRoutes() {
@@ -59,6 +62,14 @@ function InnerAppRoutes() {
             <Route path="/ninios/register" element={<RegistroNinio />} />
             <Route path="/ninios/edit" element={<EditarNinio />} />
             <Route path="/eventos/crear" element={<CrearEvento />} />
+            <Route
+              path="/eventos/planificacion"
+              element={<CrearPlanificacion />}
+            />
+            <Route
+              path="/eventos/recordatorio"
+              element={<CrearRecordatorio />}
+            />
             <Route path="/eventos" element={<ListarEventos />} />
             <Route path="/ninios/cumplen-mes" element={<CumplenMes />} />
             <Route path="/dashboard" element={<Listado />} />

@@ -9,7 +9,18 @@ body {
   padding: 20px;
   max-width: 1400px; /* aumentar ancho para alinear acciones */
   margin: 0 auto;
-  background-color: #f5f6f7; /* Fondo gris suave para destacar las cards */
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(244, 197, 66, 0.18),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 88% 16%,
+      rgba(191, 230, 199, 0.42),
+      transparent 28%
+    ),
+    linear-gradient(180deg, #f7fbf8 0%, #edf6f0 100%);
   border-radius: 8px; /* Bordes redondeados */
 }
 
@@ -23,6 +34,7 @@ h1 {
   color: #1b7a4d; /* Color verde más suave */
   margin-bottom: 20px;
   font-size: 26px;
+  margin: 0 auto;
 }
 
 .listado-header {
@@ -358,5 +370,172 @@ h1 {
 @media (min-width: 768px) {
   .tabla-ninios {
     display: block;
+  }
+}
+
+/* Estilo renovado para listados (sin tocar la tabla de escritorio) */
+:root {
+  --oratorio-green: #1b7a4d;
+  --oratorio-green-dark: #0d4f34;
+  --oratorio-green-soft: #e7f4ec;
+  --oratorio-gold: #f4c542;
+  --oratorio-ink: #163128;
+  --oratorio-muted: #64746d;
+  --oratorio-line: #dbe8df;
+  --oratorio-white: #ffffff;
+}
+
+.listado-root {
+  color: var(--oratorio-ink);
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(244, 197, 66, 0.18),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 88% 16%,
+      rgba(191, 230, 199, 0.42),
+      transparent 28%
+    ),
+    linear-gradient(180deg, #f7fbf8 0%, #edf6f0 100%);
+}
+
+.listado-header {
+  justify-content: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.listado-header h1 {
+  margin: 0;
+  color: var(--oratorio-green-dark);
+  font-size: 2.2rem;
+  font-weight: 900;
+  line-height: 1.05;
+}
+
+.listado-header h1::before {
+  content: "Lista del oratorio";
+  display: block;
+  margin-bottom: 4px;
+  color: var(--oratorio-green);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.back-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--oratorio-line);
+  border-radius: 999px;
+  background: var(--oratorio-white);
+  color: var(--oratorio-green-dark);
+  font-size: 1.4rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(13, 79, 52, 0.1);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.back-btn:hover {
+  background: var(--oratorio-green-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(13, 79, 52, 0.16);
+}
+
+.search-input {
+  padding: 13px 16px;
+  border: 1px solid var(--oratorio-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--oratorio-ink);
+  box-shadow: 0 12px 26px rgba(13, 79, 52, 0.08);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--oratorio-green);
+  box-shadow: 0 0 0 4px rgba(27, 122, 77, 0.14);
+}
+
+.filter-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.filter-select,
+.chip {
+  min-height: 36px;
+  padding: 8px 14px;
+  border: 1px solid var(--oratorio-line);
+  border-radius: 999px;
+  background: var(--oratorio-white);
+  color: var(--oratorio-green-dark);
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(13, 79, 52, 0.07);
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.filter-select:hover,
+.chip:hover {
+  background: var(--oratorio-green-soft);
+  transform: translateY(-1px);
+}
+
+.filter-select.active,
+.chip.active {
+  border-color: var(--oratorio-green);
+  background: var(--oratorio-green);
+  color: var(--oratorio-white);
+}
+
+.fab-add {
+  background: var(--oratorio-green-dark);
+  box-shadow: 0 12px 28px rgba(13, 79, 52, 0.28);
+}
+
+.fab-add:hover {
+  background: var(--oratorio-green);
+}
+
+@media (max-width: 420px) {
+  .listado-root {
+    background:
+      radial-gradient(
+        circle at 12% 8%,
+        rgba(244, 197, 66, 0.18),
+        transparent 26%
+      ),
+      radial-gradient(
+        circle at 88% 16%,
+        rgba(191, 230, 199, 0.42),
+        transparent 28%
+      ),
+      linear-gradient(180deg, #f7fbf8 0%, #edf6f0 100%);
+  }
+
+  .listado-header h1 {
+    font-size: 1.8rem;
   }
 }

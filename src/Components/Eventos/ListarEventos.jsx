@@ -4,7 +4,7 @@ import api, { fetchList } from "../../api";
 import { toast } from "react-toastify";
 import "./Eventos.css";
 import ConfirmarAsistencia from "./ConfirmarAsistencia";
-import CrearEventoModal from "./CrearEventoModal";
+import ModalIntermedio from "./ModalIntermedio";
 
 // Lightweight carousel component (no external deps)
 const SimpleCarousel = ({ images = [], interval = 3000 }) => {
@@ -74,6 +74,8 @@ const ListarEventos = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [eventos, setEventos] = useState([]);
+  const [planificaciones, setPlanificaciones] = useState([]);
+  const [recordatorios, setRecordatorios] = useState([]);
 
   const listarEventos = async () => {
     setLoading(true);
@@ -104,8 +106,28 @@ const ListarEventos = () => {
     }
   };
 
+  const listarPlanificaciones = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetchList("/eventos/planificacion");
+      setPlanificaciones(res || []);
+    } catch (err) {
+      console.error("Error fetching /planificaciones", err);
+      if (err?.response?.status === 404) {
+        setError(`No se encontró ninguna planificación (404).`);
+      } else {
+        setError(err?.response?.data || err.message || String(err));
+        toast.error("No se pudieron cargar las planificaciones");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     listarEventos().catch(() => {});
+    listarPlanificaciones().catch(() => {});
   }, []);
 
   const decodeJwt = (token) => {
@@ -218,7 +240,7 @@ const ListarEventos = () => {
           )}
         </div>
       </div>
-      {showCrear && <CrearEventoModal onClose={() => setShowCrear(false)} />}
+      {showCrear && <ModalIntermedio onClose={() => setShowCrear(false)} />}
 
       <div className="eventos-grid">
         {eventos.length === 0 ? (
