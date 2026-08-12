@@ -23,7 +23,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Generic helper: try to GET a list from several endpoint variants and return an array
 export async function fetchList(path) {
   const tryPaths = [path, `${path}s`];
   for (const p of tryPaths) {
