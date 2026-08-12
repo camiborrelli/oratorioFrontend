@@ -61,11 +61,10 @@ body.with-bg {
   z-index: 2;
 }
 
-.logo-circle {
+.login-circle {
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background-image: url(/img/logo.jpg);
   background-size: cover;
   display: flex;
   align-items: center;

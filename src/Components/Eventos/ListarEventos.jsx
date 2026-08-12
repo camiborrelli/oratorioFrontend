@@ -5,6 +5,14 @@ import { toast } from "react-toastify";
 import "./Eventos.css";
 import ConfirmarAsistencia from "./ConfirmarAsistencia";
 import ModalIntermedio from "./ModalIntermedio";
+import ListarRecordatorios from "./ListarRecordatorios";
+import CrearPlanificacion from "./CrearPlanificacion";
+import CrearRecordatorio from "./CrearRecordatorio";
+import CrearEvento from "./CrearEvento";
+import { IoAlertCircleOutline } from "react-icons/io5";
+import { PiCalendar } from "react-icons/pi";
+import { FcTodoList } from "react-icons/fc";
+import { CiBoxList } from "react-icons/ci";
 
 // Lightweight carousel component (no external deps)
 const SimpleCarousel = ({ images = [], interval = 3000 }) => {
@@ -76,6 +84,17 @@ const ListarEventos = () => {
   const [eventos, setEventos] = useState([]);
   const [planificaciones, setPlanificaciones] = useState([]);
   const [recordatorios, setRecordatorios] = useState([]);
+  const [mostrarModalRecordatorio, setMostrarModalRecordatorio] =
+    useState(false);
+  const [mostrarModalPlanificacion, setMostrarModalPlanificacion] =
+    useState(false);
+  const [mostrarCrearEvento, setMostrarCrearEvento] = useState(false);
+  const [mostrarModalAnimadores, setMostrarModalAnimadores] = useState(false);
+  const [animadoresDelEvento, setAnimadoresDelEvento] = useState([]);
+  const [animador, setAnimador] = useState(null);
+  const [animadorId, setAnimadorId] = useState(null);
+  const [isCoordinator, setIsCoordinator] = useState(false);
+  const [evento, setEvento] = useState(null);
 
   const listarEventos = async () => {
     setLoading(true);
@@ -106,28 +125,55 @@ const ListarEventos = () => {
     }
   };
 
-  const listarPlanificaciones = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetchList("/eventos/planificacion");
-      setPlanificaciones(res || []);
-    } catch (err) {
-      console.error("Error fetching /planificaciones", err);
-      if (err?.response?.status === 404) {
-        setError(`No se encontró ninguna planificación (404).`);
-      } else {
-        setError(err?.response?.data || err.message || String(err));
-        toast.error("No se pudieron cargar las planificaciones");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     listarEventos().catch(() => {});
-    listarPlanificaciones().catch(() => {});
+  }, []);
+  useEffect(() => {
+    const cargarAnimador = async () => {
+      try {
+        const storedId = localStorage.getItem("animadorId");
+
+        console.log("animadorId de localStorage:", storedId);
+
+        if (!storedId) {
+          console.error("No existe animadorId en localStorage");
+          return;
+        }
+
+        setAnimadorId(storedId);
+
+        const res = await api.get(`/animador/id/${storedId}`);
+
+        console.log("Respuesta del backend:", res.data);
+
+        const datosAnimador = res.data?.animador || res.data;
+
+        setAnimador(datosAnimador);
+
+        const roles = Array.isArray(datosAnimador?.roles)
+          ? datosAnimador.roles.map((rol) => String(rol).toLowerCase().trim())
+          : [];
+
+        console.log("Roles del animador:", roles);
+
+        const coordinator =
+          roles.includes("coordinador") || roles.includes("cordi");
+
+        setIsCoordinator(coordinator);
+
+        console.log("¿Es coordinador?:", coordinator);
+      } catch (error) {
+        console.error(
+          "Error obteniendo animador:",
+          error?.response?.data || error,
+        );
+
+        setAnimador(null);
+        setIsCoordinator(false);
+      }
+    };
+
+    cargarAnimador();
   }, []);
 
   const decodeJwt = (token) => {
@@ -144,30 +190,21 @@ const ListarEventos = () => {
     }
   };
 
-  const getCurrentRoles = () => {
+  const usuario = localStorage.getItem("usuario");
+
+  const obtenerAnimador = async () => {
     try {
-      const fromStorage = JSON.parse(localStorage.getItem("roles") || "null");
-      if (Array.isArray(fromStorage)) return fromStorage;
-    } catch (e) {
-      // ignore
-    }
-    try {
-      const token =
-        localStorage.getItem("Token") || localStorage.getItem("token");
-      const payload = decodeJwt(token);
-      if (!payload) return [];
-      if (Array.isArray(payload.roles)) return payload.roles;
-      if (typeof payload.roles === "string") return [payload.roles];
-      if (payload.role)
-        return Array.isArray(payload.role) ? payload.role : [payload.role];
-      return [];
-    } catch (e) {
-      return [];
+      const res = await api.get(`/animador/id/${animadorId}`);
+      return res.data;
+    } catch (error) {
+      console.error("Error fetching animador ID", error);
+      return null;
     }
   };
 
-  const isCoordinator = getCurrentRoles().includes("coordinador");
-  const navigate = useNavigate();
+  console.log("Animador ID:", animador);
+  console.log("Rol del animador:", animador ? decodeJwt(animador)?.roles : []);
+  console.log("ES COORDINADOR:", isCoordinator);
 
   const API_BASE = api.defaults?.baseURL || import.meta.env.VITE_API_URL || "";
   const FALLBACK_EVT_IMG = "/img/fondo1.jpg";
@@ -181,18 +218,35 @@ const ListarEventos = () => {
     return `${API_BASE}${String(foto).startsWith("/") ? "" : "/"}${foto}`;
   };
 
+  const getAnimadoresDelEvento = async (evento) => {
+    if (!evento) return;
+    try {
+      const animadores = await api
+        .get(`/evento/${evento.id || evento._id}/animadores`)
+        .then((res) => res.data?.animadores || res.data || []);
+
+      setAnimadoresDelEvento(animadores);
+      setMostrarModalAnimadores(true);
+      console.log("Animadores del evento", evento.id || evento._id, animadores);
+    } catch (error) {
+      console.error(
+        "Error fetching animadores for evento",
+        evento.id || evento._id,
+        error?.response?.data || error,
+      );
+      toast.error("No se pudieron cargar los animadores del evento");
+    }
+  };
+
   // Carousel images from public/img (fall back to fondo1.jpg)
   const CAROUSEL_IMAGES = [
     "/img/fondo1.jpg",
-    "/img/fondo1.jpg",
+    "public/img/fogon.png",
     "public/img/636861e3-f2be-4aac-96f0-0a1b851d12f1-convertido-de-jpg (1).png",
     "public/img/d33f9563-b866-4cae-8bec-4fdc05249f4c-convertido-de-jpg.png",
     "public/img/ef1b27fc-f8e0-409b-b794-5edb1936152d-convertido-de-jpg.png",
     "public/img/f2370e7e-012c-4aa9-97d7-879edea39c2c-convertido-de-jpg.png",
   ];
-
-  const [showCrear, setShowCrear] = useState(false);
-  const crearEvento = () => setShowCrear(true);
 
   const formatDate = (d) =>
     d
@@ -211,44 +265,90 @@ const ListarEventos = () => {
       {loading && (
         <div className="evt-loading text-center py-6">Cargando eventos...</div>
       )}
-
       {error && (
         <div className="evt-error p-4 rounded-md">
           <h3 className="text-lg font-semibold">Error al cargar eventos</h3>
           <p className="evt-error__msg text-sm mt-2">{String(error)}</p>
           <div className="evt-error__actions mt-3">
             <button
+              onClick={() => setMostrarModalPlanificacion(true)}
               className="btn bg-gray-100 px-3 py-1 rounded-md"
-              onClick={crearEvento}
             >
-              Agregar evento
+              Agregar planificacion
+            </button>
+            <button
+              className="btn btn-primary bg-green-600 text-white px-3 py-1 rounded-md btn-add"
+              onClick={() => setMostrarCrearEvento(true)}
+            >
+              <div>
+                <PiCalendar style={{ marginRight: 8 }} />
+              </div>
+              Agregar <br /> evento
+            </button>
+            <button
+              onClick={() => setMostrarModalRecordatorio(true)}
+              className="btn bg-gray-100 px-3 py-1 rounded-md"
+            >
+              <IoAlertCircleOutline
+                style={{ marginRight: 8, color: "#64748b" }}
+              />
+              Agregar recordatorio
             </button>
           </div>
         </div>
       )}
 
-      <div className="eventos-header flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold">Próximos eventos</h1>
-        <div className="eventos-header__actions">
+      <div className="eventos-header flex items-center ">
+        <div
+          className="eventos-header__actions"
+          style={{ display: "flex", gap: "8px" }}
+        >
           {eventos.length > 0 && (
-            <button
-              className="btn btn-primary bg-green-600 text-white px-3 py-1 rounded-md"
-              onClick={crearEvento}
-            >
-              Agregar evento
-            </button>
+            <>
+              <button
+                className="btn btn-primary"
+                onClick={() => setMostrarCrearEvento(true)}
+              >
+                <div>
+                  <PiCalendar style={{ marginRight: 8 }} />
+                </div>
+                Agregar evento
+              </button>
+              <button
+                className="btn btn-primary bg-blue-600 text-white px-3 py-1 rounded-md btn-add"
+                onClick={() => setMostrarModalPlanificacion(true)}
+              >
+                <div>
+                  <div>
+                    <CiBoxList style={{ marginRight: 8 }} />
+                  </div>
+                </div>
+                Agregar <br /> planificacion
+              </button>
+              <button
+                className="btn btn-primary bg-gray-600 text-white px-3 py-1 rounded-md btn-add"
+                onClick={() => setMostrarModalRecordatorio(true)}
+              >
+                <div>
+                  <IoAlertCircleOutline style={{ marginRight: 8 }} />
+                </div>
+                Agregar <br /> recordatorio
+              </button>
+            </>
           )}
         </div>
       </div>
-      {showCrear && <ModalIntermedio onClose={() => setShowCrear(false)} />}
-
+      <h1 className="text-xl font-bold">Próximos eventos</h1>
       <div className="eventos-grid">
         {eventos.length === 0 ? (
           <div className="evt-empty h-40 flex items-center justify-center">
             <div style={{ textAlign: "center", color: "#64748b" }}>
               No hay próximos eventos
               <div style={{ marginTop: 8 }}>
-                <button className="btn btn-primary" onClick={crearEvento}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setMostrarCrearEvento(true)}
+                >
                   Agregar evento
                 </button>
               </div>
@@ -287,14 +387,73 @@ const ListarEventos = () => {
                     animadorId={localStorage.getItem("animadorId") || null}
                     onSuccess={() => listarEventos()}
                   />
+
+                  {isCoordinator && (
+                    <button
+                      type="button"
+                      className="btn btn-primary detalles"
+                      onClick={() => {
+                        setEvento(evento);
+                        getAnimadoresDelEvento(evento);
+                      }}
+                    >
+                      Ver detalles
+                    </button>
+                  )}
                 </div>
               </div>
             </article>
           ))
         )}
       </div>
+      {mostrarCrearEvento && (
+        <CrearEvento
+          embedded={true}
+          onClose={() => setMostrarCrearEvento(false)}
+        />
+      )}
+      <div className="recordatorios-mobile">
+        <ListarRecordatorios />
+      </div>
+      <div>
+        {mostrarModalRecordatorio && (
+          <CrearRecordatorio
+            onClose={() => setMostrarModalRecordatorio(false)}
+          />
+        )}
+        {mostrarModalPlanificacion && (
+          <CrearPlanificacion
+            onClose={() => setMostrarModalPlanificacion(false)}
+          />
+        )}
+      </div>
+
+      {mostrarModalAnimadores && (
+        <div
+          className="modal-animadores"
+          onClick={() => setMostrarModalAnimadores(false)}
+        >
+          <div className="modal-animadores__content">
+            <h2>
+              Lista de animadores para el evento{" "}
+              {evento.nombre || evento.title || "Sin título"}
+            </h2>
+            <p>Lista de animadores para este evento.</p>
+            {animadoresDelEvento.length === 0 ? (
+              <p>No hay animadores asignados a este evento.</p>
+            ) : (
+              <ul>
+                {animadoresDelEvento.map((animador) => (
+                  <li key={animador.id || animador._id}>
+                    {animador.nombre} {animador.apellido}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-
 export default ListarEventos;

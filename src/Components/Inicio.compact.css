@@ -55,6 +55,34 @@
   margin-bottom: 30px;
 }
 
+.inicio-top-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.95fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.inicio-top-layout__main,
+.inicio-top-layout__sidebar {
+  min-width: 0;
+}
+
+.inicio-top-layout__sidebar {
+  position: relative;
+}
+
+.inicio-top-layout__recordatorios {
+  margin-top: 16px;
+}
+
+.planificaciones-mobile {
+  display: none;
+}
+
+.planificaciones-desktop {
+  display: block;
+}
+
 /* Card */
 .card {
   display: flex;
@@ -218,5 +246,19 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .planificaciones-mobile {
+    display: block;
+  }
+
+  .planificaciones-desktop {
+    display: none;
+  }
+
+  .inicio-top-layout {
+    grid-template-columns: 1fr;
   }
 }

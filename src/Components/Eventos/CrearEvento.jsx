@@ -7,6 +7,7 @@ import "./CrearEvento.css";
 const CrearEvento = ({ embedded = false, onClose } = {}) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     nombre: "",
     fecha: "",
@@ -21,54 +22,75 @@ const CrearEvento = ({ embedded = false, onClose } = {}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validaciones del formulario
+    if (!formData.nombre.trim() || !formData.fecha || !formData.lugar.trim()) {
+      toast.error("Completa nombre, fecha y lugar antes de enviar.");
+      return;
+    }
+
     setLoading(true);
+    setError(null);
+
     try {
-      if (!formData.nombre || !formData.fecha || !formData.lugar) {
-        toast.error("Completa nombre, fecha y lugar antes de enviar.");
-        setLoading(false);
-        return;
-      }
-
-      // Normalize fecha to ISO if input type datetime-local provided
       let fechaPayload = formData.fecha;
-      try {
-        if (typeof fechaPayload === "string" && fechaPayload.includes("T")) {
-          const dt = new Date(fechaPayload);
-          if (!isNaN(dt)) fechaPayload = dt.toISOString();
-        }
-      } catch (err) {}
 
-      const payload = { ...formData, fecha: fechaPayload };
-      console.log("Creando evento with payload:", payload);
+      // Convertir datetime-local a ISO
+      if (typeof fechaPayload === "string" && fechaPayload.includes("T")) {
+        const dt = new Date(fechaPayload);
 
-      // Try plural endpoint first, fallback to singular if 404
-      let res;
-      try {
-        res = await api.post("/evento", payload);
-      } catch (err) {
-        if (err?.response?.status === 404) {
-          res = await api.post("/evento", payload);
-        } else {
-          throw err;
+        if (!isNaN(dt.getTime())) {
+          fechaPayload = dt.toISOString();
         }
       }
+
+      const payload = {
+        ...formData,
+        nombre: formData.nombre.trim(),
+        lugar: formData.lugar.trim(),
+        fecha: fechaPayload,
+        descripcion: formData.descripcion.trim(),
+      };
+
+      console.log("Creando evento:", payload);
+
+      const res = await api.post("/evento", payload);
+
+      console.log("Evento creado:", res.data);
+
       toast.success("Evento creado exitosamente");
+
       if (embedded) {
-        // if embedded in a modal, call onClose if provided to close the modal
-        if (typeof onClose === "function") onClose();
+        if (typeof onClose === "function") {
+          onClose();
+        }
       } else {
         navigate("/inicio");
       }
     } catch (err) {
-      console.error("Error creating event:", err, err?.response?.data);
-      // Show backend error body when available
+      console.error("Error creando evento:", err);
+      console.error("Respuesta backend:", err?.response?.data);
+
       const backend = err?.response?.data;
-      const msg =
-        (backend &&
-          (backend.message || backend.error || JSON.stringify(backend))) ||
-        err?.message ||
-        "Error al crear el evento";
-      toast.error(msg);
+
+      let mensaje = "Error al crear el evento";
+
+      if (backend) {
+        if (typeof backend === "string") {
+          mensaje = backend;
+        } else if (backend.message) {
+          mensaje = backend.message;
+        } else if (backend.error) {
+          mensaje = backend.error;
+        } else if (backend.mensaje) {
+          mensaje = backend.mensaje;
+        }
+      } else if (err?.message) {
+        mensaje = err.message;
+      }
+
+      setError(mensaje);
+      toast.error(mensaje);
     } finally {
       setLoading(false);
     }
@@ -82,82 +104,163 @@ const CrearEvento = ({ embedded = false, onClose } = {}) => {
     return undefined;
   }, [embedded]);
 
-  return (
-    <div className="crear-evento-container">
-      <h1>Crear nuevo evento</h1>
-      <form className="crear-evento-form" onSubmit={handleSubmit}>
-        <div className="grid">
-          <label className="field">
-            <span className="label-text">
-              Nombre del evento{" "}
-              <span className="required-badge">OBLIGATORIO</span>
-            </span>
-            <input
-              type="text"
-              name="nombre"
-              value={formData.nombre}
+  return embedded ? (
+    <div className="modal-crear-evento" onClick={onClose}>
+      <div
+        className="modal-crear-evento__content"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2>Crear nuevo evento</h2>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-grid">
+            <label className="field">
+              <span className="label-text">
+                Nombre del evento{" "}
+                <span className="required-badge">OBLIGATORIO</span>
+              </span>
+
+              <input
+                type="text"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                placeholder="Ingrese el nombre del evento"
+              />
+            </label>
+
+            <label className="field">
+              <span className="label-text">
+                Fecha del evento{" "}
+                <span className="required-badge">OBLIGATORIO</span>
+              </span>
+
+              <input
+                type="datetime-local"
+                name="fecha"
+                value={formData.fecha}
+                onChange={handleChange}
+              />
+            </label>
+
+            <label className="field">
+              <span className="label-text">
+                Lugar del evento{" "}
+                <span className="required-badge">OBLIGATORIO</span>
+              </span>
+
+              <input
+                type="text"
+                name="lugar"
+                value={formData.lugar}
+                onChange={handleChange}
+                placeholder="Ingrese el lugar"
+              />
+            </label>
+          </div>
+
+          <label className="field full">
+            <span className="label-text">Descripción</span>
+
+            <textarea
+              name="descripcion"
+              value={formData.descripcion}
               onChange={handleChange}
-              required
+              rows={4}
+              placeholder="Ingrese una descripción del evento"
             />
           </label>
 
-          <label className="field">
-            <span className="label-text">
-              Fecha del evento{" "}
-              <span className="required-badge">OBLIGATORIO</span>
-            </span>
-            <input
-              type="datetime-local"
-              name="fecha"
-              value={formData.fecha}
+          <div className="form-actions">
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={onClose}
+              disabled={loading}
+            >
+              Cancelar
+            </button>
+
+            <button type="submit" className="btn-primary" disabled={loading}>
+              {loading ? "Creando..." : "Crear Evento"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  ) : (
+    <div className="crear-evento-page">
+      <div className="crear-evento-page__content">
+        <form onSubmit={handleSubmit}>
+          <div className="form-grid">
+            <h2>Crear nuevo evento</h2>
+            <label className="field">
+              <span className="label-text">
+                Nombre del evento{" "}
+                <span className="required-badge">OBLIGATORIO</span>
+              </span>
+
+              <input
+                type="text"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+              />
+            </label>
+
+            <label className="field">
+              <span className="label-text">
+                Fecha del evento{" "}
+                <span className="required-badge">OBLIGATORIO</span>
+              </span>
+
+              <input
+                type="datetime-local"
+                name="fecha"
+                value={formData.fecha}
+                onChange={handleChange}
+              />
+            </label>
+
+            <label className="field">
+              <span className="label-text">
+                Lugar del evento{" "}
+                <span className="required-badge">OBLIGATORIO</span>
+              </span>
+
+              <input
+                type="text"
+                name="lugar"
+                value={formData.lugar}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
+          <label className="field full">
+            <span className="label-text">Descripción</span>
+
+            <textarea
+              name="descripcion"
+              value={formData.descripcion}
               onChange={handleChange}
-              required
+              rows={4}
             />
           </label>
+          <div className="form-actions">
+            <button type="submit" className="btn-primary" disabled={loading}>
+              {loading ? "Creando..." : "Crear Evento"}
+            </button>
 
-          <label className="field">
-            <span className="label-text">
-              Lugar del evento{" "}
-              <span className="required-badge">OBLIGATORIO</span>
-            </span>
-            <input
-              type="text"
-              name="lugar"
-              value={formData.lugar}
-              onChange={handleChange}
-              required
-            />
-          </label>
-        </div>
-
-        <label className="field full">
-          <span className="label-text">Descripción</span>
-          <textarea
-            name="descripcion"
-            value={formData.descripcion}
-            onChange={handleChange}
-            rows={4}
-          />
-        </label>
-        <div className="form-actions">
-          <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? "Creando..." : "Crear Evento"}
-          </button>
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => {
-              if (embedded) {
-                if (typeof onClose === "function") onClose();
-              } else {
-                navigate("/eventos");
-              }
-            }}
-          >
-            Cancelar
-          </button>
-        </div>
-      </form>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={() => navigate("/eventos")}
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

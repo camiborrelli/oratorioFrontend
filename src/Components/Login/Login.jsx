@@ -81,6 +81,8 @@ const Login = () => {
       toast.success(res.data?.message || "Login exitoso");
       console.log("Login response:", res.data);
       console.log(userObj.roles);
+      console.log("Animador:", userObj);
+      console.log("Token:", res.data.token);
       naviagate("/inicio");
     } catch (err) {
       // log full response for debugging
@@ -110,9 +112,13 @@ const Login = () => {
     <div className="login-page min-h-screen flex items-center justify-center">
       <div className="login-card bg-white rounded-xl shadow-md p-6 w-full max-w-md">
         <div className="logo-circle mb-3 inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff">
-            <path d="M12 2C9.8 2 8 3.8 8 6c0 .7.2 1.4.6 2H6c-1.1 0-2 .9-2 2v6h16v-6c0-1.1-.9-2-2-2h-2.6c.4-.6.6-1.3.6-2 0-2.2-1.8-4-4-4zM6 18v2h12v-2H6z" />
-          </svg>
+          <img
+            src="/public/img/logo.jpg"
+            alt="logo"
+            className="login-circle"
+            width="30"
+            height="30"
+          />
         </div>
         <h1 className="brand text-xl font-bold">Oratorio Cordón</h1>
         <p className="subtitle text-sm text-slate-600 mb-4">

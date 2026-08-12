@@ -15,25 +15,25 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
   } = useForm({ mode: "onChange" });
 
   const onSubmit = async (data) => {
     try {
       setSubmitting(true);
-      // ensure roles is an array
+
       if (!data.roles) data.roles = ["animador"];
-      else if (typeof data.roles === "string") data.roles = [data.roles];
+      else if (typeof data.roles === "string") {
+        data.roles = [data.roles];
+      }
 
       const payload = {
         nombre: data.nombre,
         apellido: data.apellido,
         apodo: data.apodo || "",
         email: data.email,
-        // edad: data.edad || null,
         fechaCumple: data.fechaCumple || "",
-        restricciones: data.restricciones || "",
         division: data.division,
         recorrida: data.recorrida,
         password: data.password,
@@ -43,33 +43,50 @@ const Register = () => {
       const res = await api.post("/animador/register", payload, {
         skipAuth: true,
       });
+
       toast.success(res.data?.message || "Registro exitoso");
+
       const token = res.data?.token;
-      if (token) localStorage.setItem("Token", token);
-      // persist user in redux and also store convenient keys in localStorage
-      const user = res.data?.user ?? { token };
-      dispatch(setUser(user));
-      try {
-        const ap = user?.apodo || payload.apodo || "";
-        if (ap) localStorage.setItem("apodo", ap);
-        const uname = user?.username || user?.email || payload.email || "";
-        if (uname) localStorage.setItem("username", uname);
-      } catch (e) {
-        // ignore storage errors
+
+      if (token) {
+        localStorage.setItem("Token", token);
       }
+
+      const user = res.data?.user ?? { token };
+
+      dispatch(setUser(user));
+
+      const ap = user?.apodo || payload.apodo || "";
+
+      if (ap) {
+        localStorage.setItem("apodo", ap);
+      }
+
+      const uname = user?.username || user?.email || payload.email || "";
+
+      if (uname) {
+        localStorage.setItem("username", uname);
+      }
+
       reset();
       navigate("/inicio");
     } catch (err) {
       console.error("Registro error:", err?.response || err);
+
       const msg =
         err?.response?.data?.message ||
         err?.response?.data ||
         err?.message ||
         "Error en el registro";
+
       toast.error(msg);
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const onError = () => {
+    toast.error("Por favor completa todos los campos obligatorios.");
   };
 
   useEffect(() => {
@@ -87,7 +104,7 @@ const Register = () => {
         <h2 className="text-xl font-semibold mb-4">Registro de Animadores</h2>
         <form
           className="register-form space-y-3"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, onError)}
         >
           <input
             className="w-full border rounded-md px-3 py-2"
@@ -148,14 +165,20 @@ const Register = () => {
             <option value="" disabled>
               Seleccioná recorrida
             </option>
-            <option value="rojo">Rojo</option>
+            <option value="roja">Roja</option>
             <option value="azul">Azul</option>
             <option value="naranja">Naranja</option>
-            <option value="amarillo">Amarillo</option>
+            <option value="amarilla">Amarilla</option>
           </select>
           {errors.recorrida && (
             <p className="text-sm text-red-600">Recorrida obligatoria</p>
           )}
+
+          <input
+            type="date"
+            {...register("fechaCumple", { required: true })}
+            placeholder="Fecha de cumpleaños"
+          />
 
           <input
             className="w-full border rounded-md px-3 py-2"
@@ -173,7 +196,7 @@ const Register = () => {
             <button
               className="bg-green-600 text-white px-4 py-2 rounded-md"
               type="submit"
-              disabled={submitting || !isValid}
+              disabled={submitting}
             >
               {submitting ? "Registrando..." : "Registrarse"}
             </button>

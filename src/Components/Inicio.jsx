@@ -7,6 +7,7 @@ import "./Inicio.compact.css";
 import ListarEventos from "./Eventos/ListarEventos";
 import CumplenMes from "./Ninios/CumplenMes";
 import ListarRecordatorios from "./Eventos/ListarRecordatorios";
+import ListarPlanificaciones from "./Eventos/ListarPlanificaciones";
 
 const Inicio = () => {
   const navigate = useNavigate();
@@ -243,9 +244,24 @@ const Inicio = () => {
           </div>
         </div>
       </div>
+
+      <div className="planificaciones-mobile">
+        <ListarPlanificaciones />
+      </div>
+
+      <div className="inicio-top-layout mt-6">
+        <div className="inicio-top-layout__main">
+          <ListarEventos />
+        </div>
+        <aside className="inicio-top-layout__sidebar planificaciones-desktop">
+          <ListarPlanificaciones />
+          <div className="inicio-top-layout__recordatorios ">
+            <ListarRecordatorios />
+          </div>
+        </aside>
+      </div>
+
       <div style={{ marginTop: "40px" }}>
-        <ListarEventos />
-        <ListarRecordatorios />
         <div style={{ marginTop: "24px" }}>
           <CumplenMes />
         </div>

@@ -4,7 +4,7 @@ import api from "../../api";
 import { toast } from "react-toastify";
 import "./CrearRecordatorio.css";
 
-const CrearRecordatorio = () => {
+const CrearRecordatorio = ({ onClose }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,8 +19,8 @@ const CrearRecordatorio = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.descripcion) {
-      toast.error("Ingresar la descripción antes de enviar.");
+    if (!formData.titulo.trim() || !formData.descripcion.trim()) {
+      toast.error("Ingresar el título y la descripción antes de enviar.");
       return;
     }
 
@@ -32,39 +32,49 @@ const CrearRecordatorio = () => {
         "/recordatorios",
       ];
 
-      let lastError = null;
-      for (const endpoint of endpoints) {
+      let success = false;
+      let lastErr = null;
+      for (const ep of endpoints) {
         try {
-          const res = await api.post(endpoint, formData);
-          if (res.status === 200 || res.status === 201) {
+          const res = await api.post(ep, formData);
+          if (res?.status === 200 || res?.status === 201) {
             toast.success("Recordatorio creado exitosamente");
-            navigate("/eventos");
-            return;
+            navigate("/inicio");
+            success = true;
+            break;
           }
         } catch (err) {
-          lastError = err;
-          if (err?.response?.status !== 404) {
+          lastErr = err;
+          // try next endpoint on 404, otherwise rethrow
+          if (err?.response?.status && err.response.status !== 404) {
             throw err;
           }
         }
       }
 
-      throw (
-        lastError || new Error("No se encontró un endpoint para recordatorios")
-      );
-    } catch (error) {
+      if (!success) {
+        console.error("All recordatorio endpoints failed", lastErr);
+        throw lastErr || new Error("No recordatorio endpoint responded");
+      }
+    } catch (err) {
+      console.error("Error creating recordatorio:", err, err?.response?.data);
       toast.error(
-        error?.response?.data?.message || "Error al crear el recordatorio",
+        err?.response?.data?.message || "Error al crear el recordatorio",
       );
-      console.log("Error:", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="modal-crear-recordatorio">
-      <div className="modal-crear-recordatorio__content">
+    <div
+      className="modal-crear-recordatorio"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div
+        className="modal-crear-recordatorio__content"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2>Crear Recordatorio</h2>
         <form className="crear-recordatorio-form" onSubmit={handleSubmit}>
           <div className="grid">
@@ -75,7 +85,6 @@ const CrearRecordatorio = () => {
                 name="titulo"
                 value={formData.titulo}
                 onChange={handleChange}
-                required
               />
             </label>
             <label className="field">
@@ -85,7 +94,6 @@ const CrearRecordatorio = () => {
                 name="descripcion"
                 value={formData.descripcion}
                 onChange={handleChange}
-                required
               />
             </label>
           </div>
@@ -94,7 +102,7 @@ const CrearRecordatorio = () => {
             <button type="submit" className="submit-btn" disabled={loading}>
               {loading ? "Creando..." : "Crear Recordatorio"}
             </button>
-            <button type="button" onClick={() => navigate("/eventos")}>
+            <button type="button" onClick={onClose} className="cancel-btn">
               Cancelar
             </button>
           </div>

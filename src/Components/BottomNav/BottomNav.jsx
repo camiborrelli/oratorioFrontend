@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { desloguear } from "../../features/animador.slice";
 import "./BottomNav.css";
 import "../../App.css";
-import ListarAnimadores from "../Animadores/ListarAnimadores";
 import { IoHomeOutline } from "react-icons/io5";
 import { RxPeople } from "react-icons/rx";
 import { LuMessageCircleMore } from "react-icons/lu";
+import { CiFaceSmile } from "react-icons/ci";
+import { FiChevronDown, FiLogOut, FiUser } from "react-icons/fi";
 
 const BottomNav = () => {
   const [open, setOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef(null);
 
   const toggle = () => setOpen((v) => !v);
   const close = () => setOpen(false);
   const navigate = useNavigate();
+
+  const apodo =
+    localStorage.getItem("apodo") ||
+    localStorage.getItem("username") ||
+    "Usuario";
 
   const dispatch = useDispatch();
   const logout = () => {
@@ -26,45 +34,121 @@ const BottomNav = () => {
       } catch (er) {}
     }
     close();
+    setUserMenuOpen(false);
     navigate("/login");
   };
 
   const openPerfil = (anim) => {
+    setUserMenuOpen(false);
     navigate(`/animadores/perfil`, { state: { anim } });
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <>
       {/* Top navigation for medium+ screens (hidden on small) */}
       <nav className="top-nav" role="navigation" aria-label="Top navigation">
+        <div
+          className="nav-logo"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+          }}
+        >
+          <p className="nav-logo-text">Oratorio Cordon</p>
+          <img
+            src="/public/img/logo.jpg"
+            alt="Logo"
+            width={30}
+            height={30}
+            className="logo-circle"
+            style={{
+              borderRadius: "50%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+        </div>
         <div className="nav-content">
           <div className="logo" onClick={() => navigate("/inicio")}>
+            <IoHomeOutline
+              style={{ width: "20px", height: "20px", marginRight: "5px" }}
+            />{" "}
             Inicio
           </div>
           <div className="listagurises" onClick={() => navigate("/ninios")}>
+            <CiFaceSmile
+              style={{ width: "20px", height: "20px", marginRight: "5px" }}
+            />{" "}
             Gurises
           </div>
           <div
             className="listanimadores"
             onClick={() => navigate("/animadores")}
           >
+            <RxPeople
+              style={{ width: "20px", height: "20px", marginRight: "5px" }}
+            />{" "}
             Animadores
           </div>
           <div
             className="reunionAnimadores"
             onClick={() => navigate("/reunion")}
           >
+            <LuMessageCircleMore style={{ width: "20px", height: "20px" }} />{" "}
             Reunion
           </div>
-          <div
-            className="perfil"
-            onClick={() => navigate("/animadores/perfil")}
-          >
-            Perfil
+          <div className="user-menu" ref={userMenuRef}>
+            <button
+              type="button"
+              className="user-menu__trigger"
+              onClick={() => setUserMenuOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={userMenuOpen}
+            >
+              <span className="user-menu__avatar" aria-hidden="true">
+                <FiUser />
+              </span>
+              <span className="user-menu__text">
+                <span className="user-menu__name">{apodo}</span>
+                <span className="user-menu__subtitle">Ver opciones</span>
+              </span>
+              <FiChevronDown className="user-menu__chevron" />
+            </button>
+
+            {userMenuOpen && (
+              <div className="user-menu__dropdown" role="menu">
+                <button
+                  type="button"
+                  className="user-menu__item"
+                  onClick={() => openPerfil()}
+                >
+                  <FiUser />
+                  Ver perfil
+                </button>
+                <button
+                  type="button"
+                  className="user-menu__item user-menu__item--danger"
+                  onClick={logout}
+                >
+                  <FiLogOut />
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
           </div>
-          <button className="logout" onClick={logout}>
-            Cerrar sesión
-          </button>
         </div>
       </nav>
 
