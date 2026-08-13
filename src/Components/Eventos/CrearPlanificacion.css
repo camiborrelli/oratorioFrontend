@@ -45,6 +45,7 @@ body.with-bg::before {
   max-height: 90vh;
   overflow-y: auto;
   margin: auto;
+  margin-bottom: 250px;
   box-shadow: 0 8px 30px rgba(11, 22, 16, 0.18);
   border: 1px solid rgba(15, 122, 80, 0.06);
   font-family:
