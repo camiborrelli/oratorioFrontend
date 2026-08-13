@@ -80,6 +80,7 @@ const EditarAnimador = () => {
         nombre: data.nombre,
         apellido: data.apellido,
         email: data.email,
+        fechaCumple: data.fechaCumple,
         telefono: data.telefono,
         division: data.division,
         recorrida: data.recorrida,
@@ -151,6 +152,16 @@ const EditarAnimador = () => {
                 placeholder="Email"
                 type="email"
                 {...register("email", { required: false })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Fecha de nacimiento</label>
+              <input
+                className="w-full"
+                placeholder="Fecha de nacimiento"
+                type="date"
+                {...register("fechaCumple", { required: false })}
               />
             </div>
 

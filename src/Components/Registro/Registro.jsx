@@ -73,7 +73,6 @@ const Register = () => {
         localStorage.setItem("username", uname);
       }
 
-      reset();
       navigate("/inicio");
     } catch (err) {
       console.error("Registro error:", err?.response || err);

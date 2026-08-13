@@ -53,6 +53,8 @@ const CrearPlanificacion = ({ onClose }) => {
           const res = await api.post(ep, formData);
           if (res?.status === 200 || res?.status === 201) {
             toast.success("Planificación creada exitosamente");
+            //actualizar las planificaciones
+            window.location.reload();
             navigate("/inicio");
             success = true;
             break;

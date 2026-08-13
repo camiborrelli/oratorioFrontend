@@ -221,13 +221,16 @@ const ListarAnimadores = () => {
                     Quitar Rol
                   </button>
                 )}
-
-                <button
-                  className="btn-asign-role"
-                  onClick={(event) => handleAsignarRol(event, anim)}
-                >
-                  Asignar Rol
-                </button>
+                {usuario?.roles?.includes("coordinador") && (
+                  <>
+                    <button
+                      className="btn-asign-role"
+                      onClick={(event) => handleAsignarRol(event, anim)}
+                    >
+                      Asignar Rol
+                    </button>
+                  </>
+                )}
               </div>
 
               <div className="card-right">

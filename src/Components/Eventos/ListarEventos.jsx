@@ -241,11 +241,11 @@ const ListarEventos = () => {
   // Carousel images from public/img (fall back to fondo1.jpg)
   const CAROUSEL_IMAGES = [
     "/img/fondo1.jpg",
-    "public/img/fogon.png",
-    "public/img/636861e3-f2be-4aac-96f0-0a1b851d12f1-convertido-de-jpg (1).png",
-    "public/img/d33f9563-b866-4cae-8bec-4fdc05249f4c-convertido-de-jpg.png",
-    "public/img/ef1b27fc-f8e0-409b-b794-5edb1936152d-convertido-de-jpg.png",
-    "public/img/f2370e7e-012c-4aa9-97d7-879edea39c2c-convertido-de-jpg.png",
+    "/img/fogon.png",
+    "/img/636861e3-f2be-4aac-96f0-0a1b851d12f1-convertido-de-jpg (1).png",
+    "/img/d33f9563-b866-4cae-8bec-4fdc05249f4c-convertido-de-jpg.png",
+    "/img/ef1b27fc-f8e0-409b-b794-5edb1936152d-convertido-de-jpg.png",
+    "/img/f2370e7e-012c-4aa9-97d7-879edea39c2c-convertido-de-jpg.png",
   ];
 
   const formatDate = (d) =>

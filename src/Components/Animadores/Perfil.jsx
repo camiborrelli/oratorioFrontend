@@ -6,6 +6,7 @@ import "./Perfil.css";
 import { MdGroups } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { AiOutlineMail } from "react-icons/ai";
+import { FaBirthdayCake } from "react-icons/fa";
 
 const Perfil = () => {
   const { id } = useParams();
@@ -131,6 +132,17 @@ const Perfil = () => {
     navigate("/login");
   };
 
+  const formatBirthDate = (fechaStr) => {
+    if (!fechaStr) return "";
+    const date = new Date(fechaStr);
+    return date.toLocaleDateString("es-UY", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC", // 👈 clave: evita el corrimiento de zona horaria
+    });
+  };
+
   const phoneGuardian =
     perfil?.contactos?.[0]?.telefono ||
     perfil?.telefono ||
@@ -185,9 +197,9 @@ const Perfil = () => {
               <button className="btn btn-asign" onClick={goToEdit}>
                 Editar perfil
               </button>
-              <button className="btn btn-alert" onClick={logout}>
+              {/* <button className="btn btn-alert" onClick={logout}>
                 Cerrar sesión
-              </button>
+              </button> */}
             </div>
           </aside>
 
@@ -230,6 +242,32 @@ const Perfil = () => {
 
                   <strong>{perfil.recorrida || perfil.route || "-"}</strong>
                   <div className="muted">{perfil.bus || ""}</div>
+                </div>
+              </div>
+
+              <div className="info-card">
+                <FaBirthdayCake
+                  style={{
+                    padding: "14px",
+                    margin: "10px",
+                    background: "beige",
+                    display: "inline-block",
+                    borderRadius: "8px",
+                    fontSize: "24px",
+                    color: "black",
+                  }}
+                />{" "}
+                <div className="info-card-body">
+                  <h4>Fecha cumpleaños</h4>
+
+                  <strong>
+                    {" "}
+                    {formatBirthDate(
+                      perfil?.fechaCumple ||
+                        perfil?.fecha_cumple ||
+                        perfil?.birthday,
+                    )}
+                  </strong>
                 </div>
               </div>
 
