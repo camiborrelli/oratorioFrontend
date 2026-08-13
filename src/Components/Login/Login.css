@@ -280,6 +280,14 @@ body.with-bg {
     max-width: 92%;
     box-sizing: border-box;
   }
+
+  .login-circle {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* ensure the card can scroll internally if viewport is very small (mobile keyboard) */
