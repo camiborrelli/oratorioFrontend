@@ -113,7 +113,7 @@ const Login = () => {
       <div className="login-card bg-white rounded-xl shadow-md p-6 w-full max-w-md">
         <div className="logo-circle mb-3 inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white">
           <img
-            src="/public/img/logo.jpg"
+            src="/img/logo.jpg"
             alt="logo"
             className="login-circle"
             width="30"

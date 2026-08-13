@@ -7,6 +7,17 @@
   --border: #e6e6e6;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Noto+Sans+Avestan&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
+h1 {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 24px;
+  margin-top: 5px;
+}
+
 body.with-bg {
   background-image: url(/img/fondo1.jpg);
   background-position: center center;
@@ -69,7 +80,8 @@ body.with-bg {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 8px;
+  margin-bottom: 20px;
+  margin-left: 300px;
   box-shadow: 0 6px 18px rgba(47, 127, 42, 0.12);
 }
 
