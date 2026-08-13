@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { desloguear } from "../../features/animador.slice";
 import "./BottomNav.css";
@@ -13,11 +13,14 @@ import { FiChevronDown, FiLogOut, FiUser } from "react-icons/fi";
 const BottomNav = () => {
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [mobilePerfilOpen, setMobilePerfilOpen] = useState(false);
   const userMenuRef = useRef(null);
+  const mobilePerfilRef = useRef(null);
 
   const toggle = () => setOpen((v) => !v);
   const close = () => setOpen(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const apodo =
     localStorage.getItem("apodo") ||
@@ -35,11 +38,13 @@ const BottomNav = () => {
     }
     close();
     setUserMenuOpen(false);
+    setMobilePerfilOpen(false);
     navigate("/login");
   };
 
   const openPerfil = (anim) => {
     setUserMenuOpen(false);
+    setMobilePerfilOpen(false);
     navigate(`/animadores/perfil`, { state: { anim } });
   };
 
@@ -48,11 +53,19 @@ const BottomNav = () => {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setUserMenuOpen(false);
       }
+      if (
+        mobilePerfilRef.current &&
+        !mobilePerfilRef.current.contains(event.target)
+      ) {
+        setMobilePerfilOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const isPerfilActive = location.pathname.startsWith("/animadores/perfil");
 
   return (
     <>
@@ -234,38 +247,64 @@ const BottomNav = () => {
           <span className="label">Reunión</span>
         </NavLink>
 
-        <NavLink
-          to="/animadores/perfil"
-          className={({ isActive }) =>
-            isActive ? "nav-item active" : "nav-item"
-          }
-        >
-          <span className="icon" aria-hidden>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                cx="12"
-                cy="8"
-                r="2.6"
-                stroke="currentColor"
-                strokeWidth="1.4"
-              />
-              <path
-                d="M4 20c1.5-3 4.5-5 8-5s6.5 2 8 5"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-          <span className="label">Perfil</span>
-        </NavLink>
+        {/* Perfil: ahora es un botón que abre un dropdown hacia arriba,
+            igual que el user-menu de desktop, en vez de navegar directo */}
+        <div className="nav-item-menu" ref={mobilePerfilRef}>
+          <button
+            type="button"
+            className={isPerfilActive ? "nav-item active" : "nav-item"}
+            onClick={() => setMobilePerfilOpen((v) => !v)}
+            aria-haspopup="menu"
+            aria-expanded={mobilePerfilOpen}
+          >
+            <span className="icon" aria-hidden>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="12"
+                  cy="8"
+                  r="2.6"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                />
+                <path
+                  d="M4 20c1.5-3 4.5-5 8-5s6.5 2 8 5"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="label">Perfil</span>
+          </button>
+
+          {mobilePerfilOpen && (
+            <div className="nav-item-menu__dropdown" role="menu">
+              <button
+                type="button"
+                className="nav-item-menu__item"
+                onClick={() => openPerfil()}
+              >
+                <FiUser />
+                Ver perfil
+              </button>
+              <button
+                type="button"
+                className="nav-item-menu__item nav-item-menu__item--danger"
+                onClick={logout}
+              >
+                <FiLogOut />
+                Cerrar sesión
+              </button>
+            </div>
+          )}
+        </div>
       </nav>
     </>
   );

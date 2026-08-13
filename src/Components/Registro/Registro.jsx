@@ -40,6 +40,11 @@ const Register = () => {
         roles: data.roles,
       };
 
+      if (!payload) {
+        toast.error("Por favor completa todos los campos obligatorios.");
+        return;
+      }
+
       const res = await api.post("/animador/register", payload, {
         skipAuth: true,
       });
