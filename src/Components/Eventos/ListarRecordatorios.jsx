@@ -92,14 +92,16 @@ const ListarRecordatorios = () => {
 
   return (
     <div className="listar-recordatorios">
-      <h2>Recordatorios</h2>
-      <button
-        type="button"
-        onClick={verTodos}
-        className="btn bg-gray-100 px-3 py-1 rounded-md"
-      >
-        {mostrarTodos ? "Ver pendientes" : "Ver todos"}
-      </button>
+      <div className="recorridatorios-header">
+        <h2>Recordatorios</h2>
+        <button
+          type="button"
+          onClick={verTodos}
+          className="btn bg-gray-100 px-3 py-1 rounded-md ver-todos-btn"
+        >
+          {mostrarTodos ? "Ver pendientes" : "Ver todos"}
+        </button>
+      </div>
       {mostrarTodos ? (
         <div>
           <h2>Recordatorios pendientes</h2>

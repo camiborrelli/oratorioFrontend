@@ -142,3 +142,36 @@ button {
     padding: 0 12px;
   }
 }
+
+.recorridatorios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  margin-top: 12px;
+}
+
+.recorridatorios-header p {
+  color: #475569 !important;
+  font-size: 14px;
+  margin: 0;
+}
+
+.ver-todos-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--primary), #3ea870);
+  color: white !important;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+}
+
+.ver-todos-btn:hover {
+  background: linear-gradient(135deg, #0d603f, #3ea870);
+  transform: scale(1.02);
+  transition: all 0.15s ease;
+}
