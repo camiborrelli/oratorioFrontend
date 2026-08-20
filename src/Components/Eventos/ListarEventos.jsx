@@ -198,10 +198,6 @@ const ListarEventos = () => {
     }
   };
 
-  console.log("Animador ID:", animador);
-  console.log("Rol del animador:", animador ? decodeJwt(animador)?.roles : []);
-  console.log("ES COORDINADOR:", isCoordinator);
-
   const API_BASE = api.defaults?.baseURL || import.meta.env.VITE_API_URL || "";
   const FALLBACK_EVT_IMG = "/img/fondo1.jpg";
   const buildFotoSrc = (foto) => {

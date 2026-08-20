@@ -54,7 +54,7 @@ const CrearPlanificacion = ({ onClose }) => {
           if (res?.status === 200 || res?.status === 201) {
             toast.success("Planificación creada exitosamente");
             //actualizar las planificaciones
-            window.location.reload();
+            // window.location.reload();
             navigate("/inicio");
             success = true;
             break;

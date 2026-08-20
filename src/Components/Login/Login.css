@@ -312,12 +312,20 @@ body.login-open .login-card {
   max-width: 360px;
 }
 
-/* @media (max-width: 1000px) {
+@media (max-width: 450px) {
+  .login-circle {
+    margin-left: 220px;
+  }
+}
+
+@media (max-width: 350px) {
+  .login-circle {
+    margin-left: 160px;
+  }
+}
+
+@media (min-width: 451px) {
   .login-circle {
     margin-left: 300px;
   }
-} */
-
-.login-circle {
-  margin-left: 300px;
 }

@@ -12,7 +12,9 @@ const ListarPlanificaciones = () => {
   const [planificaciones, setPlanificaciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const LIMITE_EXPIRACION = new Date(2026, 7, 9, 13, 0, 0);
+  const [animadorId, setAnimadorId] = useState(null);
+  const [animador, setAnimador] = useState(null);
+  const [isCordi, setIsCordi] = useState(false);
 
   const formatDate = (value) => {
     if (!value) return "--";
@@ -34,6 +36,18 @@ const ListarPlanificaciones = () => {
     );
     return `${day} de ${month}`;
   };
+
+  const getProximoDomingo = () => {
+    const hoy = new Date();
+    const diasHastaDomingo = (7 - hoy.getDay()) % 7 || 7;
+    const proximoDomingo = new Date(hoy);
+    proximoDomingo.setDate(hoy.getDate() + diasHastaDomingo);
+    proximoDomingo.setHours(13, 0, 0, 0);
+    return proximoDomingo;
+  };
+
+  // y en el componente:
+  const LIMITE_EXPIRACION = getProximoDomingo();
 
   const formatValue = (value) => value || "Sin asignar";
 
@@ -193,6 +207,46 @@ const ListarPlanificaciones = () => {
       window.removeEventListener("focus", handleFocus);
     };
   }, []);
+  useEffect(() => {
+    const cargarAnimador = async () => {
+      try {
+        const storedId = localStorage.getItem("animadorId");
+        if (!storedId) {
+          console.error("No existe animadorId en localStorage");
+          return;
+        }
+        setAnimadorId(storedId);
+
+        const res = await api.get(`/animador/id/${storedId}`);
+        const datosAnimador = res.data?.animador || res.data;
+        setAnimador(datosAnimador);
+      } catch (error) {
+        console.error(
+          "Error obteniendo animador:",
+          error?.response?.data || error,
+        );
+        setAnimador(null);
+      }
+    };
+    cargarAnimador();
+  }, []);
+
+  const eliminarPlanificacion = async (id) => {
+    try {
+      const res = await api.delete(`/eventos/planificacion/${id}`);
+      if (res?.status === 200) {
+        toast.success("Planificación eliminada exitosamente");
+        listarPlanificaciones().catch(() => {});
+      } else {
+        throw new Error(`Error eliminando planificación: ${res?.status}`);
+      }
+    } catch (err) {
+      console.error("Error eliminando planificación:", err);
+      toast.error(
+        err?.response?.data?.message || "Error al eliminar la planificación",
+      );
+    }
+  };
 
   return (
     <div className="listar-planificaciones">
@@ -223,7 +277,21 @@ const ListarPlanificaciones = () => {
                   <div key={item.id} className={`plan-mini ${item.accent}`}>
                     <div className="plan-mini__icon">{item.icon}</div>
                     <div className="plan-mini__body">
-                      <div className="plan-mini__title">{item.title}</div>
+                      <div className="plan-mini__title">
+                        {item.title}
+                        {isCordi && (
+                          <button
+                            className="plan-mini__delete-btn"
+                            style={{
+                              marginLeft: "8px",
+                              borderBlockColor: "red",
+                            }}
+                            onClick={() => eliminarPlanificacion(plan._id)}
+                          >
+                            Eliminar
+                          </button>
+                        )}
+                      </div>
                       <div className="plan-mini__value">{item.value}</div>
                     </div>
                   </div>
