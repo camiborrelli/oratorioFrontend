@@ -82,7 +82,7 @@ const BottomNav = () => {
         >
           <p className="nav-logo-text">Oratorio Cordon</p>
           <img
-            src="/public/img/logo.jpg"
+            src="/img/logo.jpg"
             alt="Logo"
             width={30}
             height={30}

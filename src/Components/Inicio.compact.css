@@ -81,6 +81,8 @@
 
 .planificaciones-desktop {
   display: block;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 /* Card */

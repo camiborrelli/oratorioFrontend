@@ -175,3 +175,10 @@ button {
   transform: scale(1.02);
   transition: all 0.15s ease;
 }
+
+.no-pendientes {
+  text-align: center;
+  color: var(--muted);
+  font-size: 16px;
+  margin-top: 20px;
+}

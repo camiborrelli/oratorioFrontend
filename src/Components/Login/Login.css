@@ -311,3 +311,13 @@ body.login-open .login-card {
   z-index: 2;
   max-width: 360px;
 }
+
+/* @media (max-width: 1000px) {
+  .login-circle {
+    margin-left: 300px;
+  }
+} */
+
+.login-circle {
+  margin-left: 300px;
+}

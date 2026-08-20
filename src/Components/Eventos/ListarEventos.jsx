@@ -94,6 +94,7 @@ const ListarEventos = () => {
   const [animador, setAnimador] = useState(null);
   const [animadorId, setAnimadorId] = useState(null);
   const [isCoordinator, setIsCoordinator] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [evento, setEvento] = useState(null);
 
   const listarEventos = async () => {
@@ -133,8 +134,6 @@ const ListarEventos = () => {
       try {
         const storedId = localStorage.getItem("animadorId");
 
-        console.log("animadorId de localStorage:", storedId);
-
         if (!storedId) {
           console.error("No existe animadorId en localStorage");
           return;
@@ -144,8 +143,6 @@ const ListarEventos = () => {
 
         const res = await api.get(`/animador/id/${storedId}`);
 
-        console.log("Respuesta del backend:", res.data);
-
         const datosAnimador = res.data?.animador || res.data;
 
         setAnimador(datosAnimador);
@@ -154,14 +151,13 @@ const ListarEventos = () => {
           ? datosAnimador.roles.map((rol) => String(rol).toLowerCase().trim())
           : [];
 
-        console.log("Roles del animador:", roles);
-
         const coordinator =
           roles.includes("coordinador") || roles.includes("cordi");
 
         setIsCoordinator(coordinator);
 
-        console.log("¿Es coordinador?:", coordinator);
+        const admin = roles.includes("admin");
+        setIsAdmin(admin);
       } catch (error) {
         console.error(
           "Error obteniendo animador:",
@@ -281,7 +277,7 @@ const ListarEventos = () => {
               onClick={() => setMostrarCrearEvento(true)}
             >
               <div>
-                <PiCalendar style={{ marginRight: 8 }} />
+                <PiCalendar style={{ marginRight: 8, color: "#10b981" }} />
               </div>
               Agregar <br /> evento
             </button>
@@ -303,39 +299,40 @@ const ListarEventos = () => {
           className="eventos-header__actions"
           style={{ display: "flex", gap: "8px" }}
         >
-          {eventos.length > 0 && (
-            <>
-              <button
-                className="btn btn-primary"
-                onClick={() => setMostrarCrearEvento(true)}
-              >
-                <div>
-                  <PiCalendar style={{ marginRight: 8 }} />
-                </div>
-                Agregar evento
-              </button>
-              <button
-                className="btn btn-primary bg-blue-600 text-white px-3 py-1 rounded-md btn-add"
-                onClick={() => setMostrarModalPlanificacion(true)}
-              >
-                <div>
+          {isCoordinator ||
+            (isAdmin && (
+              <>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setMostrarCrearEvento(true)}
+                >
                   <div>
-                    <CiBoxList style={{ marginRight: 8 }} />
+                    <PiCalendar style={{ marginRight: 8 }} />
                   </div>
-                </div>
-                Agregar <br /> planificacion
-              </button>
-              <button
-                className="btn btn-primary bg-gray-600 text-white px-3 py-1 rounded-md btn-add"
-                onClick={() => setMostrarModalRecordatorio(true)}
-              >
-                <div>
-                  <IoAlertCircleOutline style={{ marginRight: 8 }} />
-                </div>
-                Agregar <br /> recordatorio
-              </button>
-            </>
-          )}
+                  Agregar evento
+                </button>
+                <button
+                  className="btn btn-primary bg-blue-600 text-white px-3 py-1 rounded-md btn-add"
+                  onClick={() => setMostrarModalPlanificacion(true)}
+                >
+                  <div>
+                    <div>
+                      <CiBoxList style={{ marginRight: 8 }} />
+                    </div>
+                  </div>
+                  Agregar <br /> planificacion
+                </button>
+                <button
+                  className="btn btn-primary bg-gray-600 text-white px-3 py-1 rounded-md btn-add"
+                  onClick={() => setMostrarModalRecordatorio(true)}
+                >
+                  <div>
+                    <IoAlertCircleOutline style={{ marginRight: 8 }} />
+                  </div>
+                  Agregar <br /> recordatorio
+                </button>
+              </>
+            ))}
         </div>
       </div>
       <h1 className="text-xl font-bold">Próximos eventos</h1>

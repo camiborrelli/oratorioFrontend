@@ -17,6 +17,11 @@ const ListarRecordatorios = () => {
   const hechos = recordatorios.filter((rec) => rec.estado === "completado");
   const [mostrarTodos, setMostrarTodos] = useState(false);
 
+  const [animadorId, setAnimadorId] = useState(null);
+  const [animador, setAnimador] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isCordi, setIsCordi] = useState(false);
+
   const listarRecordatorios = async () => {
     setLoading(true);
     setError(null);
@@ -60,6 +65,37 @@ const ListarRecordatorios = () => {
   useEffect(() => {
     listarRecordatorios().catch(() => {});
   }, []);
+  useEffect(() => {
+    const cargarAnimador = async () => {
+      try {
+        const storedId = localStorage.getItem("animadorId");
+        if (!storedId) {
+          console.error("No existe animadorId en localStorage");
+          return;
+        }
+        setAnimadorId(storedId);
+
+        const res = await api.get(`/animador/id/${storedId}`);
+        const datosAnimador = res.data?.animador || res.data;
+        setAnimador(datosAnimador);
+
+        const coordi =
+          datosAnimador?.roles?.includes("coordinador") ||
+          datosAnimador?.roles?.includes("cordi");
+        setIsCordi(coordi);
+
+        const admin = datosAnimador?.roles?.includes("admin");
+        setIsAdmin(admin);
+      } catch (error) {
+        console.error(
+          "Error obteniendo animador:",
+          error?.response?.data || error,
+        );
+        setAnimador(null);
+      }
+    };
+    cargarAnimador();
+  }, []);
 
   const toggleDone = (id) => {
     setDoneIds((prev) => {
@@ -88,6 +124,19 @@ const ListarRecordatorios = () => {
 
   const verTodos = () => {
     setMostrarTodos((prev) => !prev);
+  };
+
+  const eliminarRecordatorio = async (id) => {
+    try {
+      const res = await api.delete(`/eventos/recordatorios/${id}`);
+      if (res?.status === 200 || res?.status === 204) {
+        toast.success("Recordatorio eliminado");
+        listarRecordatorios();
+      }
+    } catch (error) {
+      console.error("Error eliminando recordatorio", error);
+      toast.error("No se pudo eliminar el recordatorio");
+    }
   };
 
   return (
@@ -160,6 +209,19 @@ const ListarRecordatorios = () => {
                   <div className="rec-card__content">
                     <h3 className="rec-card__title">{rec.titulo}</h3>
                     <p className="rec-card__desc">{rec.descripcion}</p>
+                    {isCordi && (
+                      <button
+                        type="button"
+                        onClick={() => eliminarRecordatorio(rec._id)}
+                        aria-label="Eliminar recordatorio"
+                        title="Eliminar recordatorio"
+                      >
+                        <FaTrashAlt
+                          className="rec-card__delete"
+                          style={{ color: "red" }}
+                        />
+                      </button>
+                    )}
                   </div>
                 </article>
               ))}
@@ -176,7 +238,9 @@ const ListarRecordatorios = () => {
           {!loading && !error && recordatorios.length > 0 && (
             <>
               {pendientes.length === 0 ? (
-                <p>¡No quedan recordatorios pendientes! 🎉</p>
+                <p className="no-pendientes">
+                  ¡No quedan recordatorios pendientes! 🎉
+                </p>
               ) : (
                 <div className="recordatorios-list">
                   {pendientes.map((rec) => (
