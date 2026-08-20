@@ -310,7 +310,7 @@
 
 /* (no additional rules) */
 
-.logo-circle {
+/* .logo-circle {
   width: 42px;
   height: 42px;
   border-radius: 50%;
@@ -322,7 +322,7 @@
   box-shadow: 0 6px 18px rgba(47, 127, 42, 0.12);
   margin-top: 10px;
   margin-left: 20px;
-}
+} */
 .nav-item-menu {
   position: relative;
   display: flex;

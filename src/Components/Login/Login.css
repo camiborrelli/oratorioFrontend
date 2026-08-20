@@ -80,7 +80,7 @@ body.with-bg {
   display: block;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px; /* centrado horizontal en cualquier tamaño de pantalla */
+  margin: 0 auto; /* centrado horizontal en cualquier tamaño de pantalla */
   box-shadow: 0 6px 18px rgba(47, 127, 42, 0.12);
 }
 
@@ -312,7 +312,7 @@ body.login-open .login-card {
   max-width: 360px;
 }
 
-@media (max-width: 450px) {
+/* @media (max-width: 450px) {
   .login-circle {
     margin-left: 220px;
   }
@@ -328,4 +328,4 @@ body.login-open .login-card {
   .login-circle {
     margin-left: 300px;
   }
-}
+} */

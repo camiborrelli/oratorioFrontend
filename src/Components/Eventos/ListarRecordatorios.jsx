@@ -6,6 +6,7 @@ import { FiCheck } from "react-icons/fi";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
+import { FaTrashAlt } from "react-icons/fa";
 
 const ListarRecordatorios = () => {
   const [loading, setLoading] = useState(false);

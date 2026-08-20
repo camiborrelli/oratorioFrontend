@@ -4,8 +4,9 @@ import api from "../../api";
 import "./ListarPlanificacion.css";
 import { MdFlatware } from "react-icons/md";
 import { RiUserVoiceLine } from "react-icons/ri";
-import { FaPeopleGroup } from "react-icons/fa6";
+import { FaPeopleGroup, FaTractor } from "react-icons/fa6";
 import { MdOutlineGamepad } from "react-icons/md";
+import { FiDelete } from "react-icons/fi";
 import { FaMasksTheater } from "react-icons/fa6";
 
 const ListarPlanificaciones = () => {
@@ -15,6 +16,7 @@ const ListarPlanificaciones = () => {
   const [animadorId, setAnimadorId] = useState(null);
   const [animador, setAnimador] = useState(null);
   const [isCordi, setIsCordi] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const formatDate = (value) => {
     if (!value) return "--";
@@ -220,6 +222,14 @@ const ListarPlanificaciones = () => {
         const res = await api.get(`/animador/id/${storedId}`);
         const datosAnimador = res.data?.animador || res.data;
         setAnimador(datosAnimador);
+
+        const coordi =
+          datosAnimador?.roles?.includes("coordinador") ||
+          datosAnimador?.roles?.includes("cordi");
+        setIsCordi(coordi);
+
+        const admin = datosAnimador?.roles?.includes("admin");
+        setIsAdmin(admin);
       } catch (error) {
         console.error(
           "Error obteniendo animador:",
@@ -233,7 +243,7 @@ const ListarPlanificaciones = () => {
 
   const eliminarPlanificacion = async (id) => {
     try {
-      const res = await api.delete(`/eventos/planificacion/${id}`);
+      const res = await api.delete(`/eventos/planificaciones/${id}`);
       if (res?.status === 200) {
         toast.success("Planificación eliminada exitosamente");
         listarPlanificaciones().catch(() => {});
@@ -265,11 +275,26 @@ const ListarPlanificaciones = () => {
                   <span className="plan-card__badge plan-card__badge--date">
                     {formatDate(plan.fecha)}
                   </span>
+
                   <span className="plan-card__badge plan-card__badge--type">
                     Planificación
                   </span>
+                  {isCordi && (
+                    <button
+                      type="button"
+                      className="plan-card__badge plan-card__badge--type btn-plan-eliminar"
+                      onClick={() => eliminarPlanificacion(plan._id)}
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </div>
-                <h3 className="plan-card__title">{plan.Tema || "Sin tema"}</h3>
+
+                <div className="plan-card__header">
+                  <h3 className="plan-card__title">
+                    {plan.Tema || "Sin tema"}
+                  </h3>
+                </div>
               </div>
 
               <div className="plan-card__items">
@@ -277,21 +302,7 @@ const ListarPlanificaciones = () => {
                   <div key={item.id} className={`plan-mini ${item.accent}`}>
                     <div className="plan-mini__icon">{item.icon}</div>
                     <div className="plan-mini__body">
-                      <div className="plan-mini__title">
-                        {item.title}
-                        {isCordi && (
-                          <button
-                            className="plan-mini__delete-btn"
-                            style={{
-                              marginLeft: "8px",
-                              borderBlockColor: "red",
-                            }}
-                            onClick={() => eliminarPlanificacion(plan._id)}
-                          >
-                            Eliminar
-                          </button>
-                        )}
-                      </div>
+                      <div className="plan-mini__title">{item.title}</div>
                       <div className="plan-mini__value">{item.value}</div>
                     </div>
                   </div>

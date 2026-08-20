@@ -196,3 +196,36 @@
     max-width: 12ch;
   }
 }
+
+/* .plan-delete-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  color: black;
+}
+
+.plan-card__delete {
+  width: 20px;
+  height: 20px;
+  color: #e74c3c;
+  transition: all 0.2s ease;
+} */
+
+.btn-plan-eliminar {
+  background-color: #b91c1c;
+  height: auto;
+}
+
+.btn-plan-eliminar:hover {
+  background-color: #991b1b;
+  transform: scale(1.15);
+}
