@@ -595,3 +595,93 @@
 .detalles {
   margin-left: 15+4px;
 }
+
+/* Overlay */
+.modal-animadores-evento {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* Tarjeta del modal */
+.modal-animadores__content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  width: 100%;
+  max-width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.2s ease-out;
+}
+
+.modal-animadores__content h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: #1f2937;
+}
+
+.modal-animadores__content p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0 0 1rem;
+}
+
+.modal-animadores__content ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-animadores__content li {
+  padding: 0.6rem 0.85rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.modal-animadores-evento span {
+  font-weight: 600;
+  color: #0f7a50;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .modal-animadores__content {
+    padding: 1.25rem;
+    max-width: 100%;
+  }
+}

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "./Login.css";
+
 import api from "../../api";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 import { loguear } from "../../features/animador.slice";
 import { useDispatch } from "react-redux";
 import { FaRegUser } from "react-icons/fa";
 import CambiarContrasenia from "../Animadores/CambiarContrasenia";
+import "./Login.css";
 
 const Login = () => {
   const naviagate = useNavigate();
@@ -17,6 +18,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [showCambiarContrasenia, setShowCambiarContrasenia] = useState(false);
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   useEffect(() => {
     document.body.classList.add("with-bg", "login-open");
@@ -38,22 +40,27 @@ const Login = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const login = async (e) => {
     e.preventDefault();
+    console.log("formData al submit:", formData); // 👈 agregá esto
     setErrors({});
-    if (!email) {
-      toast.error("El email es obligatorio");
-      // toast.error("El email es obligatorio");
-      return;
-    }
-    if (!password) {
-      toast.error("La contraseña es obligatoria");
-      // toast.error("La contraseña es obligatoria");
+
+    if (!formData.email.trim() || !formData.password.trim()) {
+      toast.error("El email y la contraseña son obligatorios");
       return;
     }
 
     try {
-      const payload = { email, password, role };
+      const payload = {
+        email: formData.email,
+        password: formData.password,
+        role,
+      };
       const res = await api.post("/animador/login", payload, {
         skipAuth: true,
       });
@@ -149,8 +156,9 @@ const Login = () => {
               placeholder="Correo electrónico"
               type="email"
               autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
+              name="email"
             />
             <FaRegUser
               styles={{
@@ -172,8 +180,9 @@ const Login = () => {
               placeholder="Contraseña"
               type={showPwd ? "text" : "password"}
               autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
             />
 
             <button

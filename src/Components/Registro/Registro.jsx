@@ -4,13 +4,24 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import api from "../../api";
 import { setUser } from "../../store";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import "./Registro.css";
 
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    nombre: "",
+    apellido: "",
+    apodo: "",
+    email: "",
+    fechaCumple: "",
+    division: "",
+    recorrida: "",
+    password: "",
+    roles: ["animador"],
+  });
 
   const {
     register,
@@ -28,20 +39,22 @@ const Register = () => {
         data.roles = [data.roles];
       }
 
-      const payload = {
-        nombre: data.nombre,
-        apellido: data.apellido,
-        apodo: data.apodo || "",
-        email: data.email,
-        fechaCumple: data.fechaCumple || "",
-        division: data.division,
-        recorrida: data.recorrida,
-        password: data.password,
-        roles: data.roles,
-      };
-
-      if (!payload) {
+      if (
+        !data.nombre.trim() ||
+        !data.apellido.trim() ||
+        !data.email.trim() ||
+        !data.division.trim() ||
+        !data.recorrida.trim() ||
+        !data.password.trim()
+      ) {
         toast.error("Por favor completa todos los campos obligatorios.");
+        setSubmitting(false);
+        return;
+      }
+
+      if (data.password.length < 6) {
+        toast.error("La contraseña debe tener al menos 6 caracteres.");
+        setSubmitting(false);
         return;
       }
 
@@ -113,7 +126,7 @@ const Register = () => {
           <input
             className="w-full border rounded-md px-3 py-2"
             placeholder="Nombre"
-            {...register("nombre", { required: true })}
+            {...register("nombre")}
           />
           {errors.nombre && (
             <p className="text-sm text-red-600">Nombre obligatorio</p>
@@ -122,7 +135,7 @@ const Register = () => {
           <input
             className="w-full border rounded-md px-3 py-2"
             placeholder="Apellido"
-            {...register("apellido", { required: true })}
+            {...register("apellido")}
           />
           {errors.apellido && (
             <p className="text-sm text-red-600">Apellido obligatorio</p>
@@ -138,7 +151,7 @@ const Register = () => {
             className="w-full border rounded-md px-3 py-2"
             placeholder="Email"
             type="email"
-            {...register("email", { required: true })}
+            {...register("email")}
           />
           {errors.email && (
             <p className="text-sm text-red-600">Email obligatorio</p>
@@ -146,7 +159,7 @@ const Register = () => {
 
           <select
             className="w-full border rounded-md px-3 py-2"
-            {...register("division", { required: true })}
+            {...register("division")}
             defaultValue=""
           >
             <option value="" disabled>
@@ -163,7 +176,7 @@ const Register = () => {
 
           <select
             className="w-full border rounded-md px-3 py-2"
-            {...register("recorrida", { required: true })}
+            {...register("recorrida")}
             defaultValue=""
           >
             <option value="" disabled>
@@ -180,7 +193,7 @@ const Register = () => {
 
           <input
             type="date"
-            {...register("fechaCumple", { required: true })}
+            {...register("fechaCumple")}
             placeholder="Fecha de cumpleaños"
           />
 
@@ -188,7 +201,7 @@ const Register = () => {
             className="w-full border rounded-md px-3 py-2"
             placeholder="Contraseña"
             type="password"
-            {...register("password", { required: true, minLength: 6 })}
+            {...register("password")}
           />
           {errors.password && (
             <p className="text-sm text-red-600">

@@ -77,7 +77,6 @@ const ConfirmarAsistencia = ({
     }
     setLoading(true);
     // Optimistic UI: mark as confirmed immediately so the button becomes "Cancelar"
-    setConfirmed(true);
     // Try a few endpoint variants to be robust against backend route differences.
     const candidates = [
       { method: "post", url: `/evento/${eventoId}/animadores/${animadorId}` },

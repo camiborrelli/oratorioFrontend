@@ -178,7 +178,11 @@ function InnerAppRoutes() {
       </Routes>
 
       {/* TOAST */}
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer
+        position="bottom-right"
+        style={{ marginBottom: "20px" }}
+        autoClose={3000}
+      />
 
       {/* BOTTOM NAV */}
       {!hideBottom && <BottomNav />}

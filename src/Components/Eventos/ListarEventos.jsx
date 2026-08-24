@@ -423,15 +423,14 @@ const ListarEventos = () => {
 
       {mostrarModalAnimadores && (
         <div
-          className="modal-animadores"
+          className="modal-animadores-evento"
           onClick={() => setMostrarModalAnimadores(false)}
         >
           <div className="modal-animadores__content">
             <h2>
               Lista de animadores para el evento{" "}
-              {evento.nombre || evento.title || "Sin título"}
+              <span>{evento.nombre || evento.title || "Sin título"}</span>
             </h2>
-            <p>Lista de animadores para este evento.</p>
             {animadoresDelEvento.length === 0 ? (
               <p>No hay animadores asignados a este evento.</p>
             ) : (

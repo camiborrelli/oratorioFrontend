@@ -137,6 +137,7 @@ const ListarRecordatorios = () => {
     } catch (error) {
       console.error("Error eliminando recordatorio", error);
       toast.error("No se pudo eliminar el recordatorio");
+      console.log(error?.response?.data || error.message || String(error));
     }
   };
 
@@ -216,7 +217,14 @@ const ListarRecordatorios = () => {
                         onClick={() => eliminarRecordatorio(rec._id)}
                         aria-label="Eliminar recordatorio"
                         title="Eliminar recordatorio"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "5px",
+                          color: "red",
+                        }}
                       >
+                        Eliminar
                         <FaTrashAlt
                           className="rec-card__delete"
                           style={{ color: "red" }}
