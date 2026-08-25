@@ -53,13 +53,9 @@ const CrearPlanificacion = ({ onClose }) => {
           const res = await api.post(ep, formData);
           if (res?.status === 200 || res?.status === 201) {
             toast.success("Planificación creada exitosamente");
-            window.dispatchEvent(
-              new CustomEvent("oratorio:creado", {
-                detail: { tipo: "planificacion", item: res.data },
-              }),
-            );
-            if (typeof onClose === "function") onClose();
-            else navigate("/inicio");
+            //actualizar las planificaciones
+            // window.location.reload();
+            navigate("/inicio");
             success = true;
             break;
           }
@@ -87,23 +83,11 @@ const CrearPlanificacion = ({ onClose }) => {
 
   return (
     <div className="modal-crear-planificacion" onClick={onClose}>
-      <div className="modal-crear-planificacion__content">
-        <div className="planificacion-modal-header">
-          <div>
-            <h2>Crear nueva planificación</h2>
-          </div>
-
-          <button
-            type="button"
-            className="planificacion-modal-close"
-            onClick={onClose}
-            disabled={loading}
-            aria-label="Cerrar"
-          >
-            ×
-          </button>
-        </div>
-
+      <div
+        className="modal-crear-planificacion__content"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h1>Crear Planificación</h1>
         <form className="crear-planificacion-form" onSubmit={handleSubmit}>
           <div className="grid">
             <label className="field">

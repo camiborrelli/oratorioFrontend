@@ -1,409 +1,176 @@
-/* =================================
-   OVERLAY
-================================= */
+body.with-bg {
+  position: relative;
+  min-height: 100dvh;
+}
 
+/* Capa de fondo, detrás de todo */
+body.with-bg::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/ruta/a/la/imagen.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px);
+  transform: scale(1.05); /* evita ver el borde nítido que deja el blur */
+  z-index: -1;
+}
+
+/* Overlay del modal: fijo, cubre toda la pantalla, fondo oscuro semitransparente */
 .modal-crear-planificacion {
   position: fixed;
-  inset: 0;
-  z-index: 3000;
-
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(11, 22, 16, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-
-  padding: 20px;
-
-  background: rgba(15, 23, 42, 0.58);
-
-  animation: planificacionFadeIn 0.18s ease-out;
-}
-
-/* =================================
-   MODAL
-================================= */
-
-.modal-crear-planificacion__content {
-  width: min(720px, 100%);
-  max-height: calc(100vh - 40px);
-
+  z-index: 1000;
+  padding: 16px;
   overflow-y: auto;
-
-  background: #ffffff;
-
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 18px;
-
-  box-shadow:
-    0 24px 60px rgba(15, 23, 42, 0.22),
-    0 8px 20px rgba(15, 23, 42, 0.08);
-
-  animation: planificacionSlideUp 0.2s ease-out;
 }
 
-/* =================================
-   HEADER
-================================= */
-
-.modal-crear-planificacion__content h1 {
-  margin: 0;
-
-  color: #0f172a;
-
-  font-size: 1.45rem;
-  font-weight: 750;
-  line-height: 1.2;
-
-  text-align: left;
+/* Card blanca centrada dentro del overlay */
+.modal-crear-planificacion__content {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  margin: auto;
+  margin-bottom: 250px;
+  box-shadow: 0 8px 30px rgba(11, 22, 16, 0.18);
+  border: 1px solid rgba(15, 122, 80, 0.06);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
 }
 
-/*
-   El h1 queda después del subtítulo generado arriba,
-   por eso usamos este contenedor visual para mantener
-   la separación del encabezado.
-*/
-
-.modal-crear-planificacion__content > h1 {
-  padding: 0 26px 18px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+.modal-crear-planificacion__content h1,
+.modal-crear-planificacion__content h2 {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  text-align: center;
+  color: #0f7a50; /* green heading */
 }
 
-/* =================================
-   FORMULARIO
-================================= */
-
-.crear-planificacion-form {
+.modal-crear-planificacion__content form {
   display: flex;
   flex-direction: column;
-
-  gap: 20px;
-
-  padding: 22px 26px 26px;
+  gap: 12px;
 }
 
-/* =================================
-   GRID
-================================= */
-
-.crear-planificacion-form .grid {
-  display: grid;
-
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-
-  gap: 17px 18px;
-}
-
-/* =================================
-   CAMPOS
-================================= */
-
-.crear-planificacion-form .field {
+.modal-crear-planificacion__content .field {
   display: flex;
   flex-direction: column;
-
-  gap: 7px;
-
-  min-width: 0;
-}
-
-/* =================================
-   LABEL
-================================= */
-
-.field-label-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-
+  background: #f1f6f5; /* light green panel */
+  padding: 12px;
+  border-radius: 12px;
   gap: 8px;
-
-  color: #334155;
-
-  font-size: 0.84rem;
-  font-weight: 700;
+  color: #374151;
 }
 
-/* =================================
-   OBLIGATORIO
-================================= */
-
-.required-badge {
-  display: inline-flex;
+.modal-crear-planificacion__content .field-label-row {
+  font-weight: 600;
+  display: flex;
   align-items: center;
-
-  padding: 3px 7px;
-
-  border-radius: 5px;
-
-  background: #f0fdf4;
-
-  color: #15803d;
-
-  font-size: 0.65rem;
-  font-weight: 800;
-
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  justify-content: space-between;
 }
 
-/* =================================
-   INPUTS / SELECTS
-================================= */
-
-.crear-planificacion-form input,
-.crear-planificacion-form select {
+.modal-crear-planificacion__content input,
+.modal-crear-planificacion__content select,
+.modal-crear-planificacion__content textarea {
+  padding: 10px 12px;
   width: 100%;
-  height: 44px;
-
-  box-sizing: border-box;
-
-  padding: 0 12px;
-
-  border: 1px solid #dbe2e8;
   border-radius: 10px;
-
+  border: 1px solid #e6e6e6;
   background: #ffffff;
-
-  color: #0f172a;
-
+  font-size: 14px;
+  font-weight: 400;
+  color: #0f7a50; /* green text tone */
   font-family: inherit;
-  font-size: 0.92rem;
+  box-sizing: border-box;
+}
 
+.modal-crear-planificacion__content input::placeholder,
+.modal-crear-planificacion__content select::placeholder,
+.modal-crear-planificacion__content textarea::placeholder {
+  color: #94c4a8;
+  opacity: 1;
+}
+
+.modal-crear-planificacion__content input:focus,
+.modal-crear-planificacion__content select:focus,
+.modal-crear-planificacion__content textarea:focus {
+  border-color: rgba(15, 122, 80, 0.35);
+  box-shadow: 0 8px 20px rgba(15, 122, 80, 0.06);
   outline: none;
-
-  transition:
-    border-color 0.18s ease,
-    box-shadow 0.18s ease,
-    background 0.18s ease;
 }
-
-/* =================================
-   PLACEHOLDER
-================================= */
-
-.crear-planificacion-form input::placeholder {
-  color: #94a3b8;
-}
-
-/* =================================
-   FOCUS
-================================= */
-
-.crear-planificacion-form input:focus,
-.crear-planificacion-form select:focus {
-  border-color: #16a34a;
-
-  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
-}
-
-/* =================================
-   DISABLED
-================================= */
-
-.crear-planificacion-form input:disabled,
-.crear-planificacion-form select:disabled {
-  background: #f8fafc;
-
-  cursor: not-allowed;
-}
-
-/* =================================
-   SELECT
-================================= */
-
-.crear-planificacion-form select {
-  cursor: pointer;
-}
-
-/* =================================
-   ACCIONES
-================================= */
 
 .form-actions {
   display: flex;
-
-  justify-content: flex-end;
-  align-items: center;
-
   gap: 10px;
-
-  margin-top: 4px;
-
-  padding-top: 18px;
-
-  border-top: 1px solid rgba(15, 23, 42, 0.07);
+  justify-content: flex-end;
+  margin-top: 20px;
+  align-items: stretch;
 }
 
-/* =================================
-   BOTONES
-================================= */
+.form-actions button {
+  flex: 1 1 0;
+  min-height: 44px;
+}
 
-.crear-planificacion-form .btn {
-  min-height: 42px;
-
-  padding: 9px 17px;
-
-  border-radius: 9px;
-
-  font-family: inherit;
-  font-size: 0.87rem;
-  font-weight: 700;
-
+.modal-crear-planificacion__content button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
-
-  transition:
-    transform 0.18s ease,
-    background 0.18s ease,
-    box-shadow 0.18s ease,
-    opacity 0.18s ease;
+  font-size: 14px;
 }
 
-.crear-planificacion-form .btn:hover:not(:disabled) {
-  transform: translateY(-1px);
+.modal-crear-planificacion__content button[type="submit"],
+.modal-crear-planificacion__content .btn-primary {
+  background: #0f7a50;
+  color: #fff;
 }
-
-.crear-planificacion-form .btn:disabled {
+.modal-crear-planificacion__content button[type="submit"]:disabled,
+.modal-crear-planificacion__content .btn-primary:disabled {
   opacity: 0.6;
-
   cursor: not-allowed;
 }
 
-/* =================================
-   CANCELAR
-================================= */
-
-.crear-planificacion-form .btn-secondary {
-  border: 1px solid #dbe2e8;
-
-  background: #ffffff;
-
-  color: #475569;
-}
-
-.crear-planificacion-form .btn-secondary:hover:not(:disabled) {
-  background: #f8fafc;
-}
-
-/* =================================
-   CREAR
-================================= */
-
-.crear-planificacion-form .btn-primary {
-  border: 1px solid #16a34a;
-
-  background: #16a34a;
-
-  color: #ffffff;
-
-  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.16);
-}
-
-.crear-planificacion-form .btn-primary:hover:not(:disabled) {
-  background: #15803d;
-
-  border-color: #15803d;
-
-  box-shadow: 0 6px 15px rgba(22, 163, 74, 0.22);
-}
-
-/* =================================
-   SCROLLBAR
-================================= */
-
-.modal-crear-planificacion__content::-webkit-scrollbar {
-  width: 7px;
-}
-
-.modal-crear-planificacion__content::-webkit-scrollbar-track {
+.modal-crear-planificacion__content button[type="button"],
+.modal-crear-planificacion__content .btn-secondary {
   background: transparent;
+  border: 1px solid #d1d5db;
+  color: #374151;
 }
 
-.modal-crear-planificacion__content::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-
-  border-radius: 10px;
+.required-badge {
+  background: #eaf6ec;
+  color: #0f7a50;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(15, 122, 80, 0.12);
 }
 
-.modal-crear-planificacion__content::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* =================================
-   RESPONSIVE
-================================= */
-
-@media (max-width: 650px) {
-  .modal-crear-planificacion {
-    align-items: flex-end;
-
-    padding: 0;
-  }
-
+@media (max-width: 640px) {
   .modal-crear-planificacion__content {
-    width: 100%;
-
-    max-height: 92vh;
-
-    border-radius: 18px 18px 0 0;
+    padding: 16px;
   }
-
-  .modal-crear-planificacion__content::before {
-    padding: 20px 18px 0;
-  }
-
-  .modal-crear-planificacion__content > h1 {
-    padding: 0 18px 16px;
-  }
-
-  .crear-planificacion-form {
-    padding: 18px;
-  }
-
-  .crear-planificacion-form .grid {
-    grid-template-columns: 1fr;
-
-    gap: 17px;
-  }
-
   .form-actions {
-    flex-direction: column-reverse;
-
-    align-items: stretch;
+    justify-content: stretch;
   }
-
-  .crear-planificacion-form .btn {
-    width: 100%;
-  }
-}
-
-/* =================================
-   ANIMACIONES
-================================= */
-
-@keyframes planificacionFadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-h2 {
-  text-align: center;
-}
-p {
-  display: none;
-}
-@keyframes planificacionSlideUp {
-  from {
-    opacity: 0;
-
-    transform: translateY(12px) scale(0.99);
-  }
-
-  to {
-    opacity: 1;
-
-    transform: translateY(0) scale(1);
+  .form-actions button {
+    flex: 1;
   }
 }
