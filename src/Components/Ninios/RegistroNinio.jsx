@@ -350,7 +350,6 @@ const RegistroNinio = () => {
                 <span className="error">{errors.direccion.message}</span>
               )}
             </div>
-            +
           </div>
 
           <div className="form-group full">

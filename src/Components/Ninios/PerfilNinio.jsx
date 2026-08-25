@@ -238,6 +238,12 @@ const PerfilNinio = () => {
             <span>Recorrida: </span>
             <span>{" " + (nin.recorrida || nin.grupo || "-")}</span>
           </div>
+          <div className="row">
+            <span>Observaciones: </span>
+            <span>
+              {" " + (nin.observaciones || "No hay ninguna observacion")}
+            </span>
+          </div>
         </div>
 
         <div className="card">
