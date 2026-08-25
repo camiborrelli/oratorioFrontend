@@ -226,14 +226,24 @@
   border-radius: 8px;
 
   background: rgba(255, 255, 255, 0.13);
-  color: #fff;
-
   font-size: 0.9rem;
   font-weight: 700;
   text-align: center;
   line-height: 1.25;
 
   box-shadow: none;
+}
+
+@media (min-width: 730px) {
+  .evento-card__date {
+    color: #f8fffb;
+  }
+}
+
+@media (max-width: 720px) {
+  .evento-card__media {
+    color: black;
+  }
 }
 
 /* =========================================================
@@ -1049,4 +1059,23 @@
 
 .odal-animadores__content h2 {
   text-align: center;
+}
+
+.editar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  min-height: 34px;
+  padding: 7px 11px;
+
+  border: 1px solid rgba(22, 163, 74, 0.18);
+  border-radius: 9px;
+
+  background: #f0f7f2;
+  color: #14532d;
+
+  font-size: 0.82rem;
+  font-weight: 700;
 }

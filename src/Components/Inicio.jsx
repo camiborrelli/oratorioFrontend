@@ -161,7 +161,7 @@ const Inicio = () => {
 
       <div className="welcome inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-green-500 text-white py-2 px-4 rounded-full shadow-md mb-4">
         <span className="welcome-emoji text-2xl">👋</span>
-        <span className="user font-semibold text-lg">Hola, {apodo}</span>
+        <span className="user font-semibold text-lg">Hola {apodo}</span>
       </div>
 
       <div className="inicio-header mb-6">

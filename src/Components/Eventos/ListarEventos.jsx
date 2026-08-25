@@ -135,7 +135,8 @@ const ListarEventos = () => {
       if (event.detail?.tipo === "evento") listarEventos().catch(() => {});
     };
     window.addEventListener("oratorio:creado", actualizarAlCrear);
-    return () => window.removeEventListener("oratorio:creado", actualizarAlCrear);
+    return () =>
+      window.removeEventListener("oratorio:creado", actualizarAlCrear);
   }, []);
   useEffect(() => {
     const cargarAnimador = async () => {
@@ -372,7 +373,7 @@ const ListarEventos = () => {
                   {isCoordinator && (
                     <button
                       type="button"
-                      className="evento-edit-btn"
+                      className="btn btn-primary editar"
                       onClick={() => handleEditarEvento(evento)}
                       title="Editar evento"
                       aria-label={`Editar ${
