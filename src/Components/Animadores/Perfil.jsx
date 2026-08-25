@@ -149,6 +149,8 @@ const Perfil = () => {
     perfil?.telefono_celular ||
     perfil?.guardianPhone;
 
+  const isGonnaEditHimself = perfil?._id === localStorage.getItem("animadorId");
+
   return (
     <div className="animador-profile-root">
       {loading && <div className="loading">Cargando perfil...</div>}
@@ -190,17 +192,19 @@ const Perfil = () => {
               ) : null}
             </div>
 
-            <div className="actions">
-              {/* <a className="btn btn-call" href={`tel:${phoneGuardian || ""}`}>
-                Enviar mensaje
-              </a> */}
-              <button className="btn btn-asign" onClick={goToEdit}>
-                Editar perfil
-              </button>
-              {/* <button className="btn btn-alert" onClick={logout}>
+            {isGonnaEditHimself && (
+              <div className="actions">
+                {/* <a className="btn btn-call" href={`tel:${phoneGuardian || ""}`}>
+                  Enviar mensaje
+                </a> */}
+                <button className="btn btn-asign" onClick={goToEdit}>
+                  Editar perfil
+                </button>
+                {/* <button className="btn btn-alert" onClick={logout}>
                 Cerrar sesión
               </button> */}
-            </div>
+              </div>
+            )}
           </aside>
 
           <main className="perfil-main">

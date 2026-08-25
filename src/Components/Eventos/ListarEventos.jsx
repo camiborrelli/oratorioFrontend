@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import api, { fetchList } from "../../api";
 import { toast } from "react-toastify";
 import "./Eventos.css";
 import ConfirmarAsistencia from "./ConfirmarAsistencia";
-import ModalIntermedio from "./ModalIntermedio";
 import ListarRecordatorios from "./ListarRecordatorios";
 import CrearPlanificacion from "./CrearPlanificacion";
 import CrearRecordatorio from "./CrearRecordatorio";
 import CrearEvento from "./CrearEvento";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { PiCalendar } from "react-icons/pi";
-import { FcTodoList } from "react-icons/fc";
 import { CiBoxList } from "react-icons/ci";
+import EditarEvento from "./EditarEvento";
+import { FaEdit } from "react-icons/fa";
 
 // Lightweight carousel component (no external deps)
 const SimpleCarousel = ({ images = [], interval = 3000 }) => {
@@ -82,8 +81,6 @@ const ListarEventos = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [eventos, setEventos] = useState([]);
-  const [planificaciones, setPlanificaciones] = useState([]);
-  const [recordatorios, setRecordatorios] = useState([]);
   const [mostrarModalRecordatorio, setMostrarModalRecordatorio] =
     useState(false);
   const [mostrarModalPlanificacion, setMostrarModalPlanificacion] =
@@ -94,8 +91,11 @@ const ListarEventos = () => {
   const [animador, setAnimador] = useState(null);
   const [animadorId, setAnimadorId] = useState(null);
   const [isCoordinator, setIsCoordinator] = useState(false);
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [evento, setEvento] = useState(null);
+
+  const [editarEvento, setEditarEvento] = useState(false);
 
   const listarEventos = async () => {
     setLoading(true);
@@ -171,45 +171,8 @@ const ListarEventos = () => {
 
     cargarAnimador();
   }, []);
-
-  const decodeJwt = (token) => {
-    try {
-      if (!token) return null;
-      const parts = token.split(".");
-      if (parts.length < 2) return null;
-      let payload = parts[1].replace(/-/g, "+").replace(/_/g, "/");
-      while (payload.length % 4) payload += "=";
-      const decoded = atob(payload);
-      return JSON.parse(decoded);
-    } catch (e) {
-      return null;
-    }
-  };
-
-  const usuario = localStorage.getItem("usuario");
-
-  const obtenerAnimador = async () => {
-    try {
-      const res = await api.get(`/animador/id/${animadorId}`);
-      return res.data;
-    } catch (error) {
-      console.error("Error fetching animador ID", error);
-      return null;
-    }
-  };
-
   const API_BASE = api.defaults?.baseURL || import.meta.env.VITE_API_URL || "";
   const FALLBACK_EVT_IMG = "/img/fondo1.jpg";
-  const buildFotoSrc = (foto) => {
-    if (!foto) return FALLBACK_EVT_IMG;
-    if (
-      typeof foto === "string" &&
-      (foto.startsWith("http") || foto.startsWith("data:"))
-    )
-      return foto;
-    return `${API_BASE}${String(foto).startsWith("/") ? "" : "/"}${foto}`;
-  };
-
   const getAnimadoresDelEvento = async (evento) => {
     if (!evento) return;
     try {
@@ -228,6 +191,12 @@ const ListarEventos = () => {
       );
       toast.error("No se pudieron cargar los animadores del evento");
     }
+  };
+
+  const handleEditarEvento = (evento) => {
+    if (!evento) return;
+    setEvento(evento);
+    setEditarEvento(true);
   };
 
   // Carousel images from public/img (fall back to fondo1.jpg)
@@ -295,40 +264,39 @@ const ListarEventos = () => {
           className="eventos-header__actions"
           style={{ display: "flex", gap: "8px" }}
         >
-          {isCoordinator ||
-            (isAdmin && (
-              <>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => setMostrarCrearEvento(true)}
-                >
+          {(isCoordinator || isAdmin) && (
+            <>
+              <button
+                className="btn btn-primary"
+                onClick={() => setMostrarCrearEvento(true)}
+              >
+                <div>
+                  <PiCalendar style={{ marginRight: 8 }} />
+                </div>
+                Agregar evento
+              </button>
+              <button
+                className="btn btn-primary bg-blue-600 text-white px-3 py-1 rounded-md btn-add"
+                onClick={() => setMostrarModalPlanificacion(true)}
+              >
+                <div>
                   <div>
-                    <PiCalendar style={{ marginRight: 8 }} />
+                    <CiBoxList style={{ marginRight: 8 }} />
                   </div>
-                  Agregar evento
-                </button>
-                <button
-                  className="btn btn-primary bg-blue-600 text-white px-3 py-1 rounded-md btn-add"
-                  onClick={() => setMostrarModalPlanificacion(true)}
-                >
-                  <div>
-                    <div>
-                      <CiBoxList style={{ marginRight: 8 }} />
-                    </div>
-                  </div>
-                  Agregar <br /> planificacion
-                </button>
-                <button
-                  className="btn btn-primary bg-gray-600 text-white px-3 py-1 rounded-md btn-add"
-                  onClick={() => setMostrarModalRecordatorio(true)}
-                >
-                  <div>
-                    <IoAlertCircleOutline style={{ marginRight: 8 }} />
-                  </div>
-                  Agregar <br /> recordatorio
-                </button>
-              </>
-            ))}
+                </div>
+                Agregar <br /> planificacion
+              </button>
+              <button
+                className="btn btn-primary bg-gray-600 text-white px-3 py-1 rounded-md btn-add"
+                onClick={() => setMostrarModalRecordatorio(true)}
+              >
+                <div>
+                  <IoAlertCircleOutline style={{ marginRight: 8 }} />
+                </div>
+                Agregar <br /> recordatorio
+              </button>
+            </>
+          )}
         </div>
       </div>
       <h1 className="text-xl font-bold">Próximos eventos</h1>
@@ -376,22 +344,35 @@ const ListarEventos = () => {
                   <ConfirmarAsistencia
                     evento={evento}
                     eventoId={evento.id || evento._id}
-                    // Try common localStorage keys for animador id; ConfirmarAsistencia will try /animador/me if missing
                     animadorId={localStorage.getItem("animadorId") || null}
                     onSuccess={() => listarEventos()}
                   />
 
                   {isCoordinator && (
-                    <button
-                      type="button"
-                      className="btn btn-primary detalles"
-                      onClick={() => {
-                        setEvento(evento);
-                        getAnimadoresDelEvento(evento);
-                      }}
-                    >
-                      Ver detalles
-                    </button>
+                    <>
+                      <button
+                        type="button"
+                        className="btn btn-primary detalles"
+                        onClick={() => {
+                          setEvento(evento);
+                          getAnimadoresDelEvento(evento);
+                        }}
+                      >
+                        Ver detalles
+                      </button>
+                      <button
+                        type="button"
+                        className="evento-edit-btn"
+                        onClick={() => handleEditarEvento(evento)}
+                        title="Editar evento"
+                        aria-label={`Editar ${
+                          evento.nombre || evento.title || "evento"
+                        }`}
+                      >
+                        <FaEdit aria-hidden="true" />
+                        <span>Editar</span>
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -444,6 +425,14 @@ const ListarEventos = () => {
             )}
           </div>
         </div>
+      )}
+
+      {editarEvento && (
+        <EditarEvento
+          evento={evento}
+          setEditarEvento={setEditarEvento}
+          setEvento={setEvento}
+        />
       )}
     </div>
   );

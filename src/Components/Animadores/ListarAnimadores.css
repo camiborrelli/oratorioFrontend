@@ -59,16 +59,6 @@
 }
 
 .animadores-listado .btn-asign-role {
-  min-height: 36px;
-  margin-top: 10px;
-  border: 1px solid #0f7a50;
-  border-radius: 999px;
-  background: #0d4f34;
-  color: #fff;
-  padding: 8px 14px;
-  font-size: 0.82rem;
-  font-weight: 800;
-  cursor: pointer;
   box-shadow: 0 10px 22px rgba(13, 79, 52, 0.18);
   transition:
     transform 0.18s ease,
@@ -80,4 +70,23 @@
   background: #1b7a4d;
   transform: translateY(-1px);
   box-shadow: 0 14px 28px rgba(13, 79, 52, 0.22);
+}
+
+.btn-delete {
+  margin-top: 10px;
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(229, 62, 62, 0.18);
+}
+
+.btn-delete:hover {
+  background: #c53a3a;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(229, 62, 62, 0.22);
 }

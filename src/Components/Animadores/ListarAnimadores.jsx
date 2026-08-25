@@ -6,6 +6,11 @@ import api from "../../api";
 import { listarAnimadores } from "../../features/animador.slice";
 // import "../Ninios/Listado.css";
 import "./ListarAnimadores.css";
+import { MdOutlineLibraryAddCheck } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { CiSquareRemove } from "react-icons/ci";
+import ModalEliminarAnimador from "./ModalEliminarAnimador";
+const API_BASE = api.defaults?.baseURL || import.meta.env.VITE_API_URL || "";
 
 const ListarAnimadores = () => {
   const dispatch = useDispatch();
@@ -16,6 +21,12 @@ const ListarAnimadores = () => {
   const [query, setQuery] = useState("");
   const [groupFilter, setGroupFilter] = useState(null);
   const [usuario, setUsuario] = useState(null);
+  const [animadorId, setAnimadorId] = useState(null);
+  const [animador, setAnimador] = useState(null);
+  const [isCoordinator, setIsCoordinator] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [mostrarModalEliminacion, setMostrarModalEliminacion] = useState(false);
+  const [animadorAEliminar, setAnimadorAEliminar] = useState(null);
 
   useEffect(() => {
     const storedUsuario = localStorage.getItem("Usuario");
@@ -28,10 +39,6 @@ const ListarAnimadores = () => {
     }
   }, []);
 
-  const isCoordinador = usuario?.roles?.includes("coordinador");
-  const isAdmin = usuario?.roles?.includes("admin");
-
-  const API_BASE = api.defaults?.baseURL || import.meta.env.VITE_API_URL || "";
   const FALLBACK_IMG = "/img/image.png";
 
   const fetchAnimadores = () => {
@@ -53,6 +60,34 @@ const ListarAnimadores = () => {
 
   useEffect(() => {
     fetchAnimadores();
+  }, []);
+  useEffect(() => {
+    const cargarAnimador = async () => {
+      try {
+        const storedId = localStorage.getItem("animadorId");
+        if (!storedId) {
+          console.error("No existe animadorId en localStorage");
+          return;
+        }
+        setAnimadorId(storedId);
+
+        const res = await api.get(`/animador/id/${storedId}`);
+        const datosAnimador = res.data?.animador || res.data;
+        setAnimador(datosAnimador);
+
+        const admin = datosAnimador?.roles?.includes("admin");
+        setIsAdmin(admin);
+        const cordinador = datosAnimador?.roles?.includes("coordinador");
+        setIsCoordinator(cordinador);
+      } catch (error) {
+        console.error(
+          "Error obteniendo animador:",
+          error?.response?.data || error,
+        );
+        setAnimador(null);
+      }
+    };
+    cargarAnimador();
   }, []);
 
   const groups = Array.from(
@@ -83,14 +118,10 @@ const ListarAnimadores = () => {
 
   const handleAsignarRol = async (event, anim) => {
     event.stopPropagation();
-
     try {
       const res = await api.post(`/animador/${anim._id}/coordinador`, {});
-
-      if (res.status === 200) {
-        toast.success("Rol asignado correctamente");
-        fetchAnimadores();
-      }
+      toast.success("Rol asignado correctamente");
+      fetchAnimadores();
     } catch (err) {
       console.error("Error asignando rol:", err);
       const msg = err?.response?.data?.message || "Error al asignar rol";
@@ -100,14 +131,10 @@ const ListarAnimadores = () => {
 
   const handleQuitarRol = async (event, anim) => {
     event.stopPropagation();
-
     try {
-      const res = await api.delete(`/animador/${anim._id}/animador`, {});
-
-      if (res.status === 200) {
-        toast.success("Rol quitado correctamente");
-        fetchAnimadores();
-      }
+      const res = await api.post(`/animador/${anim._id}/quitarRol`, {});
+      toast.success("Rol quitado correctamente");
+      fetchAnimadores();
     } catch (err) {
       console.error("Error quitando rol:", err);
       const msg = err?.response?.data?.message || "Error al quitar rol";
@@ -213,21 +240,32 @@ const ListarAnimadores = () => {
                   </span>
                 </div>
 
-                {isAdmin && anim.roles?.includes("coordinador") && (
-                  <button
-                    className="btn-asign-role"
-                    onClick={(event) => handleQuitarRol(event, anim)}
-                  >
-                    Quitar Rol
-                  </button>
-                )}
-                {usuario?.roles?.includes("coordinador") && (
+                {(isCoordinator || isAdmin) && (
                   <>
                     <button
                       className="btn-asign-role"
                       onClick={(event) => handleAsignarRol(event, anim)}
+                      title="Asignar rol de coordinador"
                     >
-                      Asignar Rol
+                      <MdOutlineLibraryAddCheck />
+                    </button>{" "}
+                    <button
+                      className="btn-asign-role"
+                      onClick={(event) => handleQuitarRol(event, anim)}
+                      title="Quitar rol de coordinador"
+                    >
+                      <CiSquareRemove />
+                    </button>
+                    <button
+                      className="btn-delete"
+                      title="Eliminar animador"
+                      onClick={(event) => {
+                        setMostrarModalEliminacion(true);
+                        setAnimadorAEliminar(anim);
+                        event.stopPropagation();
+                      }}
+                    >
+                      <FaRegTrashAlt />
                     </button>
                   </>
                 )}
@@ -238,6 +276,26 @@ const ListarAnimadores = () => {
               </div>
             </div>
           ))
+        )}
+
+        {mostrarModalEliminacion && (
+          <ModalEliminarAnimador
+            animador={animadorAEliminar}
+            onClose={() => {
+              setMostrarModalEliminacion(false);
+              setAnimadorAEliminar(null);
+            }}
+            onConfirm={(animadorEliminado) => {
+              setAnimadores((prev) =>
+                prev.filter((a) => a._id !== animadorEliminado._id),
+              );
+              dispatch(
+                listarAnimadores(
+                  animadores.filter((a) => a._id !== animadorEliminado._id),
+                ),
+              );
+            }}
+          />
         )}
       </div>
     </div>

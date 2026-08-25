@@ -158,7 +158,9 @@ const ListarRecordatorios = () => {
           <h2>Recordatorios pendientes</h2>
 
           {pendientes.length === 0 ? (
-            <p>No hay recordatorios pendientes.</p>
+            <p className="no-pendientes" style={{ color: "black" }}>
+              No hay recordatorios pendientes.
+            </p>
           ) : (
             <div className="recordatorios-list">
               {pendientes.map((rec) => (
@@ -194,7 +196,7 @@ const ListarRecordatorios = () => {
           <h2>Recordatorios hechos</h2>
 
           {hechos.length === 0 ? (
-            <p>No hay recordatorios hechos.</p>
+            <p className="no-hechos">No hay recordatorios hechos.</p>
           ) : (
             <div className="recordatorios-list">
               {hechos.map((rec) => (

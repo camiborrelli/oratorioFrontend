@@ -34,6 +34,7 @@ import Perfil from "./Components/Animadores/Perfil";
 import ListarReunionesPublic from "./Components/Reunion/ListarReuniones";
 import ListarReunionesCordi from "./Components/Cordi/ListarReuniones";
 import ListarRecordatorios from "./Components/Eventos/ListarRecordatorios";
+import ModalEliminarAnimador from "./Components/Animadores/ModalEliminarAnimador";
 
 import "./App.css";
 
@@ -168,6 +169,11 @@ function InnerAppRoutes() {
           <Route path="/animadores/editar" element={<EditarAnimador />} />
 
           <Route path="/animadores/editar/:id" element={<EditarAnimador />} />
+
+          <Route
+            path="/animadores/eliminar/:id"
+            element={<ModalEliminarAnimador />}
+          />
         </Route>
 
         {/* ========================= */}
