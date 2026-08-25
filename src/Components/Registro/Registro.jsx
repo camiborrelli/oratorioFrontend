@@ -122,16 +122,8 @@ const Register = () => {
               type="text"
               placeholder="Ingresá tu nombre"
               disabled={submitting}
-              {...register("nombre", {
-                required: "El nombre es obligatorio",
-                validate: (value) =>
-                  value.trim().length > 0 || "El nombre es obligatorio",
-              })}
+              {...register("nombre", {})}
             />
-
-            {errors.nombre && (
-              <p className="register-error">{errors.nombre.message}</p>
-            )}
           </div>
 
           {/* APELLIDO */}
@@ -144,16 +136,8 @@ const Register = () => {
               type="text"
               placeholder="Ingresá tu apellido"
               disabled={submitting}
-              {...register("apellido", {
-                required: "El apellido es obligatorio",
-                validate: (value) =>
-                  value.trim().length > 0 || "El apellido es obligatorio",
-              })}
+              {...register("apellido", {})}
             />
-
-            {errors.apellido && (
-              <p className="register-error">{errors.apellido.message}</p>
-            )}
           </div>
 
           {/* APODO */}
@@ -183,18 +167,8 @@ const Register = () => {
               type="email"
               placeholder="ejemplo@email.com"
               disabled={submitting}
-              {...register("email", {
-                required: "El email es obligatorio",
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: "Ingresá un email válido",
-                },
-              })}
+              {...register("email", {})}
             />
-
-            {errors.email && (
-              <p className="register-error">{errors.email.message}</p>
-            )}
           </div>
 
           {/* FECHA DE CUMPLEAÑOS */}
@@ -221,9 +195,7 @@ const Register = () => {
             <select
               id="division"
               disabled={submitting}
-              {...register("division", {
-                required: "La división es obligatoria",
-              })}
+              {...register("division", {})}
               defaultValue=""
             >
               <option value="" disabled>
@@ -238,10 +210,6 @@ const Register = () => {
 
               <option value="grandes">Grandes</option>
             </select>
-
-            {errors.division && (
-              <p className="register-error">{errors.division.message}</p>
-            )}
           </div>
 
           {/* RECORRIDA */}
@@ -252,9 +220,7 @@ const Register = () => {
             <select
               id="recorrida"
               disabled={submitting}
-              {...register("recorrida", {
-                required: "La recorrida es obligatoria",
-              })}
+              {...register("recorrida", {})}
               defaultValue=""
             >
               <option value="" disabled>
@@ -269,10 +235,6 @@ const Register = () => {
 
               <option value="amarilla">Amarilla</option>
             </select>
-
-            {errors.recorrida && (
-              <p className="register-error">{errors.recorrida.message}</p>
-            )}
           </div>
 
           {/* CONTRASEÑA */}
@@ -285,18 +247,8 @@ const Register = () => {
               type="password"
               placeholder="Mínimo 6 caracteres"
               disabled={submitting}
-              {...register("password", {
-                required: "La contraseña es obligatoria",
-                minLength: {
-                  value: 6,
-                  message: "La contraseña debe tener al menos 6 caracteres",
-                },
-              })}
+              {...register("password", {})}
             />
-
-            {errors.password && (
-              <p className="register-error">{errors.password.message}</p>
-            )}
           </div>
 
           {/* ACCIONES */}
