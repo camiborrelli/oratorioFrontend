@@ -85,14 +85,13 @@ const Login = () => {
       const animId = userObj?._id || userObj?.id || userObj?.userId || null;
       if (animId) localStorage.setItem("animadorId", animId);
       if (Array.isArray(userObj?.rol || userObj?.roles)) {
-        localStorage.setItem("roles", JSON.stringify(userObj.rol || userObj.roles));
+        localStorage.setItem(
+          "roles",
+          JSON.stringify(userObj.rol || userObj.roles),
+        );
       }
 
       toast.success(res.data?.message || "Login exitoso");
-      console.log("Login response:", res.data);
-      console.log(userObj.roles);
-      console.log("Animador:", userObj);
-      console.log("Token:", res.data.token);
       naviagate("/inicio");
     } catch (err) {
       // log full response for debugging

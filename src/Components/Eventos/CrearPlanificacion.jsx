@@ -87,11 +87,23 @@ const CrearPlanificacion = ({ onClose }) => {
 
   return (
     <div className="modal-crear-planificacion" onClick={onClose}>
-      <div
-        className="modal-crear-planificacion__content"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h1>Crear Planificación</h1>
+      <div className="modal-crear-planificacion__content">
+        <div className="planificacion-modal-header">
+          <div>
+            <h2>Crear nueva planificación</h2>
+          </div>
+
+          <button
+            type="button"
+            className="planificacion-modal-close"
+            onClick={onClose}
+            disabled={loading}
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
+        </div>
+
         <form className="crear-planificacion-form" onSubmit={handleSubmit}>
           <div className="grid">
             <label className="field">
