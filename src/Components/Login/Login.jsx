@@ -84,6 +84,9 @@ const Login = () => {
       // store animador id for later actions (e.g., confirmar asistencia)
       const animId = userObj?._id || userObj?.id || userObj?.userId || null;
       if (animId) localStorage.setItem("animadorId", animId);
+      if (Array.isArray(userObj?.rol || userObj?.roles)) {
+        localStorage.setItem("roles", JSON.stringify(userObj.rol || userObj.roles));
+      }
 
       toast.success(res.data?.message || "Login exitoso");
       console.log("Login response:", res.data);

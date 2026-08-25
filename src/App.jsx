@@ -35,6 +35,7 @@ import ListarReunionesPublic from "./Components/Reunion/ListarReuniones";
 import ListarReunionesCordi from "./Components/Cordi/ListarReuniones";
 import ListarRecordatorios from "./Components/Eventos/ListarRecordatorios";
 import ModalEliminarAnimador from "./Components/Animadores/ModalEliminarAnimador";
+import Notificaciones from "./Components/Notificaciones/Notificaciones";
 
 import "./App.css";
 
@@ -102,6 +103,8 @@ function InnerAppRoutes() {
           <Route path="/dashboard" element={<Listado />} />
 
           <Route path="/inicio" element={<Inicio />} />
+
+          <Route path="/notificaciones" element={<Notificaciones />} />
 
           {/* ========================= */}
           {/* REUNIONES */}

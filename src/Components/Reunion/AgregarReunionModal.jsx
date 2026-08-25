@@ -1,7 +1,9 @@
 import "./ListarReuniones.css";
+import "./AgregarReunionModal.css";
+
 import { useState } from "react";
 import api from "../../api";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const AgregarReunionModal = ({ onClose, onCreated } = {}) => {
   const [titulo, setTitulo] = useState("Reunión de animadores");
@@ -11,96 +13,173 @@ const AgregarReunionModal = ({ onClose, onCreated } = {}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const tituloLimpio = titulo.trim();
+    const descripcionLimpia = descripcion.trim();
+
+    if (!fechaLocal || !descripcionLimpia || !tituloLimpio) {
+      toast.error("Todos los campos son obligatorios");
+      return;
+    }
+
+    // Validaciones
+    if (!tituloLimpio) {
+      toast.error("El título es obligatorio");
+      return;
+    }
+
+    if (!fechaLocal) {
+      toast.error("La fecha y hora son obligatorias");
+      return;
+    }
+
+    if (!descripcionLimpia) {
+      toast.error("La descripción es obligatoria");
+      return;
+    }
+
+    const payload = {
+      titulo: tituloLimpio,
+      fecha: fechaLocal,
+      descripcion: descripcionLimpia,
+    };
+
     setLoading(true);
+
     try {
-      const payload = {
-        titulo: titulo || "Nueva reunión de animadores",
-        fecha: fechaLocal, // siempre "YYYY-MM-DD"
-        descripcion: descripcion || "",
-      };
-
-      if (!payload.fecha) {
-        toast.error("La fecha es obligatoria");
-        setLoading(false);
-        return;
-      }
-      if (!payload.titulo) {
-        toast.error("El título es obligatorio");
-        setLoading(false);
-        return;
-      }
-      if (!payload.descripcion) {
-        toast.error("La descripción es obligatoria");
-        setLoading(false);
-        return;
-      }
-
       const res = await api.post("/reunion", payload);
-      console.log(payload);
+
       let created = res?.data;
-      if (created && created.data) created = created.data;
+
+      if (created?.data) {
+        created = created.data;
+      }
+
+      if (Array.isArray(created) && created.length > 0) {
+        created = created[0];
+      }
+
+      if (!created || typeof created !== "object") {
+        created = payload;
+      }
+
       toast.success("Reunión registrada con éxito");
 
-      if (Array.isArray(created) && created.length > 0) created = created[0];
-      if (!created || typeof created !== "object") created = payload;
+      if (typeof onCreated === "function") {
+        onCreated(created);
+      }
 
-      if (typeof onCreated === "function") onCreated(created);
-      if (typeof onClose === "function") onClose();
+      if (typeof onClose === "function") {
+        onClose();
+      }
     } catch (err) {
-      toast.error(
-        "Error al registrar la reunión:" +
-          (err?.response?.data?.message || err.message),
-      );
       console.error("Error creating reunion:", err);
+
+      toast.error(
+        err?.response?.data?.message ||
+          err?.message ||
+          "Error al registrar la reunión",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="reunion-modal-overlay" onClick={onClose}>
+    <div
+      className="reunion-modal-overlay"
+      onClick={(e) => {
+        if (e.target === e.currentTarget && !loading) {
+          onClose?.();
+        }
+      }}
+    >
       <div
         className="reunion-modal-box"
         role="dialog"
         aria-modal="true"
+        aria-labelledby="reunion-modal-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2>Registrar nueva reunión</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="titulo"
-            placeholder="Título de la reunión"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-          />
-          <input
-            type="datetime-local"
-            name="fecha"
-            placeholder="Fecha de la reunión"
-            value={fechaLocal}
-            onChange={(e) => setFechaLocal(e.target.value)}
-          />
-          <textarea
-            name="descripcion"
-            placeholder="Descripción de la reunión"
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-          />
-          <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-            <button
-              type="submit"
-              className="btn btn-primary"
+        <div className="reunion-modal-header">
+          <div>
+            <h2 id="reunion-modal-title">Registrar nueva reunión</h2>
+
+            <p>
+              Completá los datos para dejar registrado lo charlado en la reunión
+              de animadores.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="reunion-modal-close"
+            onClick={onClose}
+            disabled={loading}
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
+        </div>
+
+        <form className="reunion-modal-form" onSubmit={handleSubmit}>
+          <div className="reunion-form-field">
+            <label htmlFor="reunion-titulo">Título</label>
+
+            <input
+              id="reunion-titulo"
+              type="text"
+              name="titulo"
+              placeholder="Título de la reunión"
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
               disabled={loading}
-            >
-              {loading ? "Registrando..." : "Registrar"}
-            </button>
+            />
+          </div>
+
+          <div className="reunion-form-field">
+            <label htmlFor="reunion-fecha">Fecha y hora</label>
+
+            <input
+              id="reunion-fecha"
+              type="datetime-local"
+              name="fecha"
+              value={fechaLocal}
+              onChange={(e) => setFechaLocal(e.target.value)}
+              disabled={loading}
+            />
+          </div>
+
+          <div className="reunion-form-field">
+            <label htmlFor="reunion-descripcion">Descripción</label>
+
+            <textarea
+              id="reunion-descripcion"
+              name="descripcion"
+              placeholder="Escribí una descripción de la reunión..."
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              disabled={loading}
+              rows={5}
+            />
+          </div>
+
+          <div className="reunion-modal-actions">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="reunion-btn reunion-btn-secondary"
               onClick={onClose}
+              disabled={loading}
             >
               Cancelar
+            </button>
+
+            <button
+              type="submit"
+              className="reunion-btn reunion-btn-primary"
+              disabled={loading}
+            >
+              {loading ? "Registrando..." : "Registrar reunión"}
             </button>
           </div>
         </form>

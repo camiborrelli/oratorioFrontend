@@ -9,6 +9,7 @@ import { RxPeople } from "react-icons/rx";
 import { LuMessageCircleMore } from "react-icons/lu";
 import { CiFaceSmile } from "react-icons/ci";
 import { FiChevronDown, FiLogOut, FiUser } from "react-icons/fi";
+import { IoNotificationsOutline } from "react-icons/io5";
 
 const BottomNav = () => {
   const [open, setOpen] = useState(false);
@@ -122,6 +123,10 @@ const BottomNav = () => {
           >
             <LuMessageCircleMore style={{ width: "20px", height: "20px" }} />{" "}
             Reunion
+          </div>
+          <div className="reunionAnimadores" onClick={() => navigate("/notificaciones")}>
+            <IoNotificationsOutline style={{ width: "20px", height: "20px" }} />{" "}
+            Notificaciones
           </div>
           <div className="user-menu" ref={userMenuRef}>
             <button
@@ -245,6 +250,18 @@ const BottomNav = () => {
             <LuMessageCircleMore style={{ width: "20px", height: "20px" }} />
           </span>
           <span className="label">Reunión</span>
+        </NavLink>
+
+        <NavLink
+          to="/notificaciones"
+          className={({ isActive }) =>
+            isActive ? "nav-item active" : "nav-item"
+          }
+        >
+          <span className="icon" aria-hidden>
+            <IoNotificationsOutline style={{ width: "20px", height: "20px" }} />
+          </span>
+          <span className="label">Avisos</span>
         </NavLink>
 
         {/* Perfil: ahora es un botón que abre un dropdown hacia arriba,

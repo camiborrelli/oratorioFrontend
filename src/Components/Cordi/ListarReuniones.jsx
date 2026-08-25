@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { fetchList } from "../../api";
+import api from "../../api";
+import toast from "react-hot-toast";
 import "./ListarReuniones.css";
+import AgregarReunionModal from "../Reunion/AgregarReunionModal";
+import { IoMdAdd } from "react-icons/io";
 
 function fmtDateParts(iso) {
   try {
@@ -32,6 +36,7 @@ function fmtDateParts(iso) {
 const ListarReuniones = () => {
   const [reuniones, setReuniones] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showAgregar, setShowAgregar] = useState(false);
 
   const listarReuniones = async () => {
     setLoading(true);
@@ -66,6 +71,20 @@ const ListarReuniones = () => {
   return (
     <div className="reuniones-root">
       <h2 className="section-title">Historial de Crónicas</h2>
+
+      <button className="btn btn-primary" onClick={() => setShowAgregar(true)}>
+        <IoMdAdd /> Agregar reunión
+      </button>
+
+      {showAgregar && (
+        <AgregarReunionModal
+          onClose={() => setShowAgregar(false)}
+          onCreated={(reunion) => {
+            if (reunion) setReuniones((actuales) => [...actuales, reunion]);
+            setShowAgregar(false);
+          }}
+        />
+      )}
 
       <div className="reuniones-list">
         {loading && (
