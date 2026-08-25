@@ -151,24 +151,20 @@
 
 @media (min-width: 720px) {
   .eventos-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
   }
 }
 
 @media (min-width: 1280px) {
   .eventos-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 }
 
 /* =========================================================
    TARJETA DE EVENTO
-
-   IMPORTANTE:
-   La tarjeta se mantiene vertical incluso en pantallas grandes.
-   Así el footer nunca queda comprimido al costado y los botones
-   de asistencia/detalles permanecen visibles.
 ========================================================= */
 
 .evento-card {
@@ -223,21 +219,21 @@
   align-items: center;
   justify-content: center;
 
-  max-width: calc(100% - 90px);
-  padding: 8px 13px;
+  max-width: 100%;
+  padding: 8px 10px;
 
-  border: 1px solid rgba(22, 163, 74, 0.12);
-  border-radius: 999px;
+  border: 0;
+  border-radius: 8px;
 
-  background: rgba(255, 255, 255, 0.94);
-  color: var(--accent-dark);
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
 
   font-size: 0.9rem;
   font-weight: 700;
   text-align: center;
   line-height: 1.25;
 
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  box-shadow: none;
 }
 
 /* =========================================================
@@ -245,10 +241,7 @@
 ========================================================= */
 
 .evento-edit-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 2;
+  position: static;
 
   display: inline-flex;
   align-items: center;
@@ -261,8 +254,8 @@
   border: 1px solid rgba(22, 163, 74, 0.18);
   border-radius: 9px;
 
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--accent-dark);
+  background: #f0f7f2;
+  color: #14532d;
 
   font-size: 0.82rem;
   font-weight: 700;
@@ -287,7 +280,7 @@
 
 .evento-edit-btn:hover {
   transform: translateY(-1px);
-  background: var(--accent);
+  background: #14532d;
   color: #fff;
   box-shadow: 0 7px 16px rgba(22, 163, 74, 0.22);
 }
@@ -331,6 +324,13 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.evento-lugar {
+  margin: 10px 0 0;
+  color: #3f5f4a;
+  font-size: 0.87rem;
+  font-weight: 600;
 }
 
 /* =========================================================
@@ -438,6 +438,65 @@
 .evento-actions .detalles:hover {
   background: #dcfce7;
   box-shadow: 0 5px 14px rgba(22, 163, 74, 0.1);
+}
+
+@media (min-width: 720px) {
+  .evento-card {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr) auto;
+    align-items: stretch;
+    min-height: 150px;
+    border-radius: 12px;
+  }
+
+  .evento-card__media {
+    min-height: 100%;
+    padding: 18px 12px;
+    justify-content: center;
+    background: linear-gradient(145deg, #14532d, #1f6a40);
+  }
+
+  .evento-card__date {
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .evento-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 22px;
+  }
+
+  .evento-card__footer {
+    display: flex;
+    align-items: center;
+    width: auto;
+    padding: 16px;
+    border-top: 0;
+    border-left: 1px solid rgba(20, 83, 45, 0.12);
+    background: #f8fbf8;
+  }
+
+  .evento-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    min-width: 130px;
+  }
+
+  .evento-actions .btn,
+  .evento-actions .confirmar-asistencia-root,
+  .evento-actions .confirm-box,
+  .evento-actions .confirm-actions {
+    width: 100%;
+  }
+
+  .evento-actions .detalles,
+  .evento-edit-btn {
+    min-width: 0;
+    width: 100%;
+  }
 }
 
 /* =========================================================

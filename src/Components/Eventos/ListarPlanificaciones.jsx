@@ -185,6 +185,14 @@ const ListarPlanificaciones = () => {
   }, []);
 
   useEffect(() => {
+    const actualizarAlCrear = (event) => {
+      if (event.detail?.tipo === "planificacion") listarPlanificaciones().catch(() => {});
+    };
+    window.addEventListener("oratorio:creado", actualizarAlCrear);
+    return () => window.removeEventListener("oratorio:creado", actualizarAlCrear);
+  }, []);
+
+  useEffect(() => {
     const handleFocus = () => {
       listarPlanificaciones().catch(() => {});
     };

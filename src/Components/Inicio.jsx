@@ -62,7 +62,6 @@ const Inicio = () => {
     localStorage.getItem("apodo") ||
     localStorage.getItem("username") ||
     "Usuario";
-  console.log("Apodo:", apodo);
 
   // Robust age calculation: prefer explicit numeric `edad`/`age`, otherwise derive from birthdate fields.
   const getAge = (k) => {

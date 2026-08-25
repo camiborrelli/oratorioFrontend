@@ -25,7 +25,10 @@ export default function Notificaciones() {
       const { data } = await api.get("/notificaciones");
       setNotificaciones(data);
     } catch (error) {
-      toast.error(error?.response?.data?.message || "No se pudieron cargar las notificaciones");
+      toast.error(
+        error?.response?.data?.message ||
+          "No se pudieron cargar las notificaciones",
+      );
     } finally {
       setCargando(false);
     }
@@ -40,7 +43,9 @@ export default function Notificaciones() {
       await api.put(`/notificaciones/${id}/leer`);
       setNotificaciones((actuales) =>
         actuales.map((notificacion) =>
-          notificacion._id === id ? { ...notificacion, leida: true } : notificacion,
+          notificacion._id === id
+            ? { ...notificacion, leida: true }
+            : notificacion,
         ),
       );
     } catch (error) {
@@ -51,7 +56,9 @@ export default function Notificaciones() {
   const marcarTodas = async () => {
     try {
       await api.put("/notificaciones/leer-todas");
-      setNotificaciones((actuales) => actuales.map((notificacion) => ({ ...notificacion, leida: true })));
+      setNotificaciones((actuales) =>
+        actuales.map((notificacion) => ({ ...notificacion, leida: true })),
+      );
     } catch (error) {
       toast.error("No se pudieron marcar las notificaciones");
     }
@@ -60,7 +67,10 @@ export default function Notificaciones() {
   const eliminar = async (id) => {
     try {
       await api.delete(`/notificaciones/${id}`);
-      setNotificaciones((actuales) => actuales.filter((notificacion) => notificacion._id !== id));
+      toast.success("Notificación eliminada");
+      setNotificaciones((actuales) =>
+        actuales.filter((notificacion) => notificacion._id !== id),
+      );
     } catch (error) {
       toast.error("No se pudo eliminar la notificación");
     }
@@ -84,13 +94,18 @@ export default function Notificaciones() {
       ) : notificaciones.length === 0 ? (
         <p className="notificaciones-empty">Todavía no tenés notificaciones.</p>
       ) : (
-        <section className="notificaciones-lista" aria-label="Lista de notificaciones">
+        <section
+          className="notificaciones-lista"
+          aria-label="Lista de notificaciones"
+        >
           {notificaciones.map((notificacion) => (
             <article
               key={notificacion._id}
               className={`notificacion ${notificacion.leida ? "" : "notificacion--nueva"}`}
             >
-              <span className="notificacion-icono">{iconos[notificacion.tipo] || "🔔"}</span>
+              <span className="notificacion-icono">
+                {iconos[notificacion.tipo] || "🔔"}
+              </span>
               <span className="notificacion-contenido">
                 <strong>{notificacion.titulo}</strong>
                 <span>{notificacion.mensaje}</span>
@@ -103,15 +118,26 @@ export default function Notificaciones() {
               </span>
               <div className="notificacion-acciones">
                 {!notificacion.leida && (
-                  <button type="button" className="notificacion-leer" onClick={() => marcarLeida(notificacion._id)}>
+                  <button
+                    type="button"
+                    className="notificacion-leer"
+                    onClick={() => marcarLeida(notificacion._id)}
+                  >
                     Marcar leída
                   </button>
                 )}
-                <button type="button" className="notificacion-eliminar" onClick={() => eliminar(notificacion._id)} aria-label={`Eliminar ${notificacion.titulo}`}>
+                <button
+                  type="button"
+                  className="notificacion-eliminar"
+                  onClick={() => eliminar(notificacion._id)}
+                  aria-label={`Eliminar ${notificacion.titulo}`}
+                >
                   Eliminar
                 </button>
               </div>
-              {!notificacion.leida && <span className="notificacion-punto" aria-label="No leída" />}
+              {!notificacion.leida && (
+                <span className="notificacion-punto" aria-label="No leída" />
+              )}
             </article>
           ))}
         </section>

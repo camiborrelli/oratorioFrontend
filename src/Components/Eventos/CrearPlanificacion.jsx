@@ -53,9 +53,13 @@ const CrearPlanificacion = ({ onClose }) => {
           const res = await api.post(ep, formData);
           if (res?.status === 200 || res?.status === 201) {
             toast.success("Planificación creada exitosamente");
-            //actualizar las planificaciones
-            // window.location.reload();
-            navigate("/inicio");
+            window.dispatchEvent(
+              new CustomEvent("oratorio:creado", {
+                detail: { tipo: "planificacion", item: res.data },
+              }),
+            );
+            if (typeof onClose === "function") onClose();
+            else navigate("/inicio");
             success = true;
             break;
           }

@@ -66,6 +66,14 @@ const ListarRecordatorios = () => {
   useEffect(() => {
     listarRecordatorios().catch(() => {});
   }, []);
+
+  useEffect(() => {
+    const actualizarAlCrear = (event) => {
+      if (event.detail?.tipo === "recordatorio") listarRecordatorios().catch(() => {});
+    };
+    window.addEventListener("oratorio:creado", actualizarAlCrear);
+    return () => window.removeEventListener("oratorio:creado", actualizarAlCrear);
+  }, []);
   useEffect(() => {
     const cargarAnimador = async () => {
       try {

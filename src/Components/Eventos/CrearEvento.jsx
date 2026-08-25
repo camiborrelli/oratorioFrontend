@@ -57,6 +57,11 @@ const CrearEvento = ({ embedded = false, onClose } = {}) => {
       const res = await api.post("/evento", payload);
 
       console.log("Evento creado:", res.data);
+      window.dispatchEvent(
+        new CustomEvent("oratorio:creado", {
+          detail: { tipo: "evento", item: res.data },
+        }),
+      );
 
       toast.success("Evento creado exitosamente");
 

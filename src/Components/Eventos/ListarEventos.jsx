@@ -129,6 +129,14 @@ const ListarEventos = () => {
   useEffect(() => {
     listarEventos().catch(() => {});
   }, []);
+
+  useEffect(() => {
+    const actualizarAlCrear = (event) => {
+      if (event.detail?.tipo === "evento") listarEventos().catch(() => {});
+    };
+    window.addEventListener("oratorio:creado", actualizarAlCrear);
+    return () => window.removeEventListener("oratorio:creado", actualizarAlCrear);
+  }, []);
   useEffect(() => {
     const cargarAnimador = async () => {
       try {
@@ -337,6 +345,9 @@ const ListarEventos = () => {
                 <p className="evento-desc text-sm text-slate-600 mt-1">
                   {evento.descripcion || "Sin descripción"}
                 </p>
+                {evento.lugar && (
+                  <p className="evento-lugar">📍 {evento.lugar}</p>
+                )}
               </div>
               <div className="evento-card__footer">
                 {/* <span className="evento-tag">{evento.tipo || "General"}</span> */}

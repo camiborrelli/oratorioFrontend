@@ -39,7 +39,13 @@ const CrearRecordatorio = ({ onClose }) => {
           const res = await api.post(ep, formData);
           if (res?.status === 200 || res?.status === 201) {
             toast.success("Recordatorio creado exitosamente");
-            navigate("/inicio");
+            window.dispatchEvent(
+              new CustomEvent("oratorio:creado", {
+                detail: { tipo: "recordatorio", item: res.data },
+              }),
+            );
+            if (typeof onClose === "function") onClose();
+            else navigate("/inicio");
             success = true;
             break;
           }

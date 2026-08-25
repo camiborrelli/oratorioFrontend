@@ -64,6 +64,11 @@ const AgregarReunionModal = ({ onClose, onCreated } = {}) => {
       }
 
       toast.success("Reunión registrada con éxito");
+      window.dispatchEvent(
+        new CustomEvent("oratorio:creado", {
+          detail: { tipo: "reunion", item: created },
+        }),
+      );
 
       if (typeof onCreated === "function") {
         onCreated(created);
