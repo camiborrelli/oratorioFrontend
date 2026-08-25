@@ -348,31 +348,29 @@ const ListarEventos = () => {
                     onSuccess={() => listarEventos()}
                   />
 
+                  <button
+                    type="button"
+                    className="btn btn-primary detalles"
+                    onClick={() => {
+                      setEvento(evento);
+                      getAnimadoresDelEvento(evento);
+                    }}
+                  >
+                    Ver detalles
+                  </button>
                   {isCoordinator && (
-                    <>
-                      <button
-                        type="button"
-                        className="btn btn-primary detalles"
-                        onClick={() => {
-                          setEvento(evento);
-                          getAnimadoresDelEvento(evento);
-                        }}
-                      >
-                        Ver detalles
-                      </button>
-                      <button
-                        type="button"
-                        className="evento-edit-btn"
-                        onClick={() => handleEditarEvento(evento)}
-                        title="Editar evento"
-                        aria-label={`Editar ${
-                          evento.nombre || evento.title || "evento"
-                        }`}
-                      >
-                        <FaEdit aria-hidden="true" />
-                        <span>Editar</span>
-                      </button>
-                    </>
+                    <button
+                      type="button"
+                      className="evento-edit-btn"
+                      onClick={() => handleEditarEvento(evento)}
+                      title="Editar evento"
+                      aria-label={`Editar ${
+                        evento.nombre || evento.title || "evento"
+                      }`}
+                    >
+                      <FaEdit aria-hidden="true" />
+                      <span>Editar</span>
+                    </button>
                   )}
                 </div>
               </div>
@@ -409,7 +407,7 @@ const ListarEventos = () => {
         >
           <div className="modal-animadores__content">
             <h2>
-              Lista de animadores para el evento{" "}
+              Lista de animadores para el evento <br />
               <span>{evento.nombre || evento.title || "Sin título"}</span>
             </h2>
             {animadoresDelEvento.length === 0 ? (
@@ -431,7 +429,18 @@ const ListarEventos = () => {
         <EditarEvento
           evento={evento}
           setEditarEvento={setEditarEvento}
-          setEvento={setEvento}
+          onEventoActualizado={(eventoActualizado) => {
+            setEventos((prev) =>
+              prev.map((e) =>
+                (e.id || e._id) ===
+                (eventoActualizado.id || eventoActualizado._id)
+                  ? eventoActualizado
+                  : e,
+              ),
+            );
+
+            setEvento(eventoActualizado);
+          }}
         />
       )}
     </div>

@@ -987,3 +987,7 @@
   outline: 3px solid rgba(22, 163, 74, 0.12);
   outline-offset: 2px;
 }
+
+.odal-animadores__content h2 {
+  text-align: center;
+}
