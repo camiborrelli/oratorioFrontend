@@ -156,7 +156,7 @@ const ListarNinios = () => {
       <p className="results-count">
         Mostrando {filtered.length} de {ninios.length}
       </p>
-      <div className="cards">
+      <div className="cards-ninios">
         {filtered.length === 0 ? (
           <div style={{ textAlign: "center", marginTop: 40, color: "#64748b" }}>
             No se encontraron resultados

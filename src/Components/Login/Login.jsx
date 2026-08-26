@@ -91,7 +91,7 @@ const Login = () => {
         );
       }
 
-      toast.success(res.data?.message || "Login exitoso");
+      // toast.success(res.data?.message || "Login exitoso");
       naviagate("/inicio");
     } catch (err) {
       // log full response for debugging

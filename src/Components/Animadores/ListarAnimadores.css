@@ -1,65 +1,62 @@
-﻿.animadores-listado {
+﻿/* =================================
+   LISTADO DE ANIMADORES
+================================= */
+
+.animadores-listado {
+  width: 100%;
   max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
+
+/* =================================
+   CARDS
+================================= */
 
 .animadores-listado .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 28px;
+
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+
+  gap: 18px;
+
+  width: 100%;
 }
 
+/* =================================
+   CARD
+================================= */
+
 .animadores-listado .card {
+  min-width: 0;
   min-height: 104px;
+
+  box-sizing: border-box;
 }
+
+/* =================================
+   BOTONES DE ROL
+================================= */
 
 .animadores-listado .btn-asign-role {
   margin-top: 10px;
+  margin-right: 4px;
+
   background: #0f7a50;
   color: #fff;
+
   border: none;
   border-radius: 10px;
+
   padding: 7px 12px;
+
   font-size: 12px;
   font-weight: 700;
+
   cursor: pointer;
+
   box-shadow: 0 8px 18px rgba(15, 122, 80, 0.18);
-}
 
-.animadores-listado .btn-asign-role:hover {
-  background: #1b7a4d;
-}
-
-.animadores-empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  margin-top: 40px;
-  color: #64748b;
-}
-
-@media (min-width: 900px) {
-  .animadores-listado {
-    padding-top: 88px;
-    padding-right: 120px;
-  }
-
-  .animadores-listado .cards {
-    display: grid;
-  }
-}
-
-@media (max-width: 420px) {
-  .animadores-listado .cards {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
-
-.animadores-listado .listado-header h1::before {
-  content: "Equipo del oratorio";
-}
-
-.animadores-listado .btn-asign-role {
-  box-shadow: 0 10px 22px rgba(13, 79, 52, 0.18);
   transition:
     transform 0.18s ease,
     background 0.18s ease,
@@ -68,25 +65,136 @@
 
 .animadores-listado .btn-asign-role:hover {
   background: #1b7a4d;
+
   transform: translateY(-1px);
+
   box-shadow: 0 14px 28px rgba(13, 79, 52, 0.22);
 }
 
-.btn-delete {
+/* =================================
+   BOTÓN ELIMINAR
+================================= */
+
+.animadores-listado .btn-delete {
   margin-top: 10px;
+  margin-left: 5px;
+
   background: #e53e3e;
   color: #fff;
+
   border: none;
   border-radius: 10px;
+
   padding: 7px 12px;
+
   font-size: 12px;
   font-weight: 700;
+
   cursor: pointer;
+
   box-shadow: 0 8px 18px rgba(229, 62, 62, 0.18);
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
-.btn-delete:hover {
+.animadores-listado .btn-delete:hover {
   background: #c53a3a;
+
   transform: translateY(-1px);
+
   box-shadow: 0 14px 28px rgba(229, 62, 62, 0.22);
+}
+
+/* =================================
+   SIN RESULTADOS
+================================= */
+
+.animadores-empty {
+  grid-column: 1 / -1;
+
+  text-align: center;
+
+  margin-top: 40px;
+
+  color: #64748b;
+}
+
+/* =================================
+   TÍTULO
+================================= */
+
+.animadores-listado .listado-header h1::before {
+  content: "Equipo del oratorio";
+}
+
+/* =================================
+   ESCRITORIO
+================================= */
+
+@media (min-width: 900px) {
+  .animadores-listado {
+    width: calc(100% - 40px);
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding-top: 40px;
+    padding-right: 0;
+    padding-left: 0;
+
+    box-sizing: border-box;
+  }
+
+  .animadores-listado .cards {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+/* =================================
+   TABLET
+================================= */
+
+@media (max-width: 899px) {
+  .animadores-listado {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .animadores-listado .cards {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 16px;
+  }
+}
+
+/* =================================
+   MÓVIL
+================================= */
+
+@media (max-width: 600px) {
+  .animadores-listado .cards {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+}
+
+/* =================================
+   MÓVIL PEQUEÑO
+================================= */
+
+@media (max-width: 420px) {
+  .animadores-listado {
+    width: 100%;
+  }
+
+  .animadores-listado .cards {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
 }

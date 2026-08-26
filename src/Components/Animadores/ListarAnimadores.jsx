@@ -50,6 +50,11 @@ const ListarAnimadores = () => {
         setAnimadores(data);
         dispatch(listarAnimadores(data));
         setError(null);
+        console.log("ANIMADORES:", animadores);
+        console.log("FILTERED:", filtered);
+        console.log("LOADING:", loading);
+        console.log("ERROR:", error);
+        console.log("WINDOW:", window.innerWidth);
       })
       .catch((err) => {
         console.error("Error fetching animadores:", err);
