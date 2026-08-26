@@ -8,6 +8,7 @@ const CumplenMes = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [ninios, setNinios] = useState([]);
+  const [animadores, setAnimadores] = useState([]);
 
   const listar = async () => {
     setLoading(true);
@@ -51,8 +52,30 @@ const CumplenMes = () => {
     }
   };
 
+  const listarAnimadores = async () => {
+    const today = new Date();
+    const month = today.getMonth(); // 0-based
+    try {
+      const res = await api.get(`/animadores/cumplen-mes?mes=${month + 1}`);
+
+      const payload = res.data;
+      const list = Array.isArray(payload)
+        ? payload
+        : Array.isArray(payload?.animadores)
+          ? payload.animadores
+          : Array.isArray(payload?.data)
+            ? payload.data
+            : [];
+
+      setAnimadores(list);
+    } catch (err) {
+      console.error("Error fetching /animadores/cumplen-mes", err);
+    }
+  };
+
   useEffect(() => {
     listar().catch(() => {});
+    listarAnimadores().catch(() => {});
   }, []);
 
   const formatDay = (d) => (d ? d.getDate() : "?");
