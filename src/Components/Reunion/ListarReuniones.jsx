@@ -116,7 +116,7 @@ const ListarReuniones = () => {
           <div
             style={{ textAlign: "center", padding: "20px", color: "#64748b" }}
           >
-            Cargando crónicas...
+            Cargando reuniones...
           </div>
         )}
 
