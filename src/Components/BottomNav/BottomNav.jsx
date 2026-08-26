@@ -81,7 +81,9 @@ const BottomNav = () => {
             gap: "8px",
           }}
         >
-          <p className="nav-logo-text">Oratorio Cordon</p>
+          <a href="https://sectorsocialjuan23.org.uy/nuestras-obras/">
+            <p className="nav-logo-text">Oratorio Cordon</p>
+          </a>
           <img
             src="/img/logo.jpg"
             alt="Logo"
@@ -124,7 +126,10 @@ const BottomNav = () => {
             <LuMessageCircleMore style={{ width: "20px", height: "20px" }} />{" "}
             Reunion
           </div>
-          <div className="reunionAnimadores" onClick={() => navigate("/notificaciones")}>
+          <div
+            className="reunionAnimadores"
+            onClick={() => navigate("/notificaciones")}
+          >
             <IoNotificationsOutline style={{ width: "20px", height: "20px" }} />{" "}
             Notificaciones
           </div>
