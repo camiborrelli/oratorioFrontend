@@ -251,13 +251,13 @@ const Login = () => {
             <p className="text-sm text-red-600">{errors.password}</p>
           )}
 
-          <button
+          {/* <button
             type="button"
             className="btn-restore"
             onClick={() => setShowCambiarContrasenia(true)}
           >
             ¿Olvidaste tu contraseña?
-          </button>
+          </button> */}
 
           <button
             className="primary-btn w-full bg-green-600 text-white py-2 rounded-md"
