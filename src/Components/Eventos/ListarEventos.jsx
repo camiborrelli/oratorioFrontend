@@ -12,6 +12,9 @@ import { PiCalendar } from "react-icons/pi";
 import { CiBoxList } from "react-icons/ci";
 import EditarEvento from "./EditarEvento";
 import { FaEdit } from "react-icons/fa";
+import { IoMap } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import CrearRecorrida from "./CrearRecorrida";
 
 // Lightweight carousel component (no external deps)
 const SimpleCarousel = ({ images = [], interval = 3000 }) => {
@@ -96,6 +99,8 @@ const ListarEventos = () => {
   const [evento, setEvento] = useState(null);
 
   const [editarEvento, setEditarEvento] = useState(false);
+  const [mostrarCrearRecorrida, setMostrarCrearRecorrida] = useState(false);
+  const naviagate = useNavigate();
 
   const listarEventos = async () => {
     setLoading(true);
@@ -267,7 +272,6 @@ const ListarEventos = () => {
           </div>
         </div>
       )}
-
       <div className="eventos-header flex items-center ">
         <div
           className="eventos-header__actions"
@@ -303,6 +307,19 @@ const ListarEventos = () => {
                   <IoAlertCircleOutline style={{ marginRight: 8 }} />
                 </div>
                 Agregar <br /> recordatorio
+              </button>
+            </>
+          )}
+          {isAdmin && (
+            <>
+              <button
+                className="btn btn-primary bg-green-600 text-white px-3 py-1 rounded-md btn-add"
+                onClick={() => setMostrarCrearRecorrida(true)}
+              >
+                <div>
+                  <IoMap style={{ marginRight: 8 }} />
+                </div>
+                Agregar <br /> recorrida
               </button>
             </>
           )}
@@ -411,7 +428,6 @@ const ListarEventos = () => {
           />
         )}
       </div>
-
       {mostrarModalAnimadores && (
         <div
           className="modal-animadores-evento"
@@ -435,6 +451,9 @@ const ListarEventos = () => {
             )}
           </div>
         </div>
+      )}
+      {mostrarCrearRecorrida && (
+        <CrearRecorrida onClose={() => setMostrarCrearRecorrida(false)} />
       )}
 
       {editarEvento && (

@@ -29,6 +29,18 @@ const ListarNinios = () => {
     return normalized.charAt(0).toUpperCase() + normalized.slice(1);
   };
 
+  const obtenerDivisiones = async () => {
+    try {
+      const res = await api.get("/divisiones");
+      return res.data || [];
+    } catch (err) {
+      console.error("Error al obtener divisiones:", err);
+      return [];
+    }
+  };
+
+  console.log("Divisiones obtenidas:", obtenerDivisiones());
+
   useEffect(() => {
     api
       .get("/ninios")

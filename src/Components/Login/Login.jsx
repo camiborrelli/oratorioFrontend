@@ -78,6 +78,8 @@ const Login = () => {
         }
       }
 
+      console.log("Token received:", res.data.token);
+
       // final fallback: use email or username so greeting isn't empty
       if (!apodo) apodo = userObj?.email || userObj?.username || email || null;
       if (apodo) localStorage.setItem("apodo", apodo);
