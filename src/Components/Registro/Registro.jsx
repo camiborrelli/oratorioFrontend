@@ -234,6 +234,7 @@ const Register = () => {
               <option value="naranja">Naranja</option>
 
               <option value="amarilla">Amarilla</option>
+              <option value="violeta">Violeta</option>
             </select>
           </div>
 

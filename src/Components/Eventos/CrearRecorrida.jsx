@@ -4,16 +4,14 @@ import { toast } from "react-toastify";
 import "./CrearRecorrida.css";
 
 const CrearRecorrida = ({ onClose }) => {
-  const [formData, setFormData] = useState({
-    nombre: "",
-  });
+  const [nombre, setNombre] = useState("");
 
   const handleChange = async (e) => {
     e.preventDefault();
     const { name } = e.target;
 
     try {
-      const res = await api.post("/recorrida", formData);
+      const res = await api.post("/recorrida", nombre);
       if (res?.status === 200 || res?.status === 201) {
         toast.success("Recorrida creada exitosamente");
         window.dispatchEvent(
@@ -51,10 +49,8 @@ const CrearRecorrida = ({ onClose }) => {
               type="text"
               id="nombre"
               name="nombre"
-              value={formData.nombre}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, nombre: e.target.value }))
-              }
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
               required
             />
           </div>
