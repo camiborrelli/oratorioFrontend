@@ -154,6 +154,7 @@ const EditarNinio = () => {
                 <option value="azul">Azul</option>
                 <option value="naranja">Naranja</option>
                 <option value="amarillo">Amarilla</option>
+                <option value="violeta">Violeta</option>
               </select>
             </div>
 
