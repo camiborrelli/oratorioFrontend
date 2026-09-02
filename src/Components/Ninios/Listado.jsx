@@ -15,6 +15,16 @@ const ListarNinios = () => {
   const [showDivisiones, setShowDivisiones] = useState(false);
   const [showRecorridas, setShowRecorridas] = useState(false);
   const [filterMode, setFilterMode] = useState("division"); // "division" o "recorrida"
+  const [showDeleted, setShowDeleted] = useState(false);
+
+  const isAdmin = (() => {
+    try {
+      const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+      return Array.isArray(roles) && roles.includes("admin");
+    } catch (e) {
+      return false;
+    }
+  })();
 
   const FALLBACK_IMG = "/img/image.png";
 
@@ -27,6 +37,16 @@ const ListarNinios = () => {
     const normalized = normalizeDivision(value);
     if (!normalized) return "Sin división";
     return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+  };
+
+  const isDeletedNinio = (ninio) => {
+    const status = String(ninio?.estado || ninio?.status || "").toLowerCase();
+    return (
+      ninio?.eliminado === true ||
+      ninio?.deleted === true ||
+      ninio?.activo === false ||
+      ["eliminado", "eliminada", "deleted", "inactivo"].includes(status)
+    );
   };
 
   const obtenerDivisiones = async () => {
@@ -42,18 +62,55 @@ const ListarNinios = () => {
   console.log("Divisiones obtenidas:", obtenerDivisiones());
 
   useEffect(() => {
-    api
-      .get("/ninios")
-      .then((res) => {
-        const data = res.data;
+    const loadNinios = async () => {
+      try {
+        const paths = showDeleted ? ["/ninios/eliminados"] : ["/ninios"];
+        let response;
+        let lastError;
+        for (const path of paths) {
+          try {
+            response = await api.get(path);
+            break;
+          } catch (err) {
+            lastError = err;
+          }
+        }
+        if (!response)
+          throw lastError || new Error("No se pudo cargar la lista");
+        const data = response.data;
         const list = Array.isArray(data)
           ? data
-          : data?.ninios || data?.data || [];
-        setNinios(list);
-      })
-      .catch((err) => setError(err?.response?.data || err.message))
-      .finally(() => setLoading(false));
-  }, []);
+          : data?.ninios ||
+            data?.eliminados ||
+            data?.deleted ||
+            data?.data ||
+            [];
+        setNinios(
+          showDeleted ? list : list.filter((ninio) => !isDeletedNinio(ninio)),
+        );
+        if (showDeleted && list.length === 0) {
+          setError("No hay niños eliminados");
+        } else {
+          setError(null);
+        }
+      } catch (err) {
+        if (showDeleted) {
+          setNinios([]);
+          setError(null);
+        } else {
+          const serverError = err?.response?.data;
+          setError(
+            typeof serverError === "string"
+              ? serverError
+              : serverError?.message || err.message,
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadNinios();
+  }, [showDeleted]);
 
   // Cada niño tiene division y recorrida como string simple desde el backend
   const getDivision = (n) => n?.division || n?.grupo || "Sin división";
@@ -143,6 +200,28 @@ const ListarNinios = () => {
           Filtrar por recorridas
         </button>
       </div>
+      {isAdmin && (
+        <div className="deleted-toggle" aria-label="Estado de los niños">
+          <button
+            className={!showDeleted ? "active" : ""}
+            onClick={() => {
+              setGroupFilter(null);
+              setShowDeleted(false);
+            }}
+          >
+            Activos
+          </button>
+          <button
+            className={showDeleted ? "active" : ""}
+            onClick={() => {
+              setGroupFilter(null);
+              setShowDeleted(true);
+            }}
+          >
+            Eliminados
+          </button>
+        </div>
+      )}
       <div className="chips-row">
         <button
           className={`chip ${groupFilter === null ? "active" : ""}`}
@@ -171,7 +250,9 @@ const ListarNinios = () => {
       <div className="cards-ninios">
         {filtered.length === 0 ? (
           <div style={{ textAlign: "center", marginTop: 40, color: "#64748b" }}>
-            No se encontraron resultados
+            {showDeleted
+              ? "No hay niños eliminados"
+              : "No se encontraron resultados"}
           </div>
         ) : (
           filtered.map((nin) => (

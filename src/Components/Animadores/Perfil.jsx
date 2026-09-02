@@ -64,6 +64,7 @@ const Perfil = () => {
           ) {
             setPerfil(candidate);
             return;
+            curr;
           }
         } catch (err) {
           lastErr = err;

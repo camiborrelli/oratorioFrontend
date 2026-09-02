@@ -53,10 +53,7 @@ const PerfilNinio = () => {
       .finally(() => setLoading(false));
   }, [id, initialFromState]);
 
-  if (loading) return <div className="perfil-container">Cargando...</div>;
-  if (error) return <div className="perfil-container error">{error}</div>;
-  if (!nin) return <div className="perfil-container">Ninio no encontrado</div>;
-  const fotoSrc = nin.foto || nin.imagen || FALLBACK_IMG;
+  const fotoSrc = nin?.foto || nin?.imagen || FALLBACK_IMG;
   const normalizeContactos = (raw) => {
     if (!raw) return [];
     let data = raw;
@@ -94,7 +91,7 @@ const PerfilNinio = () => {
   };
 
   const contactosList = normalizeContactos(
-    nin.contactos || nin.contactosFamilia || nin.contactosData,
+    nin?.contactos || nin?.contactosFamilia || nin?.contactosData,
   );
 
   const startEditContacts = () => {
@@ -159,43 +156,20 @@ const PerfilNinio = () => {
       setLoading(false);
     }
   };
-  // faltas: fetch count of absences for this child and store in state
-  const [faltas, setFaltas] = useState(null);
-  useEffect(() => {
-    let mounted = true;
-    const nid = nin.id || nin._id;
-    if (!nid) return;
-    api
-      .get(`/asistencia/ninio/${nid}/faltas`)
-      .then((res) => {
-        if (!mounted) return;
-        const data = res.data;
-        const value =
-          data?.faltas ??
-          data?.cantFaltas ??
-          (typeof data === "number" ? data : String(data));
-        setFaltas(value ?? "-");
+  if (loading) return <div className="perfil-container">Cargando...</div>;
+  if (error) return <div className="perfil-container error">{error}</div>;
+  if (!nin) return <div className="perfil-container">Niño no encontrado</div>;
+
+  const fechaNacimiento = nin.fechaNacimiento || nin.fecha_nacimiento;
+  const fechaFormateada = fechaNacimiento
+    ? new Date(fechaNacimiento).toLocaleDateString("es-UY", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
       })
-      .catch((err) => {
-        console.error("Error fetching faltas for niño", nid, err);
-        setFaltas("N/A");
-        const server = err?.response?.data;
-        const serverMsg =
-          server?.message || server || err.message || "Error al cargar faltas";
-        try {
-          toast.error(
-            typeof serverMsg === "string"
-              ? serverMsg
-              : JSON.stringify(serverMsg),
-          );
-        } catch (e) {
-          toast.error("Error al cargar faltas");
-        }
-      });
-    return () => {
-      mounted = false;
-    };
-  }, [nin.id, nin._id]);
+    : "-";
+  const nombreCompleto = [nin.nombre, nin.apellido].filter(Boolean).join(" ");
 
   return (
     <div className="perfil-root">
@@ -214,35 +188,44 @@ const PerfilNinio = () => {
             alt={nin.nombre || "Foto del niño"}
           />
         </div>
-        <div className="nombre">{nin.nombre || "Nombre no disponible"}</div>
+        <div className="nombre">{nombreCompleto || "Nombre no disponible"}</div>
+        <div className="perfil-subtitle">
+          {nin.division || nin.grupo || "Sin división"}
+        </div>
       </div>
 
       <div className="perfil-sections perfil-content">
         <div className="card">
           <h3>Información General</h3>
-          <div className="row">
-            <span>Nombre: </span>
-            <span>
-              {" " + (nin.nombre || "-")} {nin.apellido || ""}
-            </span>
+          <div className="details-grid">
+            <div className="row">
+              <span>Nombre</span>
+              <span>{nombreCompleto || "-"}</span>
+            </div>
+            <div className="row">
+              <span>Edad</span>
+              <span>{nin.edad || "-"}</span>
+            </div>
+            <div className="row">
+              <span>Fecha de nacimiento</span>
+              <span>{fechaFormateada}</span>
+            </div>
+            <div className="row">
+              <span>División</span>
+              <span>{nin.division || nin.grupo || "-"}</span>
+            </div>
+            <div className="row">
+              <span>Recorrida</span>
+              <span>{nin.recorrida || "-"}</span>
+            </div>
+            <div className="row">
+              <span>Dirección</span>
+              <span>{nin.direccion || nin.domicilio || "-"}</span>
+            </div>
           </div>
-          <div className="row">
-            <span>Edad: </span>
-            <span>{" " + (nin.edad || "-")}</span>
-          </div>
-          <div className="row">
-            <span>División: </span>
-            <span>{" " + (nin.division || nin.grupo || "-")}</span>
-          </div>
-          <div className="row">
-            <span>Recorrida: </span>
-            <span>{" " + (nin.recorrida || nin.grupo || "-")}</span>
-          </div>
-          <div className="row">
-            <span>Observaciones: </span>
-            <span>
-              {" " + (nin.observaciones || "No hay ninguna observacion")}
-            </span>
+          <div className="observation-row">
+            <span>Observaciones</span>
+            <p>{nin.observaciones || "No hay ninguna observación"}</p>
           </div>
         </div>
 

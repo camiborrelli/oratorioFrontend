@@ -44,6 +44,7 @@ const BotonEliminar = ({ id, onDeleted }) => {
       onClick={handleDelete}
       disabled={loading}
       aria-label="Eliminar"
+      type="button"
     >
       {loading ? "Eliminando..." : "Eliminar perfil"}
     </button>

@@ -110,6 +110,30 @@ h1 {
   margin-bottom: 20px;
   text-align: left;
 }
+
+.deleted-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 16px;
+  background: #dfece4;
+  border-radius: 8px;
+}
+
+.deleted-toggle button {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #35604a;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 14px;
+}
+
+.deleted-toggle button.active {
+  background: #0f7a50;
+  color: #fff;
+}
 .cards {
   display: grid;
   grid-template-columns: repeat(
@@ -287,6 +311,16 @@ h1 {
 
   .results-count {
     text-align: center; /* Centrar el texto en pantallas pequeñas */
+  }
+
+  .deleted-toggle {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .deleted-toggle button {
+    flex: 1;
   }
 }
 

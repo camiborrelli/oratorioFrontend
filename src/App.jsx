@@ -20,7 +20,6 @@ import RegistroNinio from "./Components/Ninios/RegistroNinio";
 import Inicio from "./Components/Inicio";
 import Asistencia from "./Components/Ninios/Asistencia";
 import ListarAnimadores from "./Components/Animadores/ListarAnimadores";
-import AsignarCordis from "./Components/Admin/AsignarCordis";
 import EditarAnimador from "./Components/Animadores/EditarAnimador";
 import BottomNav from "./Components/BottomNav/BottomNav";
 import CrearEvento from "./Components/Eventos/CrearEvento";
@@ -131,39 +130,9 @@ function InnerAppRoutes() {
           {/* PERFIL ANIMADOR */}
           {/* ========================= */}
 
-          <Route
-            path="/animadores/perfil"
-            element={(() => {
-              try {
-                const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+          <Route path="/animadores/perfil" element={<Perfil />} />
 
-                return Array.isArray(roles) && roles.includes("admin") ? (
-                  <AsignarCordis />
-                ) : (
-                  <Perfil />
-                );
-              } catch (e) {
-                return <Perfil />;
-              }
-            })()}
-          />
-
-          <Route
-            path="/animadores/perfil/:id"
-            element={(() => {
-              try {
-                const roles = JSON.parse(localStorage.getItem("roles") || "[]");
-
-                return Array.isArray(roles) && roles.includes("admin") ? (
-                  <AsignarCordis />
-                ) : (
-                  <Perfil />
-                );
-              } catch (e) {
-                return <Perfil />;
-              }
-            })()}
-          />
+          <Route path="/animadores/perfil/:id" element={<Perfil />} />
 
           {/* ========================= */}
           {/* EDITAR ANIMADOR */}

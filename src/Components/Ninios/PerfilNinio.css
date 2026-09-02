@@ -1,21 +1,20 @@
 .perfil-root {
   padding: 24px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
   max-width: 920px;
   margin: 0 auto;
-  background: #f5f6f7;
+  background: #f3f6f5;
   min-height: 100vh;
 }
 
 /* HEADER */
 
 .perfil-top {
-  background: linear-gradient(180deg, #1e7a35 0%, #2f8f3a 60%, #6fc287 100%);
+  background: linear-gradient(135deg, #0f7a50 0%, #159a6a 100%);
   color: white;
-  padding: 32px 20px 90px 20px;
-  border-radius: 16px;
+  padding: 30px 20px 92px;
+  border-radius: 12px;
+  flex-wrap: wrap;
   text-align: center;
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -65,14 +64,20 @@
 
 .nombre {
   margin-top: 20px;
-  font-size: 26px;
+  font-size: 25px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  color: rgba(255, 255, 255, 0.785);
+  color: white;
   margin-bottom: 20px;
+}
+
+.perfil-subtitle {
+  margin-top: -12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
 }
 
 .perfil-pill {
@@ -101,7 +106,7 @@
   margin-top: 80px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 18px;
+  gap: 16px;
 }
 
 @media (min-width: 760px) {
@@ -115,7 +120,7 @@
 .card {
   background: white;
   padding: 18px;
-  border-radius: 14px;
+  border-radius: 10px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   transition:
     transform 0.2s ease,
@@ -131,7 +136,7 @@
 .card h3 {
   margin: 0 0 14px 0;
   font-size: 20px;
-  color: #1e7a35;
+  color: #0f7a50;
   border-bottom: 2px solid #e5e7eb;
   padding-bottom: 6px;
 }
@@ -145,6 +150,30 @@
   border-top: 1px solid #f0f0f0;
   font-size: 14px;
   gap: 4px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+}
+
+.observation-row {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.observation-row span {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.observation-row p {
+  margin: 6px 0 0;
+  color: #111827;
+  line-height: 1.5;
 }
 
 .row:first-of-type {
@@ -178,7 +207,7 @@
 
 .edit-btn {
   margin-top: 14px;
-  background: #1e7a35;
+  background: #0f7a50;
   color: white;
   border: none;
   padding: 10px 14px;
@@ -189,7 +218,7 @@
 }
 
 .edit-btn:hover {
-  background: #16652b;
+  background: #0b6240;
   transform: translateY(-1px);
 }
 
@@ -256,19 +285,52 @@
 
 @media (max-width: 600px) {
   .perfil-root {
-    padding: 12px;
+    padding: 8px;
   }
   .perfil-top {
-    padding: 20px 12px 80px 12px;
+    min-height: 128px;
+    padding: 18px 12px 76px;
+    border-radius: 10px;
   }
   .perfil-avatar {
-    width: 96px;
-    height: 96px;
+    width: 92px;
+    height: 92px;
+    border-width: 5px;
+  }
+  .details-grid {
+    grid-template-columns: 1fr;
   }
   .perfil-name {
     font-size: 22px;
     color: white;
     font-weight: 700;
+  }
+  .nombre {
+    max-width: calc(100% - 52px);
+    margin: 16px auto 18px;
+    font-size: 21px;
+    line-height: 1.2;
+  }
+  .perfil-subtitle {
+    font-size: 13px;
+  }
+  .perfil-content {
+    margin-top: 66px;
+    gap: 12px;
+  }
+  .card {
+    padding: 15px;
+    border-radius: 9px;
+  }
+  .card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .row {
+    padding: 9px 0;
+  }
+  .row span:last-child {
+    overflow-wrap: anywhere;
   }
   .contact-row {
     flex-direction: column;
@@ -298,6 +360,25 @@
   gap: 12px;
   margin-top: 18px;
   justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .perfil-actions {
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .perfil-actions button {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .perfil-actions .delete-btn {
+    display: block;
+    min-height: 48px;
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .delete-btn {
