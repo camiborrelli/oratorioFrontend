@@ -150,7 +150,12 @@ const Perfil = () => {
     perfil?.telefono_celular ||
     perfil?.guardianPhone;
 
-  const isGonnaEditHimself = perfil?._id === localStorage.getItem("animadorId");
+  const loggedAnimadorId = localStorage.getItem("animadorId");
+  const profileId = perfil?._id || perfil?.id;
+  const isGonnaEditHimself =
+    profileId &&
+    loggedAnimadorId &&
+    String(profileId) === String(loggedAnimadorId);
 
   return (
     <div className="animador-profile-root">
