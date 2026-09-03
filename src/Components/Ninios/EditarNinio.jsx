@@ -76,11 +76,35 @@ const EditarNinio = () => {
     if (!nin) return toast.error("No hay niño seleccionado para editar");
     setLoading(true);
     try {
+      const contactos = contacts
+        .map((contact) => {
+          const contacto = {};
+          if (contact.nombre?.trim()) contacto.nombre = contact.nombre.trim();
+          if (contact.telefono?.trim()) {
+            contacto.telefono = contact.telefono.trim();
+          }
+          return contacto;
+        })
+        .filter((contact) => Object.keys(contact).length > 0);
+
       const payload = {
         ...data,
         edad: data.edad ? Number(data.edad) : undefined,
-        contactos: contacts.filter((c) => c.nombre || c.telefono),
+        contactos,
       };
+
+      if (payload.fechaNacimiento) {
+        const date = new Date(payload.fechaNacimiento);
+        if (!Number.isNaN(date.getTime())) {
+          payload.fechaNacimiento = date.toISOString();
+        }
+      }
+      if (payload.division) {
+        payload.division = String(payload.division).trim().toLowerCase();
+      }
+      if (payload.recorrida) {
+        payload.recorrida = String(payload.recorrida).trim().toLowerCase();
+      }
 
       // Limpiar campos vacíos opcionales
       ["foto", "observaciones", "direccion"].forEach((k) => {
@@ -94,7 +118,14 @@ const EditarNinio = () => {
         state: { nin: res.data?.ninio || res.data },
       });
     } catch (err) {
-      const msg = err?.response?.data?.message || "Error al guardar";
+      const serverData = err?.response?.data;
+      const msg =
+        serverData?.message ||
+        serverData?.msg ||
+        (typeof serverData === "string" ? serverData : null) ||
+        err?.message ||
+        "Error al guardar";
+      console.error("Error al editar niño:", serverData || err);
       toast.error(msg);
     } finally {
       setLoading(false);
