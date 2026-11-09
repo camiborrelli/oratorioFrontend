@@ -206,11 +206,10 @@ const Asistencia = () => {
             <article className="student-card" key={nid}>
               <img
                 className="avatar"
-                src={"/img/imageee.png"}
-                // src={n.foto || n.imagen || "/img/avatar-placeholder.png"}
+                src={n.foto || "/img/image.png"}
                 alt={n.nombre}
                 onError={(e) =>
-                  (e.currentTarget.src = "/img/avatar-placeholder.png")
+                  (e.currentTarget.src = "/img/image.png")
                 }
               />
               <div className="student-body">
@@ -219,13 +218,14 @@ const Asistencia = () => {
                     <strong>
                       {n.nombre} {n.apellido || ""}
                     </strong>
-                    <div className="student-sub muted">
-                      {st === "present"}
-
-                      {st === "absent" && (
-                        <span className="absent">Ausente hoy</span>
+                    <div className="student-sub">
+                      {st === "present" && (
+                        <span className="present-badge">✓ Presente</span>
                       )}
-                      {!st && <span className="muted">Sin registrar</span>}
+                      {st === "absent" && (
+                        <span className="absent-badge">✕ Ausente</span>
+                      )}
+                      {!st && <span className="unregistered-badge">Sin registrar</span>}
                     </div>
                   </div>
 

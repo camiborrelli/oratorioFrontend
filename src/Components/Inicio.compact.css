@@ -1,13 +1,13 @@
 :root {
-  --bg: #f6f8f7;
+  --bg: #f8faf9;
   --card: #ffffff;
   --text: #0f172a;
-  --muted: #6b7280;
-  --primary: #2f8a59;
-  --primary-soft: #e8f5ee;
-  --border: rgba(15, 23, 42, 0.06);
-  --shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
-  --radius: 14px;
+  --muted: #64748b;
+  --primary: #15803d;
+  --primary-soft: #ecfdf5;
+  --border: #e2ece5;
+  --shadow: 0 6px 20px rgba(22, 101, 52, 0.05);
+  --radius: 16px;
 }
 
 /* Layout */
@@ -161,8 +161,9 @@
 
 /* hover pro */
 .card-add-btn:hover {
-  background: #256f47;
-  transform: translateY(-50%) scale(1.06);
+  background: #14532d;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 8px 20px rgba(21, 128, 61, 0.35);
   color: #fff;
 }
 

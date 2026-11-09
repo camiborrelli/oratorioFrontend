@@ -1,174 +1,233 @@
-/* Styles for RegistroNinio form */
+/* =========================================================
+   REGISTRO Y EDICIÓN DE NIÑOS - FORMULARIO
+========================================================= */
+
 .register-page {
-  min-height: 100dvh;
-  padding: 28px 16px;
+  min-height: calc(100vh - 80px);
+  padding: 32px 16px 100px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  /* background: #f3f6f5; light grey page background */
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial;
+  box-sizing: border-box;
 }
+
+@media (min-width: 900px) {
+  .register-page {
+    padding-top: 88px;
+  }
+}
+
 .register-card {
   width: 100%;
-  max-width: 720px;
-  background: #ffffff; /* white card */
-  border-radius: 12px;
-  padding: 22px;
-  box-shadow: 0 8px 30px rgba(11, 22, 16, 0.06);
-  border: 1px solid rgba(15, 122, 80, 0.06);
-  margin: 8px 0; /* keep some vertical breathing room */
+  max-width: 760px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  border: 1px solid #e2ece5;
+  text-align: left;
 }
+
 .register-card h2 {
-  margin: 0 0 12px 0;
-  font-size: 20px;
-  color: #0f7a50; /* green heading */
+  margin: 0 0 20px 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #14532d;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
+.register-card h2::before {
+  content: "🧒";
+  font-size: 22px;
+}
+
 .register-form .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 16px;
 }
-@media (min-width: 720px) {
+
+@media (min-width: 640px) {
   .register-form .grid {
     grid-template-columns: 1fr 1fr;
   }
 }
+
 .form-group {
   display: flex;
   flex-direction: column;
-  background: #f1f6f5; /* light panel for each field */
-  padding: 12px;
-  border-radius: 12px;
-  gap: 8px;
+  gap: 6px;
+  text-align: left;
 }
+
 .form-group label {
   font-size: 13px;
-  color: #374151;
-  margin-bottom: 6px;
+  font-weight: 600;
+  color: #334155;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .form-group input,
 .form-group textarea,
 .form-group select {
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid #e6e6e6;
-  background: #ffffff; /* white control inside grey panel */
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
   font-size: 14px;
+  color: #0f172a;
   box-sizing: border-box;
   width: 100%;
-}
-
-/* Input text color and placeholder styling (green theme) */
-.form-group input,
-.form-group textarea,
-.form-group select {
-  color: #0f7a50; /* primary green for entered text */
+  transition: all 0.2s ease;
+  outline: none;
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder,
 .form-group select::placeholder {
-  color: #94c4a8; /* soft green placeholder */
-  opacity: 1;
+  color: #94a3b8;
 }
 
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-  border-color: rgba(15, 122, 80, 0.35);
-  box-shadow: 0 8px 20px rgba(15, 122, 80, 0.06);
-  outline: none;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
 }
+
 .form-group.full {
   grid-column: 1 / -1;
-  margin-top: 18px;
-  padding-top: 6px;
+  margin-top: 8px;
 }
+
 .form-group textarea {
-  min-height: 86px;
+  min-height: 90px;
   resize: vertical;
 }
+
+.required-badge {
+  background: #ecfdf5;
+  color: #15803d;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border: 1px solid #d1fae5;
+}
+
+/* Lista de contactos */
 .contacts-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: 10px;
-  padding-top: 4px;
+  gap: 12px;
+  margin-top: 8px;
 }
+
 .contact-row {
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
+  background: #f8faf9;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #e2ece5;
 }
+
 .contact-row input {
-  flex: 1;
-  padding: 8px;
+  flex: 1 1 140px;
+  min-width: 0;
+  padding: 9px 12px;
   border-radius: 8px;
-  border: 1px solid #e6e6e6;
+  border: 1px solid #cbd5e1;
+  font-size: 13px;
+  background: #ffffff;
 }
+
+.contact-row input:focus {
+  border-color: #16a34a;
+}
+
 .btn-remove {
   background: #fef2f2;
-  color: #b91c1c;
-  border: 1px solid #fca5a5;
-  padding: 6px 8px;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.btn-remove:hover {
+  background: #dc2626;
+  color: #ffffff;
 }
 
 .hint {
   display: block;
-  color: #6b7280;
+  color: #64748b;
   margin-top: 6px;
   font-size: 12px;
 }
+
 .error {
-  color: #b02a37;
-  font-size: 13px;
-  margin-top: 6px;
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
 }
+
+/* Botones de acción al final */
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: flex-end;
-  margin-top: 14px;
+  margin-top: 24px;
 }
-.btn-primary {
-  background: #0f7a50; /* stronger green */
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 10px;
+
+.actions .btn-primary {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 12px;
   border: none;
+  font-weight: 700;
+  font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(15, 122, 80, 0.12);
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.25);
+  transition: all 0.18s ease;
 }
-.btn-primary:disabled {
+
+.actions .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #15803d, #166534);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(22, 163, 74, 0.35);
+}
+
+.actions .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-.btn-secondary {
-  background: transparent;
-  border: 1px solid #d1d5db;
-  padding: 8px 12px;
-  border-radius: 8px;
+
+.actions .btn-secondary {
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
+  transition: all 0.18s ease;
 }
 
-/* small page-level background helper */
-.register-page-bg {
-  background: #f7faf9;
-}
-
-.required-badge {
-  background: #eaf6ec;
-  color: #0f7a50;
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  border: 1px solid rgba(15, 122, 80, 0.12);
+.actions .btn-secondary:hover {
+  background: #e2e8f0;
 }

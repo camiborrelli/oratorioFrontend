@@ -1,386 +1,229 @@
+/* =========================================================
+   PERFIL DEL NIÑO - ORATORIO CORDÓN
+========================================================= */
+
 .perfil-root {
-  padding: 24px;
-  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  max-width: 920px;
+  padding: 24px 16px 100px;
+  max-width: 900px;
   margin: 0 auto;
-  background: #f3f6f5;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
 }
 
-/* HEADER */
+@media (min-width: 900px) {
+  .perfil-root {
+    padding-top: 88px;
+  }
+}
 
+/* Encabezado */
 .perfil-top {
-  background: linear-gradient(135deg, #0f7a50 0%, #159a6a 100%);
-  color: white;
-  padding: 30px 20px 92px;
-  border-radius: 12px;
-  flex-wrap: wrap;
+  background: linear-gradient(135deg, #14532d 0%, #16a34a 100%);
+  color: #ffffff;
+  padding: 36px 20px 80px;
+  border-radius: 20px;
   text-align: center;
   position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px rgba(22, 101, 52, 0.15);
 }
 
-/* BOTON VOLVER */
-
-.back-btn {
+.perfil-top .back-btn {
   position: absolute;
-  left: 16px;
-  top: 16px;
-  background: rgba(255, 255, 255, 0.15);
+  left: 20px;
+  top: 20px;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: white;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
 }
 
-.back-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+.perfil-top .back-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
   transform: scale(1.05);
 }
-
-/* AVATAR */
 
 .perfil-avatar-wrap {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -60px;
+  bottom: -50px;
 }
 
 .perfil-avatar {
-  width: 120px;
-  height: 120px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
-  border: 6px solid white;
+  border: 4px solid #ffffff;
   object-fit: cover;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+  background: #f0fdf4;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
 }
 
-/* NOMBRE */
-
 .nombre {
-  margin-top: 20px;
-  font-size: 25px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: white;
-  margin-bottom: 20px;
+  margin: 12px 0 6px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .perfil-subtitle {
-  margin-top: -12px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #dcfce7;
   font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
-.perfil-pill {
-  background: rgba(0, 0, 0, 0.25);
-  color: white;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-/* ALERTA */
-
-.alerta-box {
-  margin: 18px 0;
-  background: #fff6e6;
-  color: #9a5b00;
-  padding: 12px;
-  border-radius: 8px;
-  border-left: 5px solid #f59e0b;
-}
-
-/* CONTENIDO */
-
+/* Contenido */
 .perfil-content {
-  margin-top: 80px;
+  margin-top: 68px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .perfil-content {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-/* TARJETAS */
-
-.card {
-  background: white;
-  padding: 18px;
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-  overflow: visible;
+.perfil-root .card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+  border: 1px solid #e2ece5;
+  text-align: left;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
-}
-
-.card h3 {
-  margin: 0 0 14px 0;
-  font-size: 20px;
-  color: #0f7a50;
-  border-bottom: 2px solid #e5e7eb;
-  padding-bottom: 6px;
-}
-
-/* FILAS */
-
-.row {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 0;
-  border-top: 1px solid #f0f0f0;
-  font-size: 14px;
-  gap: 4px;
+.perfil-root .card h3 {
+  margin: 0 0 16px 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #14532d;
+  border-bottom: 2px solid #ecfdf5;
+  padding-bottom: 10px;
 }
 
 .details-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 24px;
+  gap: 14px;
+}
+
+@media (max-width: 500px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row span:first-child {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.row span:last-child {
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 15px;
 }
 
 .observation-row {
-  margin-top: 10px;
-  padding-top: 12px;
-  border-top: 1px solid #f0f0f0;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed #e2ece5;
 }
 
 .observation-row span {
-  color: #6b7280;
-  font-size: 13px;
+  color: #64748b;
+  font-size: 12px;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 .observation-row p {
   margin: 6px 0 0;
-  color: #111827;
+  color: #334155;
+  font-size: 14px;
   line-height: 1.5;
 }
 
-.row:first-of-type {
-  border-top: none;
-}
-
-.row span:first-child {
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.row span:last-child {
-  color: #111827;
-  font-weight: 500;
-  font-size: 15px;
-}
-
-/* CONTACTOS */
-
+/* Contactos */
 .contacto-item {
-  padding: 8px 0;
-  border-bottom: 1px dashed #e5e7eb;
+  padding: 12px 0;
+  border-bottom: 1px dashed #e2ece5;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .contacto-item:last-child {
   border-bottom: none;
 }
 
-/* BOTONES */
-
-.edit-btn {
-  margin-top: 14px;
-  background: #0f7a50;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.edit-btn:hover {
-  background: #0b6240;
-  transform: translateY(-1px);
-}
-
-.delete-btn {
-  margin-top: 10px;
-  background: #111;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.delete-btn:hover {
-  background: #000;
-  transform: translateY(-1px);
-}
-
-/* TARJETA CONTACTOS FULL WIDTH */
-
 .perfil-root .card:last-of-type {
   grid-column: 1 / -1;
 }
 
-/* Contacts edit panel (inline) */
-.contacts-edit-panel {
+/* Botones de acción */
+.perfil-actions {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.contact-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
-.contact-row input {
-  flex: 1 1 140px;
-  min-width: 0; /* allow shrinking in flexbox */
-  padding: 8px 10px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-}
-
-.contact-row .btn-remove {
-  flex: 0 0 auto;
-  background: #ef4444;
-  color: white;
+.edit-btn {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #ffffff;
   border: none;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: 12px;
   cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.25);
+  transition: all 0.2s ease;
 }
 
-.contacts-edit-panel .actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
-@media (max-width: 600px) {
-  .perfil-root {
-    padding: 8px;
-  }
-  .perfil-top {
-    min-height: 128px;
-    padding: 18px 12px 76px;
-    border-radius: 10px;
-  }
-  .perfil-avatar {
-    width: 92px;
-    height: 92px;
-    border-width: 5px;
-  }
-  .details-grid {
-    grid-template-columns: 1fr;
-  }
-  .perfil-name {
-    font-size: 22px;
-    color: white;
-    font-weight: 700;
-  }
-  .nombre {
-    max-width: calc(100% - 52px);
-    margin: 16px auto 18px;
-    font-size: 21px;
-    line-height: 1.2;
-  }
-  .perfil-subtitle {
-    font-size: 13px;
-  }
-  .perfil-content {
-    margin-top: 66px;
-    gap: 12px;
-  }
-  .card {
-    padding: 15px;
-    border-radius: 9px;
-  }
-  .card h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  .row {
-    padding: 9px 0;
-  }
-  .row span:last-child {
-    overflow-wrap: anywhere;
-  }
-  .contact-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .contacts-edit-panel .actions {
-    justify-content: stretch;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .contacts-edit-panel .actions button {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Make the secondary 'Editar contactos' button full width on small screens */
-  .card > .edit-btn,
-  .card .edit-btn {
-    width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-.perfil-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 18px;
-  justify-content: center;
-}
-
-@media (max-width: 600px) {
-  .perfil-actions {
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 14px;
-  }
-  .perfil-actions button {
-    width: 100%;
-    margin-top: 0;
-  }
-
-  .perfil-actions .delete-btn {
-    display: block;
-    min-height: 48px;
-    position: relative;
-    z-index: 1;
-  }
+.edit-btn:hover {
+  background: linear-gradient(135deg, #15803d, #166534);
+  transform: translateY(-1px);
 }
 
 .delete-btn {
-  background-color: rgb(179, 28, 28);
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  transform: translateY(-1px);
 }

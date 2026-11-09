@@ -31,6 +31,20 @@ const RegistroNinio = () => {
     null;
   const isEdit = !!initialNin;
 
+  const DEFAULT_DIVISIONS = [
+    { val: "chiquitos", label: "Chiquitos" },
+    { val: "medianitos", label: "Medianitos" },
+    { val: "medianos", label: "Medianos" },
+    { val: "grandes", label: "Grandes" },
+  ];
+
+  const DEFAULT_RECORRIDAS = [
+    { val: "roja", label: "Roja" },
+    { val: "azul", label: "Azul" },
+    { val: "naranja", label: "Naranja" },
+    { val: "amarilla", label: "Amarilla" },
+  ];
+
   const onSubmit = async (data) => {
     setLoading(true);
     try {
@@ -39,14 +53,16 @@ const RegistroNinio = () => {
       if (contacts && contacts.length) {
         payload.contactos = contacts
           .map((c) => {
-            const nombre = c.nombre || c.nombreCompleto || c.fullName;
-            const telefono = c.telefono || c.telefono_celular || c.telefono1;
+            const nombre = (c.nombre || c.nombreCompleto || c.fullName || "").trim();
+            const telefono = (c.telefono || c.telefono_celular || c.telefono1 || "").trim();
+            const relacion = (c.relacion || c.parentesco || "").trim();
             const out = {};
             if (nombre) out.nombre = nombre;
             if (telefono) out.telefono = telefono;
+            if (relacion) out.parentesco = relacion;
             return out;
           })
-          .filter((c) => Object.keys(c).length > 0);
+          .filter((c) => c.nombre && c.telefono);
       } else {
         payload.contactos = [];
       }
@@ -54,6 +70,7 @@ const RegistroNinio = () => {
       if (!payload.foto) delete payload.foto;
       if (!payload.observaciones) delete payload.observaciones;
       if (!payload.direccion) delete payload.direccion;
+      if (!payload.apellido) delete payload.apellido;
 
       // normalize fechaNacimiento to ISO 8601 if provided
       if (payload.fechaNacimiento) {
@@ -63,6 +80,8 @@ const RegistroNinio = () => {
         } else {
           delete payload.fechaNacimiento;
         }
+      } else {
+        delete payload.fechaNacimiento;
       }
 
       // ensure edad is a number
@@ -70,6 +89,8 @@ const RegistroNinio = () => {
         const num = Number(payload.edad);
         if (!Number.isNaN(num)) payload.edad = num;
         else delete payload.edad;
+      } else {
+        delete payload.edad;
       }
 
       // normalize division/recorrida to lowercase simple strings
@@ -77,25 +98,6 @@ const RegistroNinio = () => {
         payload.division = String(payload.division).trim().toLowerCase();
       if (payload.recorrida)
         payload.recorrida = String(payload.recorrida).trim().toLowerCase();
-
-      // Resolve division to numeric ID when possible
-      if (payload.division && divisions && divisions.length) {
-        const found = divisions.find((d) =>
-          [d.id, d._id, d.nombre, d.name].some(
-            (v) => String(v) === String(payload.division),
-          ),
-        );
-        if (found) {
-          const rawId = found.id ?? found._id;
-          const num = Number(rawId);
-          if (!Number.isNaN(num)) {
-            payload.divisionId = num;
-            delete payload.division;
-          }
-        }
-      }
-
-      // Keep `recorrida` as string (backend disallows recorridaId)
 
       console.info("RegistroNinio contactos enviados:", payload.contactos);
       console.info("RegistroNinio payload:", payload);
@@ -281,23 +283,25 @@ const RegistroNinio = () => {
                 })}
               >
                 <option value="">Selecciona una división</option>
-                {divisions && divisions.length > 0 ? (
-                  divisions.map((d, idx) => {
-                    const val =
-                      typeof d === "string"
-                        ? d
-                        : d.nombre || d.name || d.id || d._id || String(idx);
-                    const label =
-                      typeof d === "string" ? d : d.nombre || d.name || val;
-                    return (
-                      <option key={val} value={val}>
-                        {label}
+                {divisions && divisions.length > 0
+                  ? divisions.map((d, idx) => {
+                      const val =
+                        typeof d === "string"
+                          ? d.toLowerCase()
+                          : (d.nombre || d.name || d.id || d._id || String(idx)).toLowerCase();
+                      const label =
+                        typeof d === "string" ? d : d.nombre || d.name || val;
+                      return (
+                        <option key={val} value={val}>
+                          {label}
+                        </option>
+                      );
+                    })
+                  : DEFAULT_DIVISIONS.map((d) => (
+                      <option key={d.val} value={d.val}>
+                        {d.label}
                       </option>
-                    );
-                  })
-                ) : (
-                  <option value="">No hay divisiones disponibles</option>
-                )}
+                    ))}
               </select>
               {errors.division && (
                 <span className="error">{errors.division.message}</span>
@@ -316,23 +320,25 @@ const RegistroNinio = () => {
                 })}
               >
                 <option value="">Selecciona una recorrida</option>
-                {recorridas && recorridas.length > 0 ? (
-                  recorridas.map((r, idx) => {
-                    const val =
-                      typeof r === "string"
-                        ? r
-                        : r.nombre || r.name || r.id || r._id || String(idx);
-                    const label =
-                      typeof r === "string" ? r : r.nombre || r.name || val;
-                    return (
-                      <option key={val} value={val}>
-                        {label}
+                {recorridas && recorridas.length > 0
+                  ? recorridas.map((r, idx) => {
+                      const val =
+                        typeof r === "string"
+                          ? r.toLowerCase()
+                          : (r.nombre || r.name || r.id || r._id || String(idx)).toLowerCase();
+                      const label =
+                        typeof r === "string" ? r : r.nombre || r.name || val;
+                      return (
+                        <option key={val} value={val}>
+                          {label}
+                        </option>
+                      );
+                    })
+                  : DEFAULT_RECORRIDAS.map((r) => (
+                      <option key={r.val} value={r.val}>
+                        {r.label}
                       </option>
-                    );
-                  })
-                ) : (
-                  <option value="">No hay recorridas disponibles</option>
-                )}
+                    ))}
               </select>
               {errors.recorrida && (
                 <span className="error">{errors.recorrida.message}</span>

@@ -84,6 +84,11 @@ function InnerAppRoutes() {
           <Route path="/eventos/crear" element={<CrearEvento />} />
 
           <Route
+            path="/eventos/recordatorios"
+            element={<ListarRecordatorios />}
+          />
+
+          <Route
             path="/eventos/recordatorio"
             element={<ListarRecordatorios />}
           />
@@ -93,7 +98,10 @@ function InnerAppRoutes() {
             element={<CrearPlanificacion />}
           />
 
-          <Route path="/eventos/recordatorio" element={<CrearRecordatorio />} />
+          <Route
+            path="/eventos/recordatorio/crear"
+            element={<CrearRecordatorio />}
+          />
 
           <Route path="/eventos" element={<ListarEventos />} />
 
@@ -115,7 +123,8 @@ function InnerAppRoutes() {
               try {
                 const roles = JSON.parse(localStorage.getItem("roles") || "[]");
 
-                return Array.isArray(roles) && roles.includes("coordinador") ? (
+                return Array.isArray(roles) &&
+                  (roles.includes("coordinador") || roles.includes("admin")) ? (
                   <ListarReunionesCordi />
                 ) : (
                   <ListarReunionesPublic />

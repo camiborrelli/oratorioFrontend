@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -241,7 +241,9 @@ const ListarAnimadores = () => {
                 </div>
                 <div className="badges-row">
                   <span className="pill small">
-                    {anim.roles || anim.rol || "Animador"}
+                    {Array.isArray(anim.roles)
+                      ? anim.roles.join(", ")
+                      : (anim.roles || anim.rol || "animador")}
                   </span>
                 </div>
 

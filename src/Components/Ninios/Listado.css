@@ -1,575 +1,329 @@
-body {
-  background-color: #f5f5f5; /* Fondo suave para toda la página */
-  font-family: "Arial", sans-serif; /* Fuente más limpia */
-}
+/* =========================================================
+   LISTADO DE GURISES (NIÑOS) - ORATORIO CORDÓN
+   Diseño verde armónico, moderno y limpio
+========================================================= */
 
 .listado-root {
-  background-color: #f5f6f7;
-  min-height: 100vh;
-  padding: 20px;
-  max-width: 1400px; /* aumentar ancho para alinear acciones */
+  min-height: calc(100vh - 70px);
+  padding: 24px 20px 100px;
+  max-width: 1300px;
   margin: 0 auto;
-  background:
-    radial-gradient(
-      circle at 12% 8%,
-      rgba(244, 197, 66, 0.18),
-      transparent 26%
-    ),
-    radial-gradient(
-      circle at 88% 16%,
-      rgba(191, 230, 199, 0.42),
-      transparent 28%
-    ),
-    linear-gradient(180deg, #f7fbf8 0%, #edf6f0 100%);
-  border-radius: 8px; /* Bordes redondeados */
+  box-sizing: border-box;
 }
 
 @media (min-width: 900px) {
   .listado-root {
-    padding-right: 120px;
+    padding-top: 84px; /* espacio para la barra de navegación superior */
   }
-}
-
-h1 {
-  color: #1b7a4d; /* Color verde más suave */
-  margin-bottom: 20px;
-  font-size: 26px;
-  margin: 0 auto;
 }
 
 .listado-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
-.search-row {
-  margin-bottom: 20px;
+.listado-header h1 {
+  margin: 0;
+  color: #14532d;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+}
+
+.listado-header h1::before {
+  content: "ORATORIO CORDÓN";
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #16a34a;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+/* Buscador */
+.search-row {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
 }
 
 .search-input {
-  flex: 1 1 0;
-  min-width: 0; /* allow shrinking inside flex */
-  max-width: 100%; /* never exceed parent */
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  flex: 1;
+  padding: 12px 18px;
+  border: 1.5px solid #d1fae5;
+  border-radius: 14px;
   font-size: 15px;
-  box-sizing: border-box;
+  color: #0f172a;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(22, 101, 52, 0.04);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.15);
+  background: #ffffff;
+}
+
+.search-input::placeholder {
+  color: #94a3b8;
+}
+
+/* Selector de modo de filtro */
+.filter-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .filter-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: #eaf6ec; /* light green */
-  color: #0f7a50;
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: 999px;
-  border: none;
+  border: 1px solid #d1fae5;
+  background: #ffffff;
+  color: #166534;
   font-size: 13px;
   font-weight: 600;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.03);
-  flex: 0 0 auto;
-  min-width: 0;
-  max-width: 240px;
-}
-
-.chips-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.chip {
-  /* padding: 8px 12px; */
-  border: none;
-  background-color: #e2e2e2; /* Fondo gris claro */
-  /* border-radius: 10px; */
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(22, 101, 52, 0.04);
 }
 
-.chip:hover {
-  background-color: #d0d0d0; /* Color más oscuro al pasar el mouse */
+.filter-select:hover {
+  background: #ecfdf5;
+  border-color: #86efac;
 }
 
-.chip.active {
-  background-color: #007bff; /* Color activo */
-  color: white;
+.filter-select.active {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
 }
 
-.results-count {
-  color: #64748b;
-  font-size: 14px;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
+/* Toggle de eliminados para administradores */
 .deleted-toggle {
   display: inline-flex;
   gap: 4px;
   padding: 4px;
   margin-bottom: 16px;
-  background: #dfece4;
-  border-radius: 8px;
+  background: #e2ece5;
+  border-radius: 10px;
 }
 
 .deleted-toggle button {
   border: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
-  color: #35604a;
+  color: #2e5942;
   cursor: pointer;
   font-weight: 600;
-  padding: 8px 14px;
+  font-size: 13px;
+  padding: 6px 14px;
+  transition: all 0.15s ease;
 }
 
 .deleted-toggle button.active {
-  background: #0f7a50;
-  color: #fff;
+  background: #15803d;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2);
 }
-.cards {
+
+/* Chips de grupos (divisiones / recorridas) */
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.chip {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #e2ece5;
+  background: #ffffff;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.chip.active {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #15803d;
+  box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2);
+}
+
+.results-count {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+/* =========================================================
+   GRILLA DE TARJETAS DE NIÑOS
+========================================================= */
+
+.cards-ninios {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(200px, 1fr)
-  ); /* Tarjetas adaptables */
-  gap: 28px; /* Más espaciado entre las tarjetas para separación visual */
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
 }
 
 .card {
-  background-color: #ffffff; /* white card */
-  border-radius: 12px;
-  border: 1px solid rgba(16, 24, 40, 0.06);
-  box-shadow: 0 18px 42px rgba(2, 6, 23, 0.18); /* elevada para más contraste */
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e7eee9;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
   overflow: hidden;
   cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
   display: flex;
   align-items: center;
-  padding: 12px 14px;
+  padding: 14px 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 26px 60px rgba(2, 6, 23, 0.24);
-}
-
-.avatar {
-  width: 72px;
-  height: 72px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.avatar-circle {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #f0f7f0;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(21, 128, 61, 0.09);
+  border-color: #bbf7d0;
 }
 
 .card-left {
-  margin-right: 12px;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.avatar-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #d1fae5;
+  background: #f0fdf4;
 }
 
 .card-main {
-  flex: 1 1 auto;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
 }
 
 .badges-row {
   display: flex;
-  gap: 8px;
-  margin-top: 6px;
-  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .pill.small {
-  background: #eaf6ec;
-  color: #0f7a50;
-  padding: 2px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.last-seen {
-  margin-top: 8px;
-  color: #64748b;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: #ecfdf5;
+  color: #15803d;
+  border: 1px solid #d1fae5;
+  text-transform: capitalize;
 }
 
 .card-right {
-  margin-left: 12px;
-}
-
-.card-body {
-  padding: 0; /* no inner separate body for new design */
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.card-sub {
-  margin-top: 5px;
-}
-
-.pill {
-  background-color: #007bff; /* Color de fondo para las etiquetas */
-  color: white;
-  border-radius: 15px;
-  padding: 5px 10px;
+  margin-left: 10px;
+  flex-shrink: 0;
 }
 
 .card-arrow {
-  font-size: 22px;
-  color: #94c4a8;
+  font-size: 20px;
+  color: #94a3b8;
+  font-weight: bold;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.add-card {
-  background: linear-gradient(180deg, #f6fff6 0%, #e9f7ed 100%);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  box-shadow: 0 8px 26px rgba(16, 24, 40, 0.1);
+.card:hover .card-arrow {
+  transform: translateX(3px);
+  color: #16a34a;
 }
 
-.add-card-inner {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.add-icon {
-  width: 48px;
-  height: 48px;
-  background: #0f7a50;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-}
-
-.add-content .add-title {
-  font-weight: 700;
-  color: #0f7a50;
-}
-
-.open-form {
-  margin-top: 8px;
-  background: white;
-  border: 1px dashed #94c4a8;
-  padding: 8px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
+/* FAB Flotante para Agregar Niño */
 .fab-add {
   position: fixed;
-  margin-bottom: 50px;
-  right: 20px;
-  background-color: #007bff;
-  color: white;
+  bottom: 84px;
+  right: 24px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #ffffff;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 28px;
-  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.18);
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.fab-add:hover {
-  background-color: #0056b3;
-}
-
-@media (max-width: 768px) {
-  .search-row {
-    flex-direction: column; /* Cambiar a columna en pantallas pequeñas */
-  }
-
-  .filter-select {
-    margin-top: 10px; /* Añadir margen superior */
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .results-count {
-    text-align: center; /* Centrar el texto en pantallas pequeñas */
-  }
-
-  .deleted-toggle {
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .deleted-toggle button {
-    flex: 1;
-  }
-}
-
-@media (max-width: 420px) {
-  .card {
-    grid-column: 1 / -1; /* Las tarjetas ocupan toda la línea en pantallas pequeñas */
-  }
-
-  /* Mobile: make the listado take full width without inner white background */
-  .listado-root {
-    background-color: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    max-width: 100%;
-    margin: 0;
-    padding: 12px 12px 88px; /* leave space for bottom nav / FAB */
-  }
-
-  /* Cards should span full width and have comfortable vertical spacing */
-  .cards {
-    grid-template-columns: 1fr; /* single column list */
-    gap: 12px;
-  }
-
-  .card {
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
-    display: block;
-  }
-
-  .avatar {
-    height: 120px; /* slightly smaller on mobile */
-  }
-
-  .card-body {
-    padding: 14px;
-  }
-
-  /* Make header and search rows flush with edges */
-  .listado-header {
-    padding: 0 4px;
-  }
-
-  .search-row {
-    padding: 0 4px;
-  }
-}
-
-/* Evitar que la top-nav fija superponga y capture clics sobre el contenido en pantallas grandes */
-@media (min-width: 900px) {
-  .listado-root {
-    padding-top: 88px; /* espacio para top-nav (ajustar si es necesario) */
-  }
-
-  .tabla-ninios {
-    display: block; /* mostrar tabla en pantallas grandes */
-  }
-
-  .cards {
-    display: none; /* ocultar cards en pantallas grandes */
-  }
-}
-
-/* Asegurar que el botón 'Pasar lista' capture clics por encima del top-nav en pantallas grandes */
-@media (min-width: 900px) {
-  .search-row {
-    position: relative;
-    z-index: 1400;
-  }
-  .search-row .filter-select {
-    position: relative;
-    z-index: 1401;
-  }
-}
-
-.tabla-ninios {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .tabla-ninios {
-    display: block;
-  }
-}
-
-/* Estilo renovado para listados (sin tocar la tabla de escritorio) */
-:root {
-  --oratorio-green: #1b7a4d;
-  --oratorio-green-dark: #0d4f34;
-  --oratorio-green-soft: #e7f4ec;
-  --oratorio-gold: #f4c542;
-  --oratorio-ink: #163128;
-  --oratorio-muted: #64746d;
-  --oratorio-line: #dbe8df;
-  --oratorio-white: #ffffff;
-}
-
-.listado-root {
-  color: var(--oratorio-ink);
-  background:
-    radial-gradient(
-      circle at 12% 8%,
-      rgba(244, 197, 66, 0.18),
-      transparent 26%
-    ),
-    radial-gradient(
-      circle at 88% 16%,
-      rgba(191, 230, 199, 0.42),
-      transparent 28%
-    ),
-    linear-gradient(180deg, #f7fbf8 0%, #edf6f0 100%);
-}
-
-.listado-header {
-  justify-content: flex-start;
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
-.listado-header h1 {
-  margin: 0;
-  color: var(--oratorio-green-dark);
-  font-size: 2.2rem;
-  font-weight: 900;
-  line-height: 1.05;
-}
-
-.listado-header h1::before {
-  content: "Lista del oratorio";
-  display: block;
-  margin-bottom: 4px;
-  color: var(--oratorio-green);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.back-btn {
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--oratorio-line);
-  border-radius: 999px;
-  background: var(--oratorio-white);
-  color: var(--oratorio-green-dark);
-  font-size: 1.4rem;
+  width: 56px;
+  height: 56px;
+  font-size: 32px;
   line-height: 1;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.4);
   cursor: pointer;
-  box-shadow: 0 12px 28px rgba(13, 79, 52, 0.1);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    background 0.18s ease;
-}
-
-.back-btn:hover {
-  background: var(--oratorio-green-soft);
-  transform: translateY(-1px);
-  box-shadow: 0 16px 34px rgba(13, 79, 52, 0.16);
-}
-
-.search-input {
-  padding: 13px 16px;
-  border: 1px solid var(--oratorio-line);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--oratorio-ink);
-  box-shadow: 0 12px 26px rgba(13, 79, 52, 0.08);
-  outline: none;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.search-input:focus {
-  border-color: var(--oratorio-green);
-  box-shadow: 0 0 0 4px rgba(27, 122, 77, 0.14);
-}
-
-.filter-toggle {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.filter-select,
-.chip {
-  min-height: 36px;
-  padding: 8px 14px;
-  border: 1px solid var(--oratorio-line);
-  border-radius: 999px;
-  background: var(--oratorio-white);
-  color: var(--oratorio-green-dark);
-  font-size: 0.86rem;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 18px rgba(13, 79, 52, 0.07);
-  transition:
-    transform 0.18s ease,
-    background 0.18s ease,
-    color 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.filter-select:hover,
-.chip:hover {
-  background: var(--oratorio-green-soft);
-  transform: translateY(-1px);
-}
-
-.filter-select.active,
-.chip.active {
-  border-color: var(--oratorio-green);
-  background: var(--oratorio-green);
-  color: var(--oratorio-white);
-}
-
-.fab-add {
-  background: var(--oratorio-green-dark);
-  box-shadow: 0 12px 28px rgba(13, 79, 52, 0.28);
+  z-index: 1200;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
 }
 
 .fab-add:hover {
-  background: var(--oratorio-green);
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 12px 28px rgba(22, 163, 74, 0.5);
+  background: linear-gradient(135deg, #15803d, #166534);
 }
 
-@media (max-width: 420px) {
-  .listado-root {
-    background:
-      radial-gradient(
-        circle at 12% 8%,
-        rgba(244, 197, 66, 0.18),
-        transparent 26%
-      ),
-      radial-gradient(
-        circle at 88% 16%,
-        rgba(191, 230, 199, 0.42),
-        transparent 28%
-      ),
-      linear-gradient(180deg, #f7fbf8 0%, #edf6f0 100%);
-  }
+.fab-add:active {
+  transform: scale(0.96);
+}
 
-  .listado-header h1 {
-    font-size: 1.8rem;
+@media (min-width: 900px) {
+  .fab-add {
+    bottom: 32px;
+  }
+}
+
+/* Responsive toggle: desktop shows table, mobile shows cards */
+@media (min-width: 1024px) {
+  .cards-ninios {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .table-container,
+  .tabla-ninios {
+    display: none !important;
   }
 }

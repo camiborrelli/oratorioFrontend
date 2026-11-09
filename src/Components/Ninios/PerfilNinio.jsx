@@ -350,7 +350,6 @@ const PerfilNinio = () => {
           onDeleted={() => navigate(-1)}
           className="delete-btn"
         />
-        <button className="back-btn" onClick={() => navigate(-1)}></button>
       </div>
     </div>
   );

@@ -62,7 +62,7 @@ const TablaNinios = ({ ninios }) => {
   };
 
   return (
-    <div>
+    <div className="table-container">
       <table className="tabla-ninios">
         <thead>
           <tr>
@@ -83,8 +83,8 @@ const TablaNinios = ({ ninios }) => {
               <td>{nin.edad}</td>
               <td>{nin.division}</td>
               <td className="recorrida">
-                <span className={nin.recorrida.toLowerCase()}>
-                  {nin.recorrida}
+                <span className={nin.recorrida ? nin.recorrida.toLowerCase() : ""}>
+                  {nin.recorrida || "-"}
                 </span>
               </td>
 

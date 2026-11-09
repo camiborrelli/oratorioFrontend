@@ -83,9 +83,12 @@ const EditarNinio = () => {
           if (contact.telefono?.trim()) {
             contacto.telefono = contact.telefono.trim();
           }
+          if (contact.relacion?.trim()) {
+            contacto.parentesco = contact.relacion.trim();
+          }
           return contacto;
         })
-        .filter((contact) => Object.keys(contact).length > 0);
+        .filter((contact) => contact.nombre && contact.telefono);
 
       const payload = {
         ...data,
@@ -184,7 +187,7 @@ const EditarNinio = () => {
                 <option value="roja">Roja</option>
                 <option value="azul">Azul</option>
                 <option value="naranja">Naranja</option>
-                <option value="amarillo">Amarilla</option>
+                <option value="amarilla">Amarilla</option>
                 <option value="violeta">Violeta</option>
               </select>
             </div>

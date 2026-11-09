@@ -51,15 +51,13 @@ const ListarNinios = () => {
 
   const obtenerDivisiones = async () => {
     try {
-      const res = await api.get("/divisiones");
+      const res = await api.get("/division");
       return res.data || [];
     } catch (err) {
       console.error("Error al obtener divisiones:", err);
       return [];
     }
   };
-
-  console.log("Divisiones obtenidas:", obtenerDivisiones());
 
   useEffect(() => {
     const loadNinios = async () => {

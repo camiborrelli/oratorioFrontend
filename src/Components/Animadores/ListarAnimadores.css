@@ -1,4 +1,4 @@
-﻿/* =================================
+/* =================================
    LISTADO DE ANIMADORES
 ================================= */
 
@@ -42,20 +42,20 @@
   margin-top: 10px;
   margin-right: 4px;
 
-  background: #0f7a50;
+  background: #15803d;
   color: #fff;
 
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
 
-  padding: 7px 12px;
+  padding: 6px 10px;
 
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
 
   cursor: pointer;
 
-  box-shadow: 0 8px 18px rgba(15, 122, 80, 0.18);
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.2);
 
   transition:
     transform 0.18s ease,
@@ -64,11 +64,11 @@
 }
 
 .animadores-listado .btn-asign-role:hover {
-  background: #1b7a4d;
+  background: #166534;
 
   transform: translateY(-1px);
 
-  box-shadow: 0 14px 28px rgba(13, 79, 52, 0.22);
+  box-shadow: 0 6px 16px rgba(21, 128, 61, 0.3);
 }
 
 /* =================================
