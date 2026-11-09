@@ -6,7 +6,11 @@ import { Navigate, Outlet } from "react-router-dom";
 const ProtectedRoute = ({ redirectTo = "/login" }) => {
   const token = localStorage.getItem("Token");
   if (!token) return <Navigate to={redirectTo} replace />;
-  return <Outlet />;
+  return (
+    <main className="app-main-content">
+      <Outlet />
+    </main>
+  );
 };
 
 export default ProtectedRoute;

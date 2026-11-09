@@ -1,3 +1,14 @@
+.listar-recordatorios {
+  width: 100%;
+  margin: 0 0 20px 0;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e2ece5;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  box-sizing: border-box;
+}
+
 .recordatorio-item {
   background: #fff;
   padding: 12px;

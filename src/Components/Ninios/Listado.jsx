@@ -198,28 +198,6 @@ const ListarNinios = () => {
           Filtrar por recorridas
         </button>
       </div>
-      {isAdmin && (
-        <div className="deleted-toggle" aria-label="Estado de los niños">
-          <button
-            className={!showDeleted ? "active" : ""}
-            onClick={() => {
-              setGroupFilter(null);
-              setShowDeleted(false);
-            }}
-          >
-            Activos
-          </button>
-          <button
-            className={showDeleted ? "active" : ""}
-            onClick={() => {
-              setGroupFilter(null);
-              setShowDeleted(true);
-            }}
-          >
-            Eliminados
-          </button>
-        </div>
-      )}
       <div className="chips-row">
         <button
           className={`chip ${groupFilter === null ? "active" : ""}`}

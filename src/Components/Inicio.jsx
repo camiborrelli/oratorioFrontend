@@ -24,7 +24,6 @@ const Inicio = () => {
   useEffect(() => {
     let mounted = true;
 
-    // use centralized fetchCount helper from api.js (tries /path/cantidad and fallbacks)
     const fetchSimpleCount = async (path) => {
       return await fetchCount(path);
     };
@@ -39,13 +38,12 @@ const Inicio = () => {
           fetchSimpleCount("/division"),
         ]);
         if (!mounted) return;
-        setCounts((s) => ({
-          ...s,
+        setCounts({
           ninios,
           animadores,
           recorridas,
           divisiones,
-        }));
+        });
       } catch (err) {
         console.error("Error cargando contadores:", err);
       } finally {
@@ -61,210 +59,152 @@ const Inicio = () => {
   const apodo =
     localStorage.getItem("apodo") ||
     localStorage.getItem("username") ||
-    "Usuario";
-
-  // Robust age calculation: prefer explicit numeric `edad`/`age`, otherwise derive from birthdate fields.
-  const getAge = (k) => {
-    if (!k) return "-";
-    const maybeNum = k.edad ?? k.age ?? k.Edad;
-    if (typeof maybeNum === "number" && !Number.isNaN(maybeNum))
-      return maybeNum;
-    if (
-      typeof maybeNum === "string" &&
-      maybeNum.trim() !== "" &&
-      !isNaN(Number(maybeNum))
-    ) {
-      return Number(maybeNum);
-    }
-
-    const dateKeys = [
-      "fechaNacimiento",
-      "fecha_nacimiento",
-      "nacimiento",
-      "birthdate",
-      "birth_date",
-      "fecha",
-      "dob",
-    ];
-
-    let raw;
-    for (const key of dateKeys) {
-      if (k[key]) {
-        raw = k[key];
-        break;
-      }
-    }
-    if (!raw) return "-";
-
-    // Accept timestamps, ISO strings, or dd/mm/yyyy
-    let dt;
-    if (typeof raw === "number") dt = new Date(raw);
-    else if (typeof raw === "string") {
-      // try ISO parse
-      const iso = Date.parse(raw);
-      if (!isNaN(iso)) dt = new Date(iso);
-      else if (raw.includes("/")) {
-        const parts = raw.split(/\D+/).filter(Boolean);
-        if (parts.length === 3) {
-          // assume dd/mm/yyyy
-          const [d, m, y] = parts;
-          dt = new Date(`${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`);
-        }
-      }
-    }
-    if (!dt || isNaN(dt.getTime())) return "-";
-    const now = new Date();
-    let age = now.getFullYear() - dt.getFullYear();
-    const m = now.getMonth() - dt.getMonth();
-    if (m < 0 || (m === 0 && now.getDate() < dt.getDate())) age--;
-    return age >= 0 ? age : "-";
-  };
-
-  const handleLogout = () => {
-    try {
-      dispatch(desloguear());
-    } catch (e) {
-      try {
-        localStorage.clear();
-      } catch (er) {}
-    }
-    navigate("/login");
-  };
-
-  const edad = (k) => {
-    return calcularEdad(k.fechaCumple) || "—";
-  };
-
-  const calcularEdad = (fechaCumple) => {
-    if (!fechaCumple) return null;
-    const hoy = new Date();
-    const cumple = new Date(fechaCumple);
-    let edad = hoy.getFullYear() - cumple.getFullYear();
-    const m = hoy.getMonth() - cumple.getMonth();
-    if (m < 0 || (m === 0 && hoy.getDate() < cumple.getDate())) {
-      edad--;
-    }
-    return edad;
-  };
+    "Animador";
 
   return (
-    <div className="inicio-container max-w-5xl mx-auto p-6">
-      {/* <header className="app-header">
-        <div className="logo">🌿 Oratorio</div>
+    <div className="inicio-container">
+      {/* Encabezado / Hero con saludo y accesos rápidos */}
+      <div className="inicio-hero">
+        <div className="hero-titles">
+          <div className="welcome-pill">
+            <span className="welcome-emoji">👋</span>
+            <span>¡Hola, {apodo}!</span>
+          </div>
+          <h1 className="hero-title">Gestión del Oratorio Cordón</h1>
+          <p className="hero-subtitle">
+            Panel principal y seguimiento de actividades del oratorio
+          </p>
+        </div>
 
-        <div className="header-right">
-          <button className="logout-btn" onClick={handleLogout}>
-            Cerrar sesión
+        {/* Accesos rápidos interactivos */}
+        <div className="quick-actions-bar">
+          <button
+            type="button"
+            className="quick-action-item primary"
+            onClick={() => navigate("/ninios/asistencia")}
+            title="Pasar lista de asistencia el sábado"
+          >
+            <span>📋</span>
+            <span>Pasar Asistencia</span>
+          </button>
+          <button
+            type="button"
+            className="quick-action-item"
+            onClick={() => navigate("/ninios/register")}
+            title="Registrar un nuevo niño"
+          >
+            <span>➕</span>
+            <span>Registrar Niño</span>
+          </button>
+          <button
+            type="button"
+            className="quick-action-item"
+            onClick={() => navigate("/animadores")}
+            title="Ver equipo de animadores"
+          >
+            <span>👥</span>
+            <span>Animadores</span>
+          </button>
+          <button
+            type="button"
+            className="quick-action-item"
+            onClick={() => navigate("/reunion")}
+            title="Reuniones del oratorio"
+          >
+            <span>🤝</span>
+            <span>Reunión</span>
           </button>
         </div>
-      </header> */}
-
-      <div className="welcome inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-green-500 text-white py-2 px-4 rounded-full shadow-md mb-4">
-        <span className="welcome-emoji text-2xl">👋</span>
-        <span className="user font-semibold text-lg">Hola {apodo}</span>
       </div>
 
-      <div className="inicio-header mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">
-            Gestión del Oratorio Cordon
-          </h1>
-          {/* <p className="text-sm text-slate-600">
-            Administra niños, animadores, recorridas y divisiones
-          </p> */}
-        </div>
-      </div>
-
-      <div className="cards-grid grid gap-4 grid-cols-1 sm:grid-cols-2">
-        <div className="card flex items-center gap-4 bg-white p-4 rounded-xl shadow hover:shadow-lg border">
-          <div className="card-icon w-12 h-12 rounded-lg bg-green-50 flex items-center justify-center text-green-600 text-xl">
-            👦
+      {/* Tarjetas de Estadísticas Principales */}
+      <div className="cards-grid">
+        <div
+          className="card card-hoverable"
+          onClick={() => navigate("/ninios")}
+        >
+          <div className="card-icon card-icon--green">👦</div>
+          <div className="card-info">
+            <div className="card-count">{loading ? "—" : counts.ninios}</div>
+            <div className="card-label">Niños Registrados</div>
           </div>
-
-          <div className="flex-1 text-left">
-            <div
-              className="card-count text-2xl font-bold text-slate-900"
-              onClick={() => navigate("/ninios")}
-            >
-              {loading ? "—" : counts.ninios}
-            </div>
-            <div className="card-label text-sm text-slate-500">Niños</div>
-          </div>
-
           <button
             className="card-add-btn"
-            onClick={() => navigate("/ninios/register")}
-            title="Agregar niño"
-            aria-label="Agregar"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/ninios/register");
+            }}
+            title="Registrar nuevo niño"
+            aria-label="Agregar niño"
           >
             +
           </button>
         </div>
 
         <div
-          className="card flex items-center gap-4 bg-white p-4 rounded-xl shadow hover:shadow-lg border cursor-pointer"
+          className="card card-hoverable"
           onClick={() => navigate("/animadores")}
         >
-          <div className="card-icon w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 text-xl">
-            👥
-          </div>
-          <div className="flex-1 text-left">
-            <div className="card-count text-2xl font-bold">
+          <div className="card-icon card-icon--amber">👥</div>
+          <div className="card-info">
+            <div className="card-count">
               {loading ? "—" : counts.animadores}
             </div>
-            <div className="card-label text-sm text-slate-500">Animadores</div>
+            <div className="card-label">Animadores Activos</div>
           </div>
         </div>
 
-        <div className="card flex items-center gap-4 bg-white p-4 rounded-xl shadow hover:shadow-lg border">
-          <div className="card-icon w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center text-gray-600 text-xl">
-            📍
-          </div>
-          <div className="flex-1 text-left">
-            <div className="card-count text-2xl font-bold">
+        <div
+          className="card card-hoverable"
+          onClick={() => navigate("/ninios")}
+        >
+          <div className="card-icon card-icon--red">📍</div>
+          <div className="card-info">
+            <div className="card-count">
               {loading ? "—" : counts.recorridas}
             </div>
-            <div className="card-label text-sm text-slate-500">Recorridas</div>
+            <div className="card-label">Recorridas</div>
           </div>
         </div>
 
-        <div className="card flex items-center gap-4 bg-white p-4 rounded-xl shadow hover:shadow-lg border">
-          <div className="card-icon w-12 h-12 rounded-lg bg-green-50 flex items-center justify-center text-green-600 text-xl">
-            📚
-          </div>
-          <div className="flex-1 text-left">
-            <div
-              className="card-count text-2xl font-bold"
-              onClick={() => navigate("/ninios/asistencia")}
-            >
+        <div
+          className="card card-hoverable"
+          onClick={() => navigate("/ninios/asistencia")}
+        >
+          <div className="card-icon card-icon--blue">📚</div>
+          <div className="card-info">
+            <div className="card-count">
               {loading ? "—" : counts.divisiones}
             </div>
-            <div className="card-label text-sm text-slate-500">Divisiones</div>
+            <div className="card-label">Divisiones</div>
           </div>
         </div>
       </div>
 
-      <div className="planificaciones-mobile">
-        <ListarPlanificaciones />
-      </div>
-
-      <div className="inicio-top-layout mt-6">
-        <div className="inicio-top-layout__main">
+      {/* Contenido Central: Eventos + Planificaciones y Recordatorios */}
+      <div className="inicio-top-layout">
+        <section className="inicio-top-layout__main">
           <ListarEventos />
-        </div>
-        <aside className="inicio-top-layout__sidebar planificaciones-desktop">
+        </section>
+
+        <aside className="inicio-top-layout__sidebar">
           <ListarPlanificaciones />
-          <div className="inicio-top-layout__recordatorios ">
+          <div className="inicio-top-layout__recordatorios">
             <ListarRecordatorios />
           </div>
         </aside>
       </div>
 
-      <div style={{ marginTop: "40px" }}>
-        <div style={{ marginTop: "24px" }}>
-          <CumplenMes />
+      {/* Sección Cumpleaños del Mes */}
+      <section className="inicio-cumple-section">
+        <div className="section-title-row">
+          <h2 className="section-title">🎂 Cumpleaños de este Mes</h2>
+          <p className="section-subtitle">
+            Festejos de niños y animadores durante el mes actual
+          </p>
         </div>
-      </div>
+        <CumplenMes />
+      </section>
     </div>
   );
 };
