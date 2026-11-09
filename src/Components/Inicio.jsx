@@ -63,58 +63,16 @@ const Inicio = () => {
 
   return (
     <div className="inicio-container">
-      {/* Encabezado / Hero con saludo y accesos rápidos */}
-      <div className="inicio-hero">
-        <div className="hero-titles">
-          <div className="welcome-pill">
-            <span className="welcome-emoji">👋</span>
-            <span>¡Hola, {apodo}!</span>
-          </div>
-          <h1 className="hero-title">Gestión del Oratorio Cordón</h1>
-          <p className="hero-subtitle">
-            Panel principal y seguimiento de actividades del oratorio
-          </p>
+      {/* Encabezado centrado */}
+      <div className="inicio-hero inicio-hero--centered">
+        <div className="welcome-pill">
+          <span className="welcome-emoji">👋</span>
+          <span>¡Hola, {apodo}!</span>
         </div>
-
-        {/* Accesos rápidos interactivos */}
-        <div className="quick-actions-bar">
-          <button
-            type="button"
-            className="quick-action-item primary"
-            onClick={() => navigate("/ninios/asistencia")}
-            title="Pasar lista de asistencia el sábado"
-          >
-            <span>📋</span>
-            <span>Pasar Asistencia</span>
-          </button>
-          <button
-            type="button"
-            className="quick-action-item"
-            onClick={() => navigate("/ninios/register")}
-            title="Registrar un nuevo niño"
-          >
-            <span>➕</span>
-            <span>Registrar Niño</span>
-          </button>
-          <button
-            type="button"
-            className="quick-action-item"
-            onClick={() => navigate("/animadores")}
-            title="Ver equipo de animadores"
-          >
-            <span>👥</span>
-            <span>Animadores</span>
-          </button>
-          <button
-            type="button"
-            className="quick-action-item"
-            onClick={() => navigate("/reunion")}
-            title="Reuniones del oratorio"
-          >
-            <span>🤝</span>
-            <span>Reunión</span>
-          </button>
-        </div>
+        <h1 className="hero-title">Gestión del Oratorio Cordón</h1>
+        <p className="hero-subtitle">
+          Panel principal y seguimiento de actividades del oratorio
+        </p>
       </div>
 
       {/* Tarjetas de Estadísticas Principales */}
@@ -169,7 +127,7 @@ const Inicio = () => {
 
         <div
           className="card card-hoverable"
-          onClick={() => navigate("/ninios/asistencia")}
+          onClick={() => navigate("/ninios")}
         >
           <div className="card-icon card-icon--blue">📚</div>
           <div className="card-info">

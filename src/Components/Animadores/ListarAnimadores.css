@@ -126,8 +126,20 @@
    TÍTULO
 ================================= */
 
+.animadores-listado .listado-header {
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.animadores-listado .listado-header h1 {
+  align-items: center;
+  text-align: center;
+}
+
 .animadores-listado .listado-header h1::before {
   content: "Equipo del oratorio";
+  text-align: center;
 }
 
 /* =================================

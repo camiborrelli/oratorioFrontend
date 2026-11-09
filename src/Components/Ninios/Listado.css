@@ -20,8 +20,10 @@
 .listado-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   margin-bottom: 24px;
+  width: 100%;
 }
 
 .listado-header h1 {
@@ -32,6 +34,8 @@
   letter-spacing: -0.02em;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .listado-header h1::before {
@@ -43,6 +47,7 @@
   color: #16a34a;
   margin-bottom: 4px;
   text-transform: uppercase;
+  text-align: center;
 }
 
 /* Buscador */

@@ -72,30 +72,20 @@ const BottomNav = () => {
     <>
       {/* Top navigation for medium+ screens (hidden on small) */}
       <nav className="top-nav" role="navigation" aria-label="Top navigation">
-        <div
-          className="nav-logo"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "8px",
-          }}
-        >
-          <a href="https://sectorsocialjuan23.org.uy/nuestras-obras/">
-            <p className="nav-logo-text">Oratorio Cordon</p>
+        <div className="nav-logo-container">
+          <a
+            href="https://sectorsocialjuan23.org.uy/nuestras-obras/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-logo-link"
+          >
+            <img
+              src="/img/logo.jpg"
+              alt="Logo Oratorio Cordón"
+              className="nav-brand-img"
+            />
+            <span className="nav-brand-name">Oratorio Cordón</span>
           </a>
-          <img
-            src="/img/logo.jpg"
-            alt="Logo"
-            width={30}
-            height={30}
-            className="logo-circle"
-            style={{
-              borderRadius: "50%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
         </div>
         <div className="nav-content">
           <div className="logo" onClick={() => navigate("/inicio")}>
