@@ -557,6 +557,151 @@
    CARRUSEL
 ========================================================= */
 
+/* =========================================================
+   CARRUSEL CON BOTONES AL COSTADO
+========================================================= */
+
+.carousel-with-side-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .carousel-with-side-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(210px, 0.9fr);
+    align-items: center;
+    gap: 18px;
+  }
+}
+
+.carousel-pane {
+  min-width: 0;
+  width: 100%;
+}
+
+.side-action-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .side-action-pills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .side-action-pills {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Estilo Píldora para los Botones */
+.action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  text-align: left;
+  border: 1px solid transparent;
+  width: 100%;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+.action-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.action-pill:active {
+  transform: scale(0.98);
+}
+
+.action-pill-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Colores Diferentes para cada acción */
+.action-pill--green {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #15803d;
+}
+
+.action-pill--green:hover {
+  background: #dcfce7;
+  border-color: #4ade80;
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.18);
+}
+
+.action-pill--green .action-pill-icon {
+  color: #16a34a;
+}
+
+.action-pill--blue {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.action-pill--blue:hover {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.18);
+}
+
+.action-pill--blue .action-pill-icon {
+  color: #2563eb;
+}
+
+.action-pill--amber {
+  background: #fffbeb;
+  border-color: #fcd34d;
+  color: #b45309;
+}
+
+.action-pill--amber:hover {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.18);
+}
+
+.action-pill--amber .action-pill-icon {
+  color: #d97706;
+}
+
+.action-pill--purple {
+  background: #faf5ff;
+  border-color: #d8b4fe;
+  color: #7e22ce;
+}
+
+.action-pill--purple:hover {
+  background: #f3e8ff;
+  border-color: #c084fc;
+  box-shadow: 0 6px 16px rgba(147, 51, 234, 0.18);
+}
+
+.action-pill--purple .action-pill-icon {
+  color: #9333ea;
+}
+
 .carousel-fullwidth {
   width: 100%;
   margin: 0 auto 20px;
@@ -568,8 +713,8 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  min-height: 220px;
-  max-height: 380px;
+  min-height: 200px;
+  max-height: 340px;
 
   overflow: hidden;
   border-radius: 16px;

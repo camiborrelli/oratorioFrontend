@@ -233,10 +233,57 @@ const ListarEventos = () => {
 
   return (
     <div className="eventos-container">
-      {/* Full-width carousel (bleed out of container) */}
-      <div className="carousel-fullwidth">
-        <SimpleCarousel images={CAROUSEL_IMAGES} interval={3500} />
+      {/* Carrusel con Botones al costado con colores diferentes */}
+      <div className="carousel-with-side-actions">
+        <div className="carousel-pane">
+          <SimpleCarousel images={CAROUSEL_IMAGES} interval={3500} />
+        </div>
+
+        {(isCoordinator || isAdmin) && (
+          <div className="side-action-pills">
+            <button
+              type="button"
+              className="action-pill action-pill--green"
+              onClick={() => setMostrarCrearEvento(true)}
+              title="Crear un nuevo evento en el oratorio"
+            >
+              <PiCalendar className="action-pill-icon" />
+              <span>Agregar evento</span>
+            </button>
+
+            <button
+              type="button"
+              className="action-pill action-pill--blue"
+              onClick={() => setMostrarModalPlanificacion(true)}
+              title="Crear planificación para el próximo fin de semana"
+            >
+              <CiBoxList className="action-pill-icon" />
+              <span>Agregar planificación</span>
+            </button>
+
+            <button
+              type="button"
+              className="action-pill action-pill--amber"
+              onClick={() => setMostrarModalRecordatorio(true)}
+              title="Crear recordatorio para el equipo"
+            >
+              <IoAlertCircleOutline className="action-pill-icon" />
+              <span>Agregar recordatorio</span>
+            </button>
+
+            <button
+              type="button"
+              className="action-pill action-pill--purple"
+              onClick={() => setMostrarCrearRecorrida(true)}
+              title="Crear una nueva recorrida"
+            >
+              <IoMap className="action-pill-icon" />
+              <span>Agregar recorrida</span>
+            </button>
+          </div>
+        )}
       </div>
+
       {loading && (
         <div className="evt-loading text-center py-6">Cargando eventos...</div>
       )}
@@ -258,7 +305,7 @@ const ListarEventos = () => {
               <div>
                 <PiCalendar style={{ marginRight: 8, color: "#10b981" }} />
               </div>
-              Agregar <br /> evento
+              Agregar evento
             </button>
             <button
               onClick={() => setMostrarModalRecordatorio(true)}
@@ -272,59 +319,6 @@ const ListarEventos = () => {
           </div>
         </div>
       )}
-      <div className="eventos-header flex items-center ">
-        <div
-          className="eventos-header__actions"
-          style={{ display: "flex", gap: "8px" }}
-        >
-          {(isCoordinator || isAdmin) && (
-            <>
-              <button
-                className="btn btn-primary"
-                onClick={() => setMostrarCrearEvento(true)}
-              >
-                <div>
-                  <PiCalendar style={{ marginRight: 8 }} />
-                </div>
-                Agregar evento
-              </button>
-              <button
-                className="btn btn-primary bg-blue-600 text-white px-3 py-1 rounded-md btn-add"
-                onClick={() => setMostrarModalPlanificacion(true)}
-              >
-                <div>
-                  <div>
-                    <CiBoxList style={{ marginRight: 8 }} />
-                  </div>
-                </div>
-                Agregar <br /> planificacion
-              </button>
-              <button
-                className="btn btn-primary bg-gray-600 text-white px-3 py-1 rounded-md btn-add"
-                onClick={() => setMostrarModalRecordatorio(true)}
-              >
-                <div>
-                  <IoAlertCircleOutline style={{ marginRight: 8 }} />
-                </div>
-                Agregar <br /> recordatorio
-              </button>
-            </>
-          )}
-          {isAdmin && (
-            <>
-              <button
-                className="btn btn-primary bg-green-600 text-white px-3 py-1 rounded-md btn-add"
-                onClick={() => setMostrarCrearRecorrida(true)}
-              >
-                <div>
-                  <IoMap style={{ marginRight: 8 }} />
-                </div>
-                Agregar <br /> recorrida
-              </button>
-            </>
-          )}
-        </div>
-      </div>
       <h1 className="text-xl font-bold">Próximos eventos</h1>
       <div className="eventos-grid">
         {eventos.length === 0 ? (
