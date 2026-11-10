@@ -19,8 +19,6 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [showCambiarContrasenia, setShowCambiarContrasenia] = useState(false);
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [loading, setLoading] = useState(false);
-  const [slowNotice, setSlowNotice] = useState(false);
 
   useEffect(() => {
     document.body.classList.add("with-bg", "login-open");
@@ -60,14 +58,6 @@ const Login = () => {
       toast.error("El email y la contraseña son obligatorios");
       return;
     }
-
-    setLoading(true);
-    setSlowNotice(false);
-
-    // Si la respuesta tarda más de 3.5s (típico cuando Render está reactivando el servidor)
-    const slowTimer = setTimeout(() => {
-      setSlowNotice(true);
-    }, 3500);
 
     try {
       const payload = {
@@ -122,10 +112,6 @@ const Login = () => {
         err?.message ||
         "Error en el login";
       toast.error(msg);
-    } finally {
-      clearTimeout(slowTimer);
-      setLoading(false);
-      setSlowNotice(false);
     }
   };
 
@@ -272,44 +258,11 @@ const Login = () => {
           </button> */}
 
           <button
-            className="primary-btn w-full bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg font-medium transition-all shadow-sm hover:shadow flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="primary-btn w-full bg-green-600 text-white py-2 rounded-md font-semibold"
             type="submit"
-            disabled={loading}
           >
-            {loading ? (
-              <>
-                <svg
-                  className="animate-spin h-4 w-4 text-white inline-block"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8H4z"
-                  />
-                </svg>
-                <span>Iniciando sesión...</span>
-              </>
-            ) : (
-              "Iniciar Sesión"
-            )}
+            Iniciar Sesión
           </button>
-
-          {slowNotice && (
-            <div className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-center transition-all animate-pulse shadow-sm">
-              ☁️ Despertando el servidor en la nube... Por favor aguarde unos segundos más.
-            </div>
-          )}
         </form>
 
         <div className="register-row text-sm text-slate-600 mt-3">
